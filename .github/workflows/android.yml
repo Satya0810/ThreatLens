@@ -22,7 +22,9 @@ jobs:
         cache: gradle
 
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      run: |
+        sed -i -e 's/\r$//' gradlew
+        chmod +x gradlew
 
     - name: Create Dummy google-services.json
       run: |
