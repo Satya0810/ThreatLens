@@ -1,0 +1,34 @@
+# ─────────────────────────────────────────────────────────────
+# ThreatLens — local.properties template
+# ─────────────────────────────────────────────────────────────
+# Copy this file to `local.properties` and fill in your values.
+# NEVER commit `local.properties` to version control.
+# ─────────────────────────────────────────────────────────────
+
+# Android SDK location (auto-populated by Android Studio)
+sdk.dir=YOUR_ANDROID_SDK_PATH
+
+# ── Threat Intelligence API Keys ─────────────────────────────
+# Get your keys from the respective provider dashboards.
+# The app will gracefully skip any API whose key is left blank.
+
+# Google Safe Browsing — https://developers.google.com/safe-browsing
+SAFE_BROWSING_KEY=
+
+# VirusTotal — https://www.virustotal.com/gui/my-apikey
+VIRUS_TOTAL_KEY=
+
+# URLScan.io — https://urlscan.io/user/profile
+URL_SCAN_IO_KEY=
+
+# AbuseIPDB — https://www.abuseipdb.com/account/api
+ABUSE_IPDB_KEY=
+
+# WhoisXML API — https://whoisxmlapi.com/
+WHOIS_XML_KEY=
+
+# Cloudflare Radar — https://developers.cloudflare.com/radar/
+CLOUDFLARE_KEY=
+
+# Google Gemini (Generative AI) — https://aistudio.google.com/apikey
+GEMINI_KEY=

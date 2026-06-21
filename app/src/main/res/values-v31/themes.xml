@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SafeQRScanner" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/background_dark</item>
+        <item name="android:navigationBarColor">@color/background_dark</item>
+        <item name="android:windowBackground">@color/background_dark</item>
+        
+        <!-- Android 12+ Splash Screen styling -->
+        <!-- Ensure the system splash screen matches our dark theme perfectly -->
+        <item name="android:windowSplashScreenBackground">@color/background_dark</item>
+        
+        <!-- Make the system splash icon completely transparent so it doesn't mask our custom Compose spring animation -->
+        <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/background_dark</item>
+    </style>
+</resources>

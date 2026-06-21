@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="safe_green">#FF00C853</color>
+    <color name="caution_amber">#FFFFC107</color>
+    <color name="malicious_red">#FFFF1744</color>
+    <color name="background_dark">#FF0F172A</color>
+    <color name="surface_dark">#FF161B22</color>
+    <color name="primary_blue">#FF58A6FF</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
+</resources>

@@ -1,0 +1,5 @@
+url,url_length,domain_length,has_https,num_dots,num_hyphens,has_login_keyword,has_admin_keyword,api_google,api_virustotal,api_openphish,api_urlscan,final_malicious_label
+https://www.google.com,22,14,1,2,0,0,0,0,0,0,0,0
+http://secure-login-update.xyz/admin,36,23,0,1,2,1,1,0,0,1,0,1
+https://github.com,18,10,1,1,0,0,0,0,0,0,0,0
+http://free-netflix-subscription-now.com,40,33,0,1,3,0,0,0,0,0,0,0

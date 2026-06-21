@@ -1,0 +1,46 @@
+# ─────────────────────────────────────────────────────────────
+# ThreatLens — .gitignore
+# ─────────────────────────────────────────────────────────────
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+
+# Build outputs
+build/
+app/build/
+.gradle/
+
+# Local config — contains SDK path and API keys
+local.properties
+
+# Firebase config — contains project-specific identifiers
+# Download your own from Firebase Console → Project Settings
+app/google-services.json
+
+# Signing keys — never commit these
+*.jks
+*.keystore
+keystore.properties
+
+# Binary artifacts
+*.apk
+*.aab
+*.zip
+
+# Node.js (Firebase Functions / Vercel)
+node_modules/
+functions/node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Scratch / dev scripts
+scratch/
+
+# Logs
+*.log
+firebase-debug.log
+firebase-debug.*.log

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Threat Lens</string>
+    <string name="scan_tab">Scan</string>
+    <string name="history_tab">History</string>
+    <string name="settings_tab">Settings</string>
+    <string name="scanning_hint">Point your camera at a QR code</string>
+    <string name="analyzing">Analyzing URL safety…</string>
+    <string name="safe_label">Safe</string>
+    <string name="caution_label">Caution</string>
+    <string name="malicious_label">Malicious</string>
+    <string name="unknown_label">Unknown</string>
+    <string name="open_url">Open URL</string>
+    <string name="copy_url">Copy URL</string>
+    <string name="no_history">No scan history yet</string>
+    <string name="clear_history">Clear History</string>
+    <string name="settings_title">Settings</string>
+    <string name="auto_block">Auto-block Malicious Links</string>
+    <string name="camera_permission_required">Camera permission is required to scan QR codes</string>
+    <string name="grant_permission">Grant Permission</string>
+</resources>
