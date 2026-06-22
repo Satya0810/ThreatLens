@@ -64,6 +64,26 @@ When you scan a code at a restaurant, parking meter, or in an email, the native 
 
 ---
 
+## 👨‍👩‍👧‍👦 Parental Controls & Child Safety
+
+ThreatLens isn't just for enterprise security; it's a powerful tool for families. Children often scan QR codes without understanding the risks, making them vulnerable to inappropriate content or scams. 
+
+* **Strict Safe Search Enforcement**: ThreatLens automatically detects and blocks explicit (NSFW), violent, or restricted content.
+* **Intelligent Content Filtering**: Uses domain reputation, TLD scoring, and heuristic keyword analysis to prevent access to unverified adult or high-risk domains.
+* **Scam Protection for Kids**: Prevents young users from falling victim to "free Robux/V-Bucks" or gaming-related QR phishing scams by analyzing the true destination intent before opening.
+
+---
+
+## 🧠 AI-Powered Threat Detection
+
+Traditional static blocklists are slow to update and easily bypassed by new malicious URLs. ThreatLens tackles this with an advanced **On-Device AI Engine**:
+
+* **Federated Learning**: The app learns from novel, newly encountered threat patterns and securely shares generalized models back to the cloud without compromising your privacy or sharing your actual scan data.
+* **Generative AI Analysis**: Powered by Google Gemini, the AI categorizer performs deep multi-signal analysis of website content, intent, and structure, assigning a category and threat score instantly.
+* **Zero-Day Phishing Detection**: The AI heuristic checker identifies homograph attacks (e.g., `g00gle.com`), typosquatting, and deceptive UI patterns indicative of credential phishing, even if the URL has never been seen before.
+
+---
+
 ## Architecture
 
 ThreatLens uses **MVVM (Model-View-ViewModel)** with **Unidirectional Data Flow**:
