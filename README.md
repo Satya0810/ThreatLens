@@ -213,9 +213,9 @@ app/src/main/java/com/safeqr/scanner/
 
 The following team members contributed to building ThreatLens:
 
-* **[Your Name Here]** - Project Lead / Developer
-* **[Team Member 2 Name]** - [Role]
-* **[Team Member 3 Name]** - [Role]
+* **[SATYAM KUMAR]** - Project Lead / Developer
+* **[AMAN PATEL]** - [SYSTEM INTEGRATION]
+* **[DEEPANSHU]** - [TESTING & DEBUGGING]
 
 *(Note: Once you add your team members on GitHub, they will also automatically appear in the "Contributors" sidebar on the right side of the repository page!)*
 
