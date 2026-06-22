@@ -31,6 +31,8 @@ keystore.properties
 # Node.js (Firebase Functions / Vercel)
 node_modules/
 functions/node_modules/
+.env
+*.env
 
 # OS files
 .DS_Store

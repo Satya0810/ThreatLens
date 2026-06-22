@@ -793,7 +793,7 @@ class ThreatAnalyzer {
         // ── Piracy domain-level detection ──────────────────────────────────
         val isPiracyDomain = PIRACY_DOMAINS.any { checkDomain == it || checkDomain.endsWith(".$it") }
         val hasPiracyDomainKeyword = !isTrustedDomain && PIRACY_DOMAIN_KEYWORDS.any { checkDomain.contains(it) }
-                        if (isPiracyDomain) {
+        if (isPiracyDomain) {
             threatDetails.add("Domain Intelligence: Known piracy/illegal streaming domain")
             foundPiracyScore += 10
         } else if (hasPiracyDomainKeyword) {
@@ -801,7 +801,8 @@ class ThreatAnalyzer {
             foundPiracyScore += 5
         }
 
-        val isAdultContent = foundAdultScore >= 3 || nsfwLikely || hasAdultTld || hasAdultDomain || hasAdultDomainKeyword || hasAdultPathKeyword
+        // Fix: Do not flag trusted domains (like github.com) just because they mention the word "nsfw" in their text!
+        val isAdultContent = (!isTrustedDomain && (foundAdultScore >= 3 || nsfwLikely)) || hasAdultTld || hasAdultDomain || hasAdultDomainKeyword || hasAdultPathKeyword
 
         val MALWARE_DOMAIN_KEYWORDS = listOf("hack", "crack", "nulled", "exploit", "stealer", "botnet", "rootkit")
         val hasMalwareDomainKeyword = !isTrustedDomain && MALWARE_DOMAIN_KEYWORDS.any { checkDomain.contains(it) }

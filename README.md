@@ -21,9 +21,11 @@
 
 ---
 
-## The Problem
+## The Problem: The QR Code is NOT the threat. The Destination Is.
 
-Standard camera apps and QR scanners treat QR codes blindly — you scan a code at a restaurant, parking meter, or in an email, and the app instantly opens the link. Bad actors exploit this through **Quishing** (QR code phishing), directing users to credential-stealing pages, malware downloads, or scam payment portals.
+Standard camera apps and QR scanners have a massive security flaw: they treat QR codes blindly. A QR code is simply a barcode containing text (usually a URL). The danger isn't the QR code graphic itself; the danger is the **site it forces your phone to open**.
+
+When you scan a code at a restaurant, parking meter, or in an email, the native camera app instantly opens the link without analyzing the destination website. Bad actors exploit this through **Quishing** (QR code phishing), pasting malicious QR codes over legitimate ones to direct users to credential-stealing pages, malware downloads, or scam payment portals.
 
 ## The Solution
 

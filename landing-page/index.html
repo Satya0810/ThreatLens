@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreatLens | Cyber-Centric QR Code Security Scanner</title>
+    <meta name="description" content="Real-time threat intelligence, multi-API analysis, and on-device heuristics to protect you from malicious QR codes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="glow-bg glow-bg-1"></div>
+    <div class="glow-bg glow-bg-2"></div>
+    
+    <nav class="navbar" id="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <img src="assets/ic_threatlens_logo.png" alt="ThreatLens Logo" id="nav-logo">
+                <span>ThreatLens</span>
+            </div>
+            <a href="#download" class="btn-primary">Download APK</a>
+        </div>
+    </nav>
+
+    <header class="hero container">
+        <div class="hero-content reveal">
+            <div class="badge">Advanced Android Protection</div>
+            <h1>The QR code is <span class="highlight">NOT</span> the threat. <br/>The destination is.</h1>
+            <p>Standard scanners treat QR codes blindly. ThreatLens acts as a real-time security firewall, querying 12+ world-class threat intelligence APIs concurrently to keep you safe from Quishing.</p>
+            <div class="hero-cta">
+                <a href="#download" class="btn-primary btn-large">Get ThreatLens for Android</a>
+                <a href="#features" class="btn-secondary btn-large">Explore Features</a>
+            </div>
+        </div>
+        <div class="hero-visual reveal slide-up delay-1">
+            <div class="glass-card mock-app">
+                <div class="mock-header">
+                    <img src="assets/ic_threatlens_logo.png" alt="ThreatLens Icon">
+                    <span>ThreatLens Scanner</span>
+                </div>
+                <div class="mock-body">
+                    <div class="scanner-frame">
+                        <div class="scan-line"></div>
+                    </div>
+                    <div class="status-indicator safe glow-pulse">
+                        <span class="dot"></span> Safe URL Detected
+                    </div>
+                    <div class="api-checks">
+                        <div class="check-item"><span>VirusTotal</span> <span class="status green">Pass</span></div>
+                        <div class="check-item"><span>URLhaus</span> <span class="status green">Pass</span></div>
+                        <div class="check-item"><span>Google Safe Browsing</span> <span class="status green">Pass</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features container">
+        <h2 class="section-title reveal">Unmatched Security Engine</h2>
+        <div class="feature-grid">
+            <div class="feature-card glass-card reveal slide-up delay-1">
+                <div class="feature-icon">🔍</div>
+                <h3>Real-Time Analysis</h3>
+                <p>CameraX and ML Kit provide low-latency detection while expanding shortened URLs and unrolling redirect chains up to 10 hops.</p>
+            </div>
+            <div class="feature-card glass-card reveal slide-up delay-2">
+                <div class="feature-icon">🛡️</div>
+                <h3>12+ Threat APIs</h3>
+                <p>Simultaneous queries to VirusTotal, URLhaus, AbuseIPDB, Cloudflare Radar, Symantec, and more to calculate a multidimensional trust score.</p>
+            </div>
+            <div class="feature-card glass-card reveal slide-up delay-3">
+                <div class="feature-icon">🧠</div>
+                <h3>On-Device Heuristics</h3>
+                <p>Detects homograph attacks, typosquatting, suspicious TLDs, and credential phishing patterns completely offline.</p>
+            </div>
+            <div class="feature-card glass-card reveal slide-up delay-4">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Categorization</h3>
+                <p>Multi-signal website categorizer powered by Google Gemini and federated learning with a 40+ category classification.</p>
+            </div>
+            <div class="feature-card glass-card reveal slide-up delay-5">
+                <div class="feature-icon">🔒</div>
+                <h3>Sandbox Browser</h3>
+                <p>Isolated WebView with disabled cookies and JS for safe, risk-free URL inspection if you decide to proceed with caution.</p>
+            </div>
+            <div class="feature-card glass-card reveal slide-up delay-6">
+                <div class="feature-icon">💳</div>
+                <h3>Payment & Privacy Guards</h3>
+                <p>Detects UPI, cryptocurrency portals, NSFW content, and known piracy domains with strict blocking features.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="download-section container reveal">
+        <div class="glass-card cta-card">
+            <h2>Ready to secure your scans?</h2>
+            <p>Download the latest version of ThreatLens for Android and protect your device from the rising threat of QR code phishing.</p>
+            <a href="https://github.com/Satya0810/ThreatLens/releases/latest" target="_blank" rel="noopener noreferrer" class="btn-primary btn-large">Download APK from GitHub</a>
+            <p class="requires">Requires Android 8.0+ (API 26)</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="assets/ic_threatlens_logo.png" alt="ThreatLens Logo" width="40">
+                <span>ThreatLens</span>
+            </div>
+            <p>&copy; 2026 The ThreatLens Team. Built with 🛡️</p>
+            <div class="footer-links">
+                <a href="https://github.com/Satya0810/ThreatLens" target="_blank">GitHub Repository</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

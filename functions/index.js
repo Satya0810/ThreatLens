@@ -5,8 +5,8 @@ const { Resend } = require("resend");
 admin.initializeApp();
 const db = admin.firestore();
 
-// IMPORTANT: Replace this with your actual Resend API Key
-const RESEND_API_KEY = "re_DUFAB8ye_9Z8znK1TBUauRgDUpnsSjMQQ";
+// IMPORTANT: Replace this with your actual Resend API Key in a .env file
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const resend = new Resend(RESEND_API_KEY);
 
 exports.sendOtpEmail = functions.https.onRequest(async (req, res) => {
