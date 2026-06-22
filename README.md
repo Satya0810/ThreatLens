@@ -217,21 +217,7 @@ The following team members contributed to building ThreatLens:
 * **[AMAN PATEL]** - [SYSTEM INTEGRATION]
 * **[DEEPANSHU]** - [TESTING & DEBUGGING]
 
-*(Note: Once you add your team members on GitHub, they will also automatically appear in the "Contributors" sidebar on the right side of the repository page!)*
 
----
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
 
 ## License
 
