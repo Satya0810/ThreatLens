@@ -14,7 +14,7 @@ graph TD
         
         subgraph DetectionSubsystem ["🛡️ Specialized Threat Detectors"]
             MainEngine --> Heuristics["HeuristicChecker & UrlExpander"]
-            MainEngine --> HybridAI["AILearningEngine (TFLite & Gemini)"]
+            MainEngine --> PerceptronAI["AILearningEngine (Perceptron & Gemini)"]
             MainEngine --> CloudAPIs["14 Remote Security APIs"]
             MainEngine --> UpiFraud["UpiPaymentAnalyzer & MLEngine"]
             MainEngine --> WifiSec["WifiThreatAnalyzer"]
@@ -36,7 +36,7 @@ graph TD
 
     subgraph AIPipeline ["🤖 Offline AI Model Pipeline"]
         Scraper["data_collector.py"] --> Trainer["model_trainer.py"]
-        Trainer --> TFLiteModels["assets/tflite/threat_model.tflite"]
+        Trainer --> NeuralSpec["threat_model.json Neural Architecture Spec"]
     end
 ```
 
@@ -45,7 +45,7 @@ graph TD
 ## 📑 Table of Contents
 
 1. [🔍 Multi-Engine QR Code Threat Analysis](#1--multi-engine-qr-code-threat-analysis)
-2. [🤖 On-Device & Cloud AI Intelligence](#2--on-device--cloud-ai-intelligence)
+2. [🤖 Autonomous Perceptron & Cloud AI Intelligence](#2--autonomous-perceptron--cloud-ai-intelligence)
 3. [💰 UPI Payment Fraud Protection](#3--upi-payment-fraud-protection)
 4. [📶 Wi-Fi Network Security Analysis](#4--wi-fi-network-security-analysis)
 5. [🛡️ Real-Time Link Guard (Background Protection)](#5-️-real-time-link-guard-background-protection)
@@ -63,7 +63,7 @@ graph TD
 17. [📊 Weekly Security Digest Notifications](#17--weekly-security-digest-notifications)
 18. [🌐 Web Landing Page & Privacy Portal](#18--web-landing-page--privacy-portal)
 19. [🚀 CI/CD Automated Build & Testing](#19--cicd-automated-build--testing)
-20. [🤖 Offline AI Model Training Pipeline](#20--offline-ai-model-training-pipeline)
+20. [🤖 AI Model Training & Spec Exporter Pipeline](#20--ai-model-training--spec-exporter-pipeline)
 21. [🗺️ Interactive Tree Map & Mindmap Visualization Instructions](#21-️-interactive-tree-map--mindmap-visualization-instructions)
 
 ---
@@ -141,22 +141,21 @@ graph TD
 
 ---
 
-## 2. 🤖 On-Device & Cloud AI Intelligence
+## 2. 🤖 Autonomous Perceptron & Cloud AI Intelligence
 
-> ThreatLens employs a hybrid AI strategy: offline TensorFlow Lite models provide instant zero-latency scoring, while Google Gemini and Qwen LLMs deliver rich threat explanations and zero-day analysis.
+> Autonomous native Kotlin Perceptron Neural Network using Sigmoid activation and local SharedPreferences weight storage with federated learning weight merging via `CloudSyncManager`. Combined with Google Gemini and Qwen LLMs for zero-day threat reasoning.
 
 | Sub-Feature | How It's Achieved | Benefit |
 | :--- | :--- | :--- |
-| **Offline TFLite Threat Scoring** | Quantized TensorFlow Lite models (`threat_model.tflite`, `url_model.tflite`) embedded in the APK evaluate payloads without any network call. | Works in airplane mode, underground, or in areas with no signal — zero latency, complete privacy. |
+| **Native Kotlin Perceptron Model** | Extracts 20+ numerical features (URL entropy via Shannon entropy, subdomain count, homographs `0x0400..0x04FF`, 14 API verdicts) and computes Sigmoid probability score. | Operates zero-latency on-device without needing external binary model assets. |
+| **On-Device Gradient Descent** | Updates feature weights locally via Gradient Descent when prediction error exceeds 0.1 threshold. | Model learns from local scanning outcomes autonomously over time. |
 | **Google Gemini AI Explanations** | The Generative AI SDK (`generativeai:0.6.0`) generates plain-English threat summaries explaining *why* a link is dangerous. | Non-technical users understand the specific risk without reading raw API data. |
-| **Qwen AI Fallback** | Cloud-hosted Qwen LLM provides secondary AI opinions when Gemini quotas are exceeded or offline models are uncertain. | Redundancy — AI analysis never fully fails even under heavy load. |
-| **Hybrid AI Coordination** | `AILearningEngine` orchestrates which AI engine to invoke based on connectivity, model confidence, and API quota availability. | Maximizes accuracy while minimizing API costs and latency. |
+| **Qwen AI Fallback** | Cloud-hosted Qwen LLM provides secondary AI opinions when Gemini quotas are exceeded. | Redundancy — AI analysis never fully fails even under heavy load. |
 
 **📁 Files:**
-- [`AILearningEngine.kt`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/app/src/main/java/com/safeqr/scanner/analysis/AILearningEngine.kt) — Hybrid AI coordinator
+- [`AILearningEngine.kt`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/app/src/main/java/com/safeqr/scanner/analysis/AILearningEngine.kt) — Autonomous Kotlin Perceptron Neural Engine
 - [`QwenApiClient.kt`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/app/src/main/java/com/safeqr/scanner/data/remote/QwenApiClient.kt) — Qwen LLM Retrofit client
-- `assets/tflite/threat_model.tflite` — On-device general threat classifier
-- `assets/tflite/url_model.tflite` — On-device phishing URL classifier
+- [`NeuralCoreScreen.kt`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/app/src/main/java/com/safeqr/scanner/ui/screens/NeuralCoreScreen.kt) — AI neural dashboard screen
 
 ---
 
@@ -406,8 +405,8 @@ graph TD
 
 | Sub-Feature | How It's Achieved | Benefit |
 | :--- | :--- | :--- |
-| **AI Metrics Dashboard** | Displays TFLite model inference speed, accuracy rates, federated learning round status, and model version. | Transparency — users can see how the AI is performing on their device. |
-| **Privacy-Preserving Federated Learning** | Local model weights are trained on user-flagged threats; only anonymized gradients are shared — raw scan data never leaves the device. | AI models improve globally without compromising any individual user's privacy. |
+| **AI Metrics Dashboard** | Displays Perceptron neural model inference speed, accuracy rates, federated learning round status, and model weight values. | Transparency — users can see how the AI is performing on their device. |
+| **Privacy-Preserving Federated Learning** | Local model weights are trained on user-flagged threats; only anonymized gradients are shared via CloudSyncManager — raw scan data never leaves the device. | AI models improve globally without compromising any individual user's privacy. |
 
 **📁 Files:**
 - [`NeuralCoreScreen.kt`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/app/src/main/java/com/safeqr/scanner/ui/screens/NeuralCoreScreen.kt) — Neural AI dashboard screen
@@ -478,19 +477,19 @@ graph TD
 
 ---
 
-## 20. 🤖 Offline AI Model Training Pipeline
+## 20. 🤖 AI Model Training & Spec Exporter Pipeline
 
-> Python-based machine learning pipeline for training and exporting TensorFlow Lite models that ship inside the app.
+> Python-based machine learning pipeline for scraping phishing data, training models, and exporting neural architecture specifications.
 
 | Sub-Feature | How It's Achieved | Benefit |
 | :--- | :--- | :--- |
 | **Phishing Data Collection** | Python script scrapes active phishing URL samples from PhishTank and OpenPhish feeds. | Models train on real-world, current threat data — not synthetic samples. |
-| **Neural Network Training** | TensorFlow extracts lexical features (URL length, entropy, special char ratios, domain tokens) and trains a binary classifier. | On-device models learn to recognize phishing patterns from character-level signals. |
-| **TFLite Export** | Trained TensorFlow models are quantized and converted to `.tflite` format optimized for mobile inference. | Models run at <10ms latency on mobile CPUs — fast enough for real-time scanning. |
+| **Neural Network Training** | TensorFlow extracts lexical features (URL length, entropy, special char ratios, domain tokens) and trains a binary classifier. | Learns phishing patterns from character-level signals. |
+| **Model Spec Export** | Exports neural architecture JSON specifications (`threat_model.json`) and trained feature weights. | Provides weight baseline specs for the native Kotlin Perceptron engine. |
 
 **📁 Files:**
 - [`ai_training_pipeline/data_collector.py`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/ai_training_pipeline/data_collector.py) — Phishing data scraper
-- [`ai_training_pipeline/model_trainer.py`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/ai_training_pipeline/model_trainer.py) — TensorFlow model trainer and TFLite converter
+- [`ai_training_pipeline/model_trainer.py`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/ai_training_pipeline/model_trainer.py) — TensorFlow model trainer and JSON exporter
 - [`ai_training_pipeline/threat_model.json`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/ai_training_pipeline/threat_model.json) — Neural network architecture specification
 - [`ai_training_pipeline/training_dataset.csv`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/ai_training_pipeline/training_dataset.csv) — Labeled training feature vectors
 
@@ -517,11 +516,11 @@ You can generate an interactive, zoomable 2D/3D visual Tree Map or Mindmap of th
 - Domain Categorizer (`WebsiteCategorizer.kt`)
 - Verdict Dashboard (`ResultBottomSheet.kt`, `SafetyIndicator.kt`)
 
-## 2. Hybrid AI Intelligence
-- Offline TFLite Classifier (`threat_model.tflite`, `url_model.tflite`)
+## 2. Autonomous Perceptron & Cloud AI
+- Native Kotlin Perceptron Neural Model (`AILearningEngine.kt`)
+- On-Device Gradient Descent & SharedPreferences Weights
 - Google Gemini AI Explanations (`generativeai:0.6.0`)
 - Qwen Cloud AI Fallback (`QwenApiClient.kt`)
-- AI Manager (`AILearningEngine.kt`)
 
 ## 3. UPI Payment Fraud Protection
 - VPA Handle Verification (`UpiPaymentAnalyzer.kt`)
@@ -565,7 +564,7 @@ You can generate an interactive, zoomable 2D/3D visual Tree Map or Mindmap of th
 - Event Ticket Creation & Check-in (`EventManagerScreen.kt`, `EventDao.kt`)
 
 ## 13. Auth & Cloud Sync
-- Firebase Auth & Google Sign-In (`LoginScreen.kt`, `AuthViewModel.kt`)
+- Firebase Auth & Google Sign-In (`LoginScreen.kt`, `AuthViewModel.kt`, `google-services.json`)
 - Cross-Device Cloud Sync (`CloudSyncManager.kt`)
 
 ## 14. Community Intel & Crowd Reporting
@@ -590,7 +589,7 @@ You can generate an interactive, zoomable 2D/3D visual Tree Map or Mindmap of th
 - Unit Tests (`CategorizerTest.kt`, `QrDataParserIntegrationTest.kt`)
 
 ## 20. AI Training Pipeline
-- Data Scraper & TFLite Trainer (`data_collector.py`, `model_trainer.py`)
+- Data Scraper & Trainer (`data_collector.py`, `model_trainer.py`, `threat_model.json`)
 ```
 
 3. An interactive mindmap tree will render instantly on the right panel!
@@ -610,8 +609,9 @@ mindmap
       14 Cloud Security APIs
       Heuristic Rules & Redirect Unpacker
       0 to 100 Safety Score Gauge
-    Hybrid AI Intelligence
-      On Device TFLite Models
+    Perceptron & Cloud AI
+      Kotlin Perceptron Engine
+      Gradient Descent Training
       Google Gemini AI Summaries
       Qwen LLM Fallback
     UPI Payment Protection
