@@ -46,7 +46,12 @@ jobs:
                   "mobilesdk_app_id": "1:123456789:android:dummy",
                   "android_client_info": { "package_name": "com.safeqr.scanner" }
                 },
-                "oauth_client": [],
+                "oauth_client": [
+                  {
+                    "client_id": "123456789-dummy.apps.googleusercontent.com",
+                    "client_type": 3
+                  }
+                ],
                 "api_key": [{ "current_key": "dummy-key" }],
                 "services": { "appinvite_service": { "other_platform_oauth_client": [] } }
               }
