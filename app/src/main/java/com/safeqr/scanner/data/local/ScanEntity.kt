@@ -33,7 +33,12 @@ data class ScanEntity(
     val virusTotalPositives: Int = 0,
     val virusTotalTotal: Int = 0,
     val heuristicFlags: String = "[]",        // JSON list of flag strings
-    val safeBrowsingResult: String? = null
+    val safeBrowsingResult: String? = null,
+    // ── History enrichment fields ──────────────────────────────────────────
+    val isFavorite: Boolean = false,
+    val tags: String = "[]",
+    val upiAnalysisJson: String? = null,
+    val wifiAnalysisJson: String? = null
 ) {
 
     /**
@@ -72,6 +77,20 @@ data class ScanEntity(
             emptyList()
         }
 
+        val tagsList: List<String> = try {
+            gson.fromJson(tags, listType) ?: emptyList()
+        } catch (e: Exception) {
+            emptyList()
+        }
+
+        val upiRes: com.safeqr.scanner.analysis.UpiPaymentAnalyzer.UpiAnalysisResult? = try {
+            upiAnalysisJson?.let { gson.fromJson(it, com.safeqr.scanner.analysis.UpiPaymentAnalyzer.UpiAnalysisResult::class.java) }
+        } catch (e: Exception) { null }
+
+        val wifiRes: com.safeqr.scanner.analysis.WifiThreatAnalyzer.WifiAnalysisResult? = try {
+            wifiAnalysisJson?.let { gson.fromJson(it, com.safeqr.scanner.analysis.WifiThreatAnalyzer.WifiAnalysisResult::class.java) }
+        } catch (e: Exception) { null }
+
         return ScanResult(
             rawContent = rawContent,
             isUrl = isUrl,
@@ -98,7 +117,11 @@ data class ScanEntity(
             communityReportsCount = communityReportsCount,
             communityReportReasons = communityReasonsList,
             siteCategory = siteCategory,
-            siteSummary = siteSummary
+            siteSummary = siteSummary,
+            isFavorite = isFavorite,
+            tags = tagsList,
+            upiAnalysis = upiRes,
+            wifiAnalysis = wifiRes
         )
     }
 
@@ -131,7 +154,11 @@ data class ScanEntity(
                 communityReportsCount = result.communityReportsCount,
                 communityReportReasons = gson.toJson(result.communityReportReasons),
                 siteCategory = result.siteCategory,
-                siteSummary = result.siteSummary
+                siteSummary = result.siteSummary,
+                isFavorite = result.isFavorite,
+                tags = gson.toJson(result.tags),
+                upiAnalysisJson = result.upiAnalysis?.let { gson.toJson(it) },
+                wifiAnalysisJson = result.wifiAnalysis?.let { gson.toJson(it) }
             )
         }
     }

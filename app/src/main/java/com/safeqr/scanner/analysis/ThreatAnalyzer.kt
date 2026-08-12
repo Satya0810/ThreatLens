@@ -1,5 +1,6 @@
 package com.safeqr.scanner.analysis
 
+import android.content.Context
 import android.util.Log
 import com.safeqr.scanner.data.ApiKeys
 import com.safeqr.scanner.data.model.SafetyStatus
@@ -94,7 +95,7 @@ object ThreatAnalyzerDefaults {
     val ENTERTAINMENT_KEYWORDS = listOf("stream", "watch", "movie", "episode", "season", "hd")
 }
 
-class ThreatAnalyzer {
+class ThreatAnalyzer(private val appContext: Context? = null) {
 
     companion object {
         private const val TAG = "ThreatAnalyzer"
@@ -106,6 +107,10 @@ class ThreatAnalyzer {
 
         private val IP_ADDRESS_REGEX = Regex(
             "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$"
+        )
+
+        private val PRIVATE_IP_REGEX = Regex(
+            "^(127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|172\\.(1[6-9]|2\\d|3[0-1])\\.\\d{1,3}\\.\\d{1,3}|192\\.168\\.\\d{1,3}\\.\\d{1,3}|0\\.0\\.0\\.0)$"
         )
 
         private val cloudData get() = CloudDatasetManager.getThreatAnalyzerData()
@@ -242,14 +247,15 @@ class ThreatAnalyzer {
         // Instead, we rely entirely on the strict individual micro-timeouts of each API (e.g., 3s, 4s, 6s).
         // Since the APIs run concurrently via async{}, the maximum time the scan can take 
         // is exactly equal to the longest single API timeout, effectively eliminating endless loops.
-        return analyzeInternal(rawContent, communityReportsCount, communityReportReasons, webshrinkerApiKey)
+        return analyzeInternal(rawContent, communityReportsCount, communityReportReasons, webshrinkerApiKey, appContext)
     }
 
     private suspend fun analyzeInternal(
         rawContent: String,
         communityReportsCount: Int = 0,
         communityReportReasons: List<String> = emptyList(),
-        webshrinkerApiKey: String = ""
+        webshrinkerApiKey: String = "",
+        context: Context? = null
     ): ScanResult {
         val trimmed = rawContent.trim()
         val lowercaseContent = trimmed.lowercase()
@@ -295,6 +301,98 @@ class ThreatAnalyzer {
         }
 
         if (!isWebUrl) {
+            // ── UPI / Banking QR Fraud Analysis ─────────────────────────
+            val isUpiScheme = lowercaseContent.startsWith("upi://") || 
+                              lowercaseContent.startsWith("paytm://") || 
+                              lowercaseContent.startsWith("phonepe://") || 
+                              lowercaseContent.startsWith("gpay://") || 
+                              lowercaseContent.startsWith("bhim://")
+            if (isTransactionScheme || isUpiScheme) {
+                val parsedQr = QrDataParser.parse(rawContent)
+                val actionData = parsedQr.actionData
+
+                // 1. Heuristic analysis
+                val heuristicResult = UpiPaymentAnalyzer.analyze(rawContent, actionData, context)
+
+                // 2. ML scoring
+                val mlFeatures = UpiTransactionMLEngine.extractFeatures(actionData)
+                val mlFraudProbability = UpiTransactionMLEngine.predict(mlFeatures)
+
+                // 3. Combined risk: 60% heuristic + 40% ML
+                val combinedRisk = (heuristicResult.riskScore * 0.6f + mlFraudProbability * 100f * 0.4f)
+                    .coerceIn(0f, 100f)
+
+                // Convert risk (0=safe, 100=dangerous) to trust score (0=dangerous, 100=safe)
+                val trustScore = (100f - combinedRisk).coerceIn(0f, 100f)
+
+                // Determine safety status from combined score
+                val finalStatus = when {
+                    combinedRisk >= 60f -> SafetyStatus.MALICIOUS
+                    combinedRisk >= 25f -> SafetyStatus.CAUTION
+                    else -> SafetyStatus.SAFE
+                }
+
+                // Build threat details from flags
+                val upiThreatDetails = heuristicResult.flags.map { flag ->
+                    "${flag.emoji} ${flag.title}: ${flag.description}"
+                }
+
+                // Enrich the UpiAnalysisResult with ML confidence
+                val enrichedUpiResult = heuristicResult.copy(
+                    mlConfidence = mlFraudProbability,
+                    riskScore = combinedRisk,
+                    safetyStatus = finalStatus
+                )
+
+                return ScanResult(
+                    rawContent = rawContent,
+                    isUrl = false,
+                    originalUrl = trimmed,
+                    expandedUrl = trimmed,
+                    domain = null,
+                    safetyStatus = finalStatus,
+                    overallScore = trustScore,
+                    isAdultContent = false,
+                    isTransaction = true,
+                    threatDetails = upiThreatDetails,
+                    siteSummary = heuristicResult.summary,
+                    siteCategory = "🏧 UPI Payment",
+                    tags = listOf("UPI"),
+                    upiAnalysis = enrichedUpiResult
+                )
+            }
+
+            // ── WiFi QR Security Analysis ───────────────────────────────
+            if (isWifi) {
+                val parsedQr = QrDataParser.parse(rawContent)
+                val actionData = parsedQr.actionData
+
+                val wifiResult = WifiThreatAnalyzer.analyze(actionData)
+
+                val trustScore = (100f - wifiResult.riskScore).coerceIn(0f, 100f)
+
+                val wifiThreatDetails = wifiResult.flags.map { flag ->
+                    "${flag.emoji} ${flag.title}: ${flag.description}"
+                }
+
+                return ScanResult(
+                    rawContent = rawContent,
+                    isUrl = false,
+                    originalUrl = trimmed,
+                    expandedUrl = trimmed,
+                    domain = null,
+                    safetyStatus = wifiResult.safetyStatus,
+                    overallScore = trustScore,
+                    isAdultContent = false,
+                    isTransaction = false,
+                    threatDetails = wifiThreatDetails,
+                    siteSummary = wifiResult.summary,
+                    siteCategory = "📶 WiFi Network",
+                    wifiAnalysis = wifiResult
+                )
+            }
+
+            // ── Other non-web URIs (phone, email, etc.) ─────────────────
             val inferredUrl = when {
                 isRawEmail && !lowercaseContent.startsWith("mailto:") -> "mailto:$trimmed"
                 isRawPhone && !lowercaseContent.startsWith("tel:") -> "tel:${trimmed.replace(Regex("[^0-9+]"), "")}"
@@ -337,6 +435,20 @@ class ThreatAnalyzer {
 
         val isHttps = normalizedUrl.lowercase().startsWith("https://")
         val isIpAddress = domain != null && IP_ADDRESS_REGEX.matches(domain)
+        val isPrivateIp = domain != null && PRIVATE_IP_REGEX.matches(domain)
+
+        if (isPrivateIp) {
+            return ScanResult(
+                rawContent = rawContent,
+                isUrl = true,
+                originalUrl = normalizedUrl,
+                expandedUrl = normalizedUrl,
+                domain = domain,
+                safetyStatus = SafetyStatus.MALICIOUS,
+                overallScore = 0f,
+                threatDetails = listOf("Simulated DPI: Bogon/Private IP address detected (SSRF Threat)")
+            )
+        }
 
         // ── Step 3: Expand shortened URLs & Unroll Redirects ──────────────────
         val redirectChain = try {
@@ -346,9 +458,42 @@ class ThreatAnalyzer {
         }
         val expandedUrl = redirectChain.last()
 
+        // ── Step 3.5: Deep URL Inspection (Simulated DPI) ────────────────────
+        var dpiThreatDetected = false
+        val dpiDetails = mutableListOf<String>()
+
+        val lowercaseExpanded = expandedUrl.lowercase()
+        if (lowercaseExpanded.endsWith(".exe") || lowercaseExpanded.endsWith(".apk") || lowercaseExpanded.endsWith(".bat") || lowercaseExpanded.endsWith(".sh") || lowercaseExpanded.endsWith(".ps1")) {
+            dpiThreatDetected = true
+            dpiDetails.add("Simulated DPI: Executable file extension in URL")
+        }
+
+        val subdomainParts = domain?.split(".")?.size ?: 0
+        if (subdomainParts >= 5) {
+            dpiThreatDetected = true
+            dpiDetails.add("Simulated DPI: Excessive subdomains (Potential evasion)")
+        }
+
+        if (expandedUrl.length > 300) {
+            dpiThreatDetected = true
+            dpiDetails.add("Simulated DPI: Abnormally long URL (>300 chars)")
+        }
+
+        if (Regex("[A-Za-z0-9+/]{40,}={0,2}").containsMatchIn(expandedUrl.substringAfter(domain ?: ""))) {
+            dpiThreatDetected = true
+            dpiDetails.add("Simulated DPI: Large Base64 payload detected in URL")
+        }
+
         // ── Step 4: Heuristic checks ──────────────────────────────────────────
         val heuristicFlags = HeuristicChecker.analyze(expandedUrl)
+        
+        if (heuristicFlags.contains("Possible homograph attack")) {
+            dpiThreatDetected = true
+            dpiDetails.add("Simulated DPI: Confirmed Homograph Attack (Punycode mimicking)")
+        }
+        
         val threatDetails = CopyOnWriteArrayList<String>()
+        threatDetails.addAll(dpiDetails)
 
         var safeBrowsingHasThreats = false
         var safeBrowsingResult: String? = null
@@ -381,12 +526,15 @@ class ThreatAnalyzer {
         var scrapedHasVideo = false
         var domainAgeDays: Int? = null
         var whoisReputationScore: Float? = null
+        var whoisDetails = mutableListOf<String>()
         var suspiciousDownloadLinks = false
         var symantecMalicious = false
         var talosMalicious = false
         var nsfwLikely = false
         var isBrandImpersonation = false
         var scrapedMetaKeywords = ""
+        var scrapedJsonLdType: String? = null
+        var scrapedTwitterCard: String? = null
 
         var foundPiracyScore = 0
         var foundBaitingScore = 0
@@ -479,7 +627,13 @@ class ThreatAnalyzer {
                         } else if (!isIpAddress && ApiKeys.WHOIS_XML.isNotBlank()) {
                             try {
                                 val whoisResponse = RetrofitClient.whoisXmlApi.lookup(domain, ApiKeys.WHOIS_XML)
-                                domainAgeDays = whoisResponse.WhoisRecord?.estimatedDomainAge
+                                val record = whoisResponse.WhoisRecord
+                                domainAgeDays = record?.estimatedDomainAge
+                                
+                                record?.registrant?.organization?.takeIf { it.isNotBlank() }?.let { whoisDetails.add("Owner: $it") }
+                                record?.registrant?.country?.takeIf { it.isNotBlank() }?.let { whoisDetails.add("Location: $it") }
+                                record?.createdDateNormalized?.take(10)?.let { whoisDetails.add("Generated: $it") }
+                                
                                 if (domainAgeDays != null && domainAgeDays!! < 30) {
                                     threatDetails.add("WhoisXML: Very new domain ($domainAgeDays days old)")
                                 }
@@ -579,6 +733,40 @@ class ThreatAnalyzer {
                             } catch (e: Exception) { Log.w(TAG, "CleanBrowsing check failed", e); Unit }
                         }
                     }
+                    val cloudflareDnsJob = async {
+                        withTimeoutOrNull(2000) {
+                            try {
+                                val client = OkHttpClient()
+                                val request = Request.Builder()
+                                    .url("https://security.cloudflare-dns.com/dns-query?name=$domain&type=A")
+                                    .addHeader("accept", "application/dns-json")
+                                    .build()
+                                val response = client.newCall(request).execute()
+                                val body = response.body?.string()
+                                if (body != null && body.contains("\"data\":\"0.0.0.0\"")) {
+                                    cloudflareMalicious = true
+                                    threatDetails.add("Cloudflare DNS Filter: Domain blocked (Malware)")
+                                }
+                            } catch (e: Exception) { Log.w(TAG, "Cloudflare DNS check failed", e); Unit }
+                        }
+                    }
+                    val quad9DnsJob = async {
+                        withTimeoutOrNull(2000) {
+                            try {
+                                val client = OkHttpClient()
+                                val request = Request.Builder()
+                                    .url("https://dns.quad9.net/dns-query?name=$domain&type=A")
+                                    .addHeader("accept", "application/dns-json")
+                                    .build()
+                                val response = client.newCall(request).execute()
+                                val body = response.body?.string()
+                                if (body != null && body.contains("\"Status\": 3")) {
+                                    cloudflareMalicious = true // Reuse penalty flag
+                                    threatDetails.add("Quad9 DNS Filter: Domain blocked (Malware/Ransomware)")
+                                }
+                            } catch (e: Exception) { Log.w(TAG, "Quad9 DNS check failed", e); Unit }
+                        }
+                    }
                     val symantecJob = async {
                         withTimeoutOrNull(3000) {
                             try {
@@ -619,6 +807,8 @@ class ThreatAnalyzer {
                     ipApiJob.await()
                     spamhausJob.await()
                     cleanBrowsingJob.await()
+                    cloudflareDnsJob.await()
+                    quad9DnsJob.await()
                     symantecJob.await()
                     talosJob.await()
                 }
@@ -634,12 +824,35 @@ class ThreatAnalyzer {
                             .ignoreHttpErrors(true)
                             .get()
                             
+                        // ── DPI: Meta Refresh Tracking ──
+                        val metaRefresh = doc.select("meta[http-equiv=refresh]").attr("content")
+                        if (metaRefresh.isNotBlank() && metaRefresh.contains("url=", ignoreCase = true)) {
+                            val refreshUrl = metaRefresh.substringAfter("url=").substringBefore("\"").substringBefore("'").trim()
+                            if (refreshUrl.isNotBlank() && refreshUrl.startsWith("http") && domain != null && !refreshUrl.contains(domain)) {
+                                dpiThreatDetected = true
+                                threatDetails.add("Simulated DPI: Suspicious HTML Meta-Refresh redirect to external domain")
+                            }
+                        }
+                        
                         val desc = doc.select("meta[name=description]").attr("content")
                         val ogTitle = doc.select("meta[property=og:title]").attr("content")
                         val ogDesc = doc.select("meta[property=og:description]").attr("content")
                         val ogType = doc.select("meta[property=og:type]").attr("content")
                         val ogSiteName = doc.select("meta[property=og:site_name]").attr("content")
                         val metaKeywords = doc.select("meta[name=keywords]").attr("content")
+                        val twitterCard = doc.select("meta[name=twitter:card]").attr("content")
+                        
+                        // ── Extract Schema.org JSON-LD ──
+                        val jsonLdScripts = doc.select("script[type=application/ld+json]")
+                        for (script in jsonLdScripts) {
+                            val scriptContent = script.html()
+                            // simple regex to find "@type": "Something"
+                            val typeMatch = Regex("\"@type\"\\s*:\\s*\"([A-Za-z]+)\"").find(scriptContent)
+                            if (typeMatch != null) {
+                                scrapedJsonLdType = typeMatch.groupValues[1]
+                                break
+                            }
+                        }
                         
                         val finalDesc = if (ogDesc.isNotBlank()) ogDesc else desc
                         val finalTitle = if (ogTitle.isNotBlank()) ogTitle else doc.title()
@@ -654,8 +867,16 @@ class ThreatAnalyzer {
                         scrapedDescription = finalDesc
                         scrapedOgType = ogType
                         scrapedOgSiteName = ogSiteName
+                        scrapedTwitterCard = twitterCard
                         scrapedBodyText = doc.text().take(2000) // Cap at 2000 chars for performance
                         scrapedMetaKeywords = metaKeywords.take(500) // Cap meta keywords
+                        
+                        // ── DPI: Obfuscated JS Detection ──
+                        val rawHtml = doc.html()
+                        if (rawHtml.contains("eval(atob(") || rawHtml.contains("eval(unescape(") || rawHtml.contains("document.write(unescape(")) {
+                            dpiThreatDetected = true
+                            threatDetails.add("Simulated DPI: Highly obfuscated JavaScript detected (Drive-by download payload)")
+                        }
                         
                         // Extract Structural Metadata for Algorithmic Scoring
                         scrapedH1H2Text = doc.select("h1, h2").text()
@@ -779,10 +1000,32 @@ class ThreatAnalyzer {
         foundEntertainmentScore += ENTERTAINMENT_KEYWORDS.count { urlTokens.contains(it) } * 3
         
 
-
         val hasTransactionDomain = TRANSACTION_DOMAINS.any { checkDomain == it || checkDomain.endsWith(".$it") }
         val hasTransactionPath = TRANSACTION_PATH_KEYWORDS.any { checkUrl.contains(it) }
         val isTransactionContent = isTransactionScheme || hasTransactionDomain || hasTransactionPath
+
+        // ── Device Context Heuristics: Screen Sharing Detection ────────────
+        var isScreenSharing = false
+        if (isTransactionContent && context != null) {
+            try {
+                val displayManager = context.getSystemService(android.content.Context.DISPLAY_SERVICE) as? android.hardware.display.DisplayManager
+                val displays = displayManager?.displays
+                if (displays != null) {
+                    for (display in displays) {
+                        if (display.displayId != android.view.Display.DEFAULT_DISPLAY) {
+                            if ((display.flags and android.view.Display.FLAG_PRIVATE) == 0 &&
+                                (display.flags and android.view.Display.FLAG_PRESENTATION) == 0 &&
+                                (display.flags and android.view.Display.FLAG_SECURE) == 0) {
+                                isScreenSharing = true
+                                break
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                android.util.Log.w("ThreatAnalyzer", "Failed to check displays for heuristics", e)
+            }
+        }
 
         val hasAdultTld = ADULT_TLDS.any { checkDomain.endsWith(it) }
         val hasAdultDomain = ADULT_DOMAINS.any { checkDomain == it || checkDomain.endsWith(".$it") }
@@ -813,6 +1056,11 @@ class ThreatAnalyzer {
         var overallScore = 100f
         var safetyStatus = SafetyStatus.SAFE
 
+        if (isScreenSharing) {
+            overallScore -= 100f
+            threatDetails.add("Device Context: Active screen sharing/casting detected during payment scan! Scammers may be monitoring your screen.")
+        }
+
         // API-based deductions
         if (safeBrowsingHasThreats) overallScore -= 80f
         if (vtPositives > 0) overallScore -= (vtPositives * 10f).coerceAtMost(80f)
@@ -822,6 +1070,7 @@ class ThreatAnalyzer {
         if (ipApiMalicious) overallScore -= 30f
         if (spamhausListed) overallScore -= 50f
         if (cleanBrowsingBlocked) overallScore -= 40f
+        if (dpiThreatDetected) overallScore -= 60f
         if (suspiciousDownloadLinks) overallScore -= 40f
         if (symantecMalicious) overallScore -= 60f
         if (talosMalicious) overallScore -= 60f
@@ -875,6 +1124,8 @@ class ThreatAnalyzer {
             sslGrade = sslGrade,
             isNsfwLikely = nsfwLikely,
             metaKeywords = scrapedMetaKeywords,
+            jsonLdType = scrapedJsonLdType,
+            twitterCard = scrapedTwitterCard
         )
         
         // ── ENTERPRISE INTEGRATION: Webshrinker API ───────────────────────
@@ -889,7 +1140,8 @@ class ThreatAnalyzer {
         }
         
         val categoryResult = WebsiteCategorizer.categorize(pageSignals, webshrinkerCategories)
-        var siteCategory = "${categoryResult.category.emoji} ${categoryResult.category.label}"
+        val activeCategoryLabel = categoryResult.customCategoryLabel ?: categoryResult.category.label
+        var siteCategory = "${categoryResult.category.emoji} $activeCategoryLabel"
         var categoryConfidence = categoryResult.confidence
         val categoryReason = categoryResult.reason
         
@@ -924,6 +1176,7 @@ class ThreatAnalyzer {
         }
 
         val positiveDetailsList = CopyOnWriteArrayList<String>()
+        positiveDetailsList.addAll(whoisDetails)
         if (cloudflareCategory != null) {
             positiveDetailsList.add("Categorized as '$cloudflareCategory' by Cloudflare Radar API.")
         }
@@ -956,6 +1209,7 @@ class ThreatAnalyzer {
             // Hard Deterministic Threat Overrides (Always block)
             safeBrowsingHasThreats || urlHausMatch -> SafetyStatus.MALICIOUS
             vtPositives >= 3 -> SafetyStatus.MALICIOUS
+            dpiThreatDetected -> SafetyStatus.MALICIOUS
             !bypassMalwareHeuristics && isBrandImpersonation -> SafetyStatus.MALICIOUS
             !bypassMalwareHeuristics && hasMalwareDomainKeyword -> SafetyStatus.MALICIOUS
             
@@ -1014,8 +1268,8 @@ class ThreatAnalyzer {
             append("\n")
         }
         
-        val siteSummaryText = intelligenceReport
-
+        val rawReport = intelligenceReport.toString()
+        val siteSummaryText = rawReport
         return ScanResult(
             rawContent = rawContent,
             isUrl = isWebUrl,

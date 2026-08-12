@@ -41,6 +41,7 @@ object SmartRouter {
         }
 
         val packageManager = context.packageManager
+        val myPackageName = context.packageName
         
         // Find all activities that can handle this URL
         val resolveInfoList = packageManager.queryIntentActivities(
@@ -49,25 +50,34 @@ object SmartRouter {
         )
 
         var targetPackage: String? = null
-        val myPackageName = context.packageName
 
-        // Priority 1: Find the native app for this link (e.g., com.instagram.android)
-        // We consider an app "native" if it is NOT a known browser and NOT our app.
-        for (resolveInfo in resolveInfoList) {
-            val pkgName = resolveInfo.activityInfo.packageName
-            if (pkgName != myPackageName && !isKnownBrowser(pkgName)) {
-                targetPackage = pkgName
-                break
+        // Priority 1: Check if a known native app exists for this URL's domain.
+        // Only route to native apps when the domain clearly maps to a specific app.
+        val domain = uri.host?.lowercase()?.removePrefix("www.") ?: ""
+        val nativeAppPackage = findNativeAppForDomain(domain)
+        if (nativeAppPackage != null) {
+            // Verify the native app is actually installed and can handle this intent
+            val isInstalled = resolveInfoList.any { it.activityInfo.packageName == nativeAppPackage }
+            if (isInstalled) {
+                targetPackage = nativeAppPackage
+                Log.d("SmartRouter", "Routing to verified native app: $targetPackage for domain: $domain")
             }
         }
 
-        // Priority 2: If no native app found, find a known browser (like Chrome)
+        // Priority 2: Find a known browser (prefer Chrome, then others)
         if (targetPackage == null) {
-            for (resolveInfo in resolveInfoList) {
-                val pkgName = resolveInfo.activityInfo.packageName
-                if (pkgName != myPackageName && isKnownBrowser(pkgName)) {
-                    targetPackage = pkgName
-                    break
+            // First try Chrome specifically
+            val chromeAvailable = resolveInfoList.any { it.activityInfo.packageName == "com.android.chrome" }
+            if (chromeAvailable) {
+                targetPackage = "com.android.chrome"
+            } else {
+                // Try other known browsers
+                for (resolveInfo in resolveInfoList) {
+                    val pkgName = resolveInfo.activityInfo.packageName
+                    if (pkgName != myPackageName && isKnownBrowser(pkgName)) {
+                        targetPackage = pkgName
+                        break
+                    }
                 }
             }
         }
@@ -100,27 +110,109 @@ object SmartRouter {
     }
 
     private fun fallbackToChooser(context: Context, intent: Intent) {
-        // Create an intent chooser but we can't easily exclude our app from a standard chooser
-        // easily on older Androids, so we just clear the package and fire.
         intent.setPackage(null)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val chooser = Intent.createChooser(intent, "Open with...")
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            chooser.putExtra(
+                Intent.EXTRA_EXCLUDE_COMPONENTS,
+                arrayOf(android.content.ComponentName(context, "com.safeqr.scanner.MainActivity"))
+            )
+        }
+        chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
-            context.startActivity(intent)
+            context.startActivity(chooser)
         } catch (e: Exception) {
             Log.e("SmartRouter", "Fallback chooser failed", e)
+            try {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            } catch (e2: Exception) {}
         }
+    }
+
+    /**
+     * Maps well-known domains to their native Android app package names.
+     * Only domains with a clear 1:1 relationship to a specific native app should be listed.
+     * This prevents generic URLs from being incorrectly routed to random non-browser apps.
+     */
+    private fun findNativeAppForDomain(domain: String): String? {
+        val domainToApp = mapOf(
+            // Social Media
+            "instagram.com" to "com.instagram.android",
+            "twitter.com" to "com.twitter.android",
+            "x.com" to "com.twitter.android",
+            "facebook.com" to "com.facebook.katana",
+            "fb.com" to "com.facebook.katana",
+            "linkedin.com" to "com.linkedin.android",
+            "tiktok.com" to "com.zhiliaoapp.musically",
+            "snapchat.com" to "com.snapchat.android",
+            "reddit.com" to "com.reddit.frontpage",
+            "pinterest.com" to "com.pinterest",
+            "tumblr.com" to "com.tumblr",
+            "threads.net" to "com.instagram.barcelona",
+            // Messaging
+            "wa.me" to "com.whatsapp",
+            "whatsapp.com" to "com.whatsapp",
+            "t.me" to "org.telegram.messenger",
+            "telegram.me" to "org.telegram.messenger",
+            "discord.com" to "com.discord",
+            "discord.gg" to "com.discord",
+            // Video / Streaming
+            "youtube.com" to "com.google.android.youtube",
+            "youtu.be" to "com.google.android.youtube",
+            "twitch.tv" to "tv.twitch.android.app",
+            "spotify.com" to "com.spotify.music",
+            "open.spotify.com" to "com.spotify.music",
+            "netflix.com" to "com.netflix.mediaclient",
+            // Shopping
+            "amazon.com" to "com.amazon.mShop.android.shopping",
+            "amazon.in" to "com.amazon.mShop.android.shopping",
+            "flipkart.com" to "com.flipkart.android",
+            // Maps / Navigation
+            "maps.google.com" to "com.google.android.apps.maps",
+            // Productivity
+            "docs.google.com" to "com.google.android.apps.docs",
+            "drive.google.com" to "com.google.android.apps.docs",
+            "github.com" to "com.github.android",
+            // Payments (India)
+            "phonepe.com" to "com.phonepe.app",
+            "paytm.com" to "net.one97.paytm",
+            "gpay.app.goo.gl" to "com.google.android.apps.nbu.paisa.user",
+        )
+        
+        // Check exact domain match
+        domainToApp[domain]?.let { return it }
+        
+        // Check if the domain is a subdomain of a known domain
+        // e.g. "m.youtube.com" should match "youtube.com"
+        for ((knownDomain, pkg) in domainToApp) {
+            if (domain.endsWith(".$knownDomain")) {
+                return pkg
+            }
+        }
+        
+        return null
     }
 
     private fun isKnownBrowser(packageName: String): Boolean {
         val browsers = listOf(
             "com.android.chrome",
             "org.mozilla.firefox",
+            "org.mozilla.firefox_beta",
             "com.opera.browser",
+            "com.opera.mini.native",
             "com.microsoft.emmx",
             "com.brave.browser",
             "com.duckduckgo.mobile.android",
             "com.sec.android.app.sbrowser", // Samsung Internet
-            "com.vivaldi.browser"
+            "com.vivaldi.browser",
+            "com.kiwibrowser.browser",
+            "com.UCMobile.intl",            // UC Browser
+            "com.mi.globalbrowser",         // Mi Browser
+            "com.coloros.browser",          // OPPO Browser
+            "com.heytap.browser",           // Realme Browser
+            "mark.via.gp",                  // Via Browser
+            "org.chromium.chrome",
         )
         return browsers.contains(packageName)
     }

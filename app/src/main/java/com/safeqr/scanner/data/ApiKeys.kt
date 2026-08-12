@@ -11,4 +11,6 @@ object ApiKeys {
     val WHOIS_XML = BuildConfig.WHOIS_XML_KEY
     val CLOUDFLARE = BuildConfig.CLOUDFLARE_KEY
     val GEMINI = BuildConfig.GEMINI_KEY
+    val QWEN_ENDPOINT = BuildConfig.QWEN_ENDPOINT_URL
+    val QWEN_API_KEY = BuildConfig.QWEN_API_KEY
 }

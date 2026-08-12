@@ -37,7 +37,7 @@ object CloudDatasetManager {
 
         try {
             val db = FirebaseFirestore.getInstance()
-            val doc = db.collection("app_config").document("datasets").get().await()
+            val doc = db.collection("app_config").document("datasets").get(com.google.firebase.firestore.Source.SERVER).await()
             if (doc.exists()) {
                 val json = gson.toJson(doc.data)
                 prefs.edit().putString("datasets_json", json).apply()
@@ -63,6 +63,7 @@ object CloudDatasetManager {
                 categorizerData = wrapper.websiteCategorizerData
                 heuristicData = wrapper.heuristicCheckerData
                 sandboxData = wrapper.sandboxBrowserData
+                com.safeqr.scanner.analysis.WebsiteCategorizer.invalidateCache()
                 Log.d(TAG, "Loaded cloud datasets from local cache.")
             } catch (e: Exception) {
                 Log.e(TAG, "Error parsing cached datasets", e)

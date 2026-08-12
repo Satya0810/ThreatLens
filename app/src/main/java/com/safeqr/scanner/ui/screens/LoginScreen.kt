@@ -42,6 +42,8 @@ import androidx.compose.ui.unit.sp
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.safeqr.scanner.R
 import com.safeqr.scanner.viewmodel.AuthState
 import com.safeqr.scanner.viewmodel.AuthViewModel
@@ -59,10 +61,8 @@ private val ErrorColor = Color(0xFFEF4444)
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel,
-    qrViewModel: QrViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     onLoginSuccess: () -> Unit
 ) {
-    val context = LocalContext.current
     val authState by viewModel.authState.collectAsState()
 
     var currentView by remember { mutableStateOf("login") }
@@ -71,9 +71,32 @@ fun LoginScreen(
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
-    var phone by remember { mutableStateOf("") }
-    var otpCode by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    
+    val isGmsAvailable = remember(context) {
+        GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS
+    }
+
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == android.app.Activity.RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                account?.idToken?.let { idToken ->
+                    viewModel.signInWithGoogle(idToken)
+                } ?: run {
+                    Toast.makeText(context, "Google sign in failed: Missing ID Token", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: ApiException) {
+                Log.e("LoginScreen", "Google sign in failed: ${e.statusCode}", e)
+                Toast.makeText(context, "Google sign in failed (Code: ${e.statusCode})", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     LaunchedEffect(authState) {
         if (authState is AuthState.LoginSuccess) {
@@ -88,6 +111,11 @@ fun LoginScreen(
                 age = ""
                 currentView = "login"
             }
+        } else if (authState is AuthState.NewGoogleUserSetup) {
+            email = (authState as AuthState.NewGoogleUserSetup).email
+            userId = ""
+            password = ""
+            currentView = "google_setup"
         }
     }
 
@@ -126,8 +154,9 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             // Error Banner
-            AnimatedVisibility(visible = authState is AuthState.Error) {
-                val errorMsg = (authState as? AuthState.Error)?.message ?: ""
+            AnimatedVisibility(visible = authState is AuthState.Error || authState is AuthState.NewGoogleUserSetupError) {
+                val errorMsg = (authState as? AuthState.Error)?.message 
+                    ?: (authState as? AuthState.NewGoogleUserSetupError)?.message ?: ""
                 Card(
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                     colors = CardDefaults.cardColors(containerColor = ErrorColor.copy(alpha = 0.1f)),
@@ -266,11 +295,28 @@ fun LoginScreen(
                             }
 
                             if (view != "verify_google_otp") {
+                                if (view == "google_setup") {
+                                    Text(
+                                        text = "Welcome! Since this is your first time using Google, please choose a unique User ID and set a backup password.",
+                                        color = TextSecondary,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier.padding(bottom = 16.dp, start = 4.dp, end = 4.dp)
+                                    )
+                                }
                             // User ID Field (used in all views)
                             OutlinedTextField(
                                 value = userId,
                                 onValueChange = { userId = it.lowercase().replace(" ", "") },
-                                label = { Text(if (view == "forgot") "Enter your User ID" else "Unique User ID") },
+                                label = { 
+                                    Text(
+                                        when (view) {
+                                            "login" -> "User ID or Email"
+                                            "forgot" -> "Enter your User ID or Email"
+                                            "google_setup" -> "Choose your User ID"
+                                            else -> "Choose a Unique User ID"
+                                        }
+                                    ) 
+                                },
                                 leadingIcon = { Icon(Icons.Rounded.Person, contentDescription = null, tint = PrimaryAccent) },
                                 modifier = Modifier.fillMaxWidth(),
                                 colors = OutlinedTextFieldDefaults.colors(
@@ -340,6 +386,7 @@ fun LoginScreen(
                                         "login" -> viewModel.login(userId, password)
                                         "register" -> viewModel.register(name, age, userId, email, password)
                                         "forgot" -> viewModel.startForgotPassword(userId)
+                                        "google_setup" -> viewModel.completeGoogleSetup(userId, password)
                                     }
                                 },
                                 modifier = Modifier
@@ -357,14 +404,40 @@ fun LoginScreen(
                                     val btnText = when (view) {
                                         "login" -> "LOGIN"
                                         "register" -> "CREATE ACCOUNT"
+                                        "google_setup" -> "COMPLETE SETUP"
                                         else -> "SEND RESET LINK"
                                     }
                                     Text(btnText, color = DarkBackground, fontWeight = FontWeight.Bold)
                                 }
                             }
 
-                            if (view != "forgot") {
+                            if (view == "login") {
                                 Spacer(modifier = Modifier.height(14.dp))
+                                
+                                if (isGmsAvailable) {
+                                    Button(
+                                        onClick = {
+                                            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                                .requestIdToken(context.getString(com.safeqr.scanner.R.string.default_web_client_id))
+                                                .requestEmail()
+                                                .build()
+                                            val googleSignInClient = GoogleSignIn.getClient(context, gso)
+                                            googleSignInClient.signOut().addOnCompleteListener {
+                                                googleSignInLauncher.launch(googleSignInClient.signInIntent)
+                                            }
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(52.dp)
+                                            .clip(RoundedCornerShape(12.dp)),
+                                        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                                        enabled = authState !is AuthState.Loading
+                                    ) {
+                                        Text("CONTINUE WITH GOOGLE", color = Color.Black, fontWeight = FontWeight.Bold)
+                                    }
+                                    Spacer(modifier = Modifier.height(14.dp))
+                                }
+
                                 Button(
                                     onClick = { viewModel.loginAsGuest() },
                                     modifier = Modifier

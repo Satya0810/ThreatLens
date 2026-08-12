@@ -1,13 +1,23 @@
 package com.safeqr.scanner.viewmodel
 
 import android.app.Application
+import android.content.ContentValues
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.safeqr.scanner.data.local.ScanDatabase
 import com.safeqr.scanner.data.model.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
 class EventViewModel(application: Application) : AndroidViewModel(application) {
@@ -16,12 +26,81 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
     private val _scanResult = MutableStateFlow<EventScanResult?>(null)
     val scanResult: StateFlow<EventScanResult?> = _scanResult
 
-    fun generateTicket(eventId: String, maxAllowedScans: Int, userId: String? = null, activeFrom: Long? = null, activeUntil: Long? = null): String {
+    // ── Reactive Events ─────────────────────────────────────────────────
+    val events: StateFlow<List<EventEntity>> = eventDao.getAllEventsFlow()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    fun createEvent(
+        name: String,
+        description: String = "",
+        venue: String = "",
+        startTime: Long? = null,
+        endTime: Long? = null,
+        capacity: Int = 0,
+        bannerColor: Long = EventBannerColors.BLUE,
+        createdByUserId: String = ""
+    ): String {
+        val eventId = "EVT-" + UUID.randomUUID().toString().substring(0, 8).uppercase()
+        viewModelScope.launch {
+            eventDao.insertEvent(
+                EventEntity(
+                    eventId = eventId,
+                    name = name,
+                    description = description,
+                    venue = venue,
+                    startTime = startTime,
+                    endTime = endTime,
+                    capacity = capacity,
+                    bannerColor = bannerColor,
+                    createdByUserId = createdByUserId
+                )
+            )
+        }
+        return eventId
+    }
+
+    fun updateEvent(event: EventEntity) {
+        viewModelScope.launch { eventDao.updateEvent(event) }
+    }
+
+    fun deleteEvent(eventId: String) {
+        viewModelScope.launch {
+            eventDao.deleteTicketsForEvent(eventId)
+            eventDao.deleteEvent(eventId)
+        }
+    }
+
+    fun toggleEventActive(eventId: String) {
+        viewModelScope.launch {
+            val event = eventDao.getEventById(eventId)
+            if (event != null) {
+                eventDao.updateEvent(event.copy(isActive = !event.isActive))
+            }
+        }
+    }
+
+    // ── Reactive Tickets & Logs ─────────────────────────────────────────
+    fun getTicketsFlow(eventId: String): Flow<List<TicketEntity>> = eventDao.getTicketsForEventFlow(eventId)
+
+    fun getLogsFlow(eventId: String): Flow<List<AttendanceLogEntity>> = eventDao.getLogsForEventFlow(eventId)
+
+    // ── Ticket Generation ───────────────────────────────────────────────
+    fun generateTicket(
+        eventId: String,
+        maxAllowedScans: Int,
+        userId: String? = null,
+        attendeeName: String = "",
+        ticketTier: String = "General",
+        activeFrom: Long? = null,
+        activeUntil: Long? = null
+    ): String {
         val ticketId = "TKT-" + UUID.randomUUID().toString().substring(0, 8).uppercase()
         val newTicket = TicketEntity(
             ticketId = ticketId,
             eventId = eventId,
             userId = userId,
+            attendeeName = attendeeName,
+            ticketTier = ticketTier,
             maxAllowedScans = maxAllowedScans,
             activeFrom = activeFrom,
             activeUntil = activeUntil
@@ -32,6 +111,32 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         return ticketId
     }
 
+    fun generateBulkTickets(
+        eventId: String,
+        tier: String = "General",
+        count: Int,
+        maxAllowedScans: Int = 1
+    ): List<String> {
+        val ticketIds = mutableListOf<String>()
+        for (i in 1..count) {
+            val ticketId = "TKT-" + UUID.randomUUID().toString().substring(0, 8).uppercase()
+            ticketIds.add(ticketId)
+            val ticket = TicketEntity(
+                ticketId = ticketId,
+                eventId = eventId,
+                userId = null,
+                attendeeName = "Attendee #$i",
+                ticketTier = tier,
+                maxAllowedScans = maxAllowedScans
+            )
+            viewModelScope.launch {
+                eventDao.insertTicket(ticket)
+            }
+        }
+        return ticketIds
+    }
+
+    // ── Scan Processing ─────────────────────────────────────────────────
     fun processScan(ticketId: String, currentScannerUserId: String, isEntryMode: Boolean) {
         viewModelScope.launch {
             val ticket = eventDao.getTicketById(ticketId)
@@ -65,18 +170,15 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
                     return@launch
                 }
 
-                // Process Entry
                 val updatedTicket = ticket.copy(
                     currentStatus = TicketStatus.CHECKED_IN,
                     currentScanCount = ticket.currentScanCount + 1
                 )
                 eventDao.updateTicket(updatedTicket)
-                
                 logAttendance(ticketId, ticket.eventId, ActionType.ENTRY, currentScannerUserId)
                 _scanResult.value = EventScanResult.Success("Entry Approved", updatedTicket)
 
             } else {
-                // Exit Mode
                 if (ticket.currentStatus == TicketStatus.PENDING) {
                     _scanResult.value = EventScanResult.Error("Guest has not checked in yet. Cannot checkout.")
                     return@launch
@@ -86,12 +188,8 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
                     return@launch
                 }
 
-                // Process Exit
-                val updatedTicket = ticket.copy(
-                    currentStatus = TicketStatus.CHECKED_OUT
-                )
+                val updatedTicket = ticket.copy(currentStatus = TicketStatus.CHECKED_OUT)
                 eventDao.updateTicket(updatedTicket)
-
                 logAttendance(ticketId, ticket.eventId, ActionType.EXIT, currentScannerUserId)
                 _scanResult.value = EventScanResult.Success("Exit Logged Successfully", updatedTicket)
             }
@@ -109,14 +207,10 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
         eventDao.insertAttendanceLog(log)
     }
 
-    fun resetScanResult() {
-        _scanResult.value = null
-    }
+    fun resetScanResult() { _scanResult.value = null }
 
     fun deleteTicket(ticketId: String) {
-        viewModelScope.launch {
-            eventDao.deleteTicket(ticketId)
-        }
+        viewModelScope.launch { eventDao.deleteTicket(ticketId) }
     }
 
     fun updateTicketDates(ticketId: String, newActiveFrom: Long?, newActiveUntil: Long?) {
@@ -139,57 +233,69 @@ class EventViewModel(application: Application) : AndroidViewModel(application) {
 
     fun grantRole(eventId: String, targetUserId: String, role: EventRole) {
         viewModelScope.launch {
-            val newRole = EventRoleEntity(
-                eventId = eventId,
-                userId = targetUserId,
-                role = role
-            )
-            eventDao.insertEventRole(newRole)
+            eventDao.insertEventRole(EventRoleEntity(eventId = eventId, userId = targetUserId, role = role))
         }
     }
 
-    suspend fun getLogsForEvent(eventId: String): List<AttendanceLogEntity> {
-        return eventDao.getLogsForEvent(eventId)
-    }
+    suspend fun getLogsForEvent(eventId: String): List<AttendanceLogEntity> = eventDao.getLogsForEvent(eventId)
 
-    suspend fun getTicketsForEvent(eventId: String): List<TicketEntity> {
-        return eventDao.getTicketsForEvent(eventId)
+    suspend fun getTicketsForEvent(eventId: String): List<TicketEntity> = eventDao.getTicketsForEvent(eventId)
+
+    // ── CSV Export ───────────────────────────────────────────────────────
+    fun exportAttendanceCsv(eventId: String, eventName: String) {
+        viewModelScope.launch {
+            try {
+                val logs = eventDao.getLogsForEvent(eventId)
+                val tickets = eventDao.getTicketsForEvent(eventId)
+                val ticketMap = tickets.associateBy { it.ticketId }
+                val fmt = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
+
+                val sb = StringBuilder()
+                sb.appendLine("Ticket ID,Attendee Name,Tier,Action,Scanner,Timestamp")
+                for (log in logs) {
+                    val tk = ticketMap[log.ticketId]
+                    sb.appendLine("${log.ticketId},${tk?.attendeeName ?: "Unknown"},${tk?.ticketTier ?: "-"},${log.actionType},${log.scannedByUserId},${fmt.format(java.util.Date(log.timestamp))}")
+                }
+
+                val context = getApplication<Application>()
+                val fileName = "Attendance_${eventName.replace(" ", "_")}_${System.currentTimeMillis()}.csv"
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val contentValues = ContentValues().apply {
+                        put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                        put(MediaStore.MediaColumns.MIME_TYPE, "text/csv")
+                        put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                    }
+                    val uri = context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+                    uri?.let { context.contentResolver.openOutputStream(it)?.use { out -> out.write(sb.toString().toByteArray()) } }
+                } else {
+                    val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    java.io.FileOutputStream(java.io.File(downloadsDir, fileName)).use { it.write(sb.toString().toByteArray()) }
+                }
+                withContext(Dispatchers.Main) { Toast.makeText(context, "CSV exported to Downloads", Toast.LENGTH_SHORT).show() }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { Toast.makeText(getApplication(), "Export failed: ${e.message}", Toast.LENGTH_SHORT).show() }
+            }
+        }
     }
 
     // ── Cloud Event Ticketing (Zero-Knowledge & Gatekeeper) ─────────────
-    
     fun processCloudScan(ticketId: String, gatekeeperId: String, signature: String, isEntryMode: Boolean) {
         viewModelScope.launch {
             try {
-                val validTicket = com.safeqr.scanner.data.remote.CloudSyncManager.validateTicket(
-                    ticketId, gatekeeperId, signature, isEntryMode
-                )
-                
+                val validTicket = com.safeqr.scanner.data.remote.CloudSyncManager.validateTicket(ticketId, gatekeeperId, signature, isEntryMode)
                 if (validTicket == null) {
                     _scanResult.value = EventScanResult.Error("Ticket not found or invalid signature.")
                     return@launch
                 }
-
                 val modeString = if (isEntryMode) "Entry" else "Exit"
                 _scanResult.value = EventScanResult.CloudSuccess("Valid Cloud $modeString", validTicket)
-                
             } catch (e: com.safeqr.scanner.data.remote.CloudSyncManager.NetworkException) {
-                // Offline Fallback
                 val isValidOffline = com.safeqr.scanner.data.remote.CloudSyncManager.verifyTotpSignature(ticketId, signature)
                 if (isValidOffline) {
-                    // Log offline scan
-                    val modeAction = if (isEntryMode) com.safeqr.scanner.data.model.ActionType.ENTRY else com.safeqr.scanner.data.model.ActionType.EXIT
+                    val modeAction = if (isEntryMode) ActionType.ENTRY else ActionType.EXIT
                     logAttendance(ticketId, "offline-cloud-event", modeAction, gatekeeperId)
-                    
-                    // Create a simulated cloud ticket for UI
-                    val offlineTicket = com.safeqr.scanner.data.model.CloudEventTicket(
-                        ticketId = ticketId,
-                        eventId = "offline-cloud-event",
-                        attendeeName = "Offline Scan",
-                        attendeeId = null,
-                        signatureHash = signature,
-                        isScanned = isEntryMode
-                    )
+                    val offlineTicket = CloudEventTicket(ticketId = ticketId, eventId = "offline-cloud-event", attendeeName = "Offline Scan", attendeeId = null, signatureHash = signature, isScanned = isEntryMode)
                     _scanResult.value = EventScanResult.CloudSuccess("Offline Verified", offlineTicket)
                 } else {
                     _scanResult.value = EventScanResult.Error("Offline Check Failed: Invalid Signature")

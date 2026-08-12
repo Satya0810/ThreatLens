@@ -8,6 +8,7 @@ import com.safeqr.scanner.data.model.ScanResult
 import com.safeqr.scanner.security.CertificateEngine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 import com.safeqr.scanner.data.local.ReportDao
 
@@ -28,47 +29,107 @@ class ScanRepository(
      * @return The completed [ScanResult] after analysis and storage.
      */
     suspend fun analyzeScan(rawContent: String, webshrinkerApiKey: String = ""): ScanResult {
-        // ── Fast path: ThreatLens-certified QR ─────────────────────────────────
-        // If the QR data starts with our cert scheme, verify the embedded
-        // cryptographic certificate instead of running the full API pipeline.
+        // ── Fast path: Password-locked QR ─────────────────────────────────────
+        // If the QR is encrypted, return immediately with isLocked = true.
+        // The UI will handle the password prompt and re-analyze after decryption.
+        if (com.safeqr.scanner.security.QrEncryptionEngine.isLockedQr(rawContent)) {
+            val result = ScanResult(
+                rawContent = rawContent,
+                isUrl = false,
+                safetyStatus = SafetyStatus.SAFE,
+                overallScore = 100f,
+                isLocked = true,
+                siteCategory = "🔒 Password-Protected QR"
+            )
+            val entity = ScanEntity.fromScanResult(result)
+            scanDao.insert(entity)
+            return result
+        }
+
+        // ── Cert + Live Hybrid: ThreatLens-certified QR ───────────────────────
+        // Verify the certificate, then ALSO run the full analysis pipeline on
+        // the inner content so UPI/WiFi analyzers are triggered and stale cert
+        // scores are detected.
         if (CertificateEngine.isCertifiedQr(rawContent)) {
             val verifyResult = CertificateEngine.verify(rawContent)
             val payload = verifyResult.payload
-            val safetyStatus = when {
-                !verifyResult.isValid -> SafetyStatus.UNKNOWN
-                payload?.status == "SAFE" -> SafetyStatus.SAFE
-                payload?.status == "CAUTION" -> SafetyStatus.CAUTION
-                payload?.status == "MALICIOUS" -> SafetyStatus.MALICIOUS
-                else -> SafetyStatus.UNKNOWN
-            }
-            val content = payload?.content ?: ""
-            val lowercaseContent = content.lowercase()
-            val isInteractive = content.startsWith("http://") ||
-                    content.startsWith("https://") ||
-                    lowercaseContent.startsWith("mailto:") ||
-                    lowercaseContent.startsWith("tel:") ||
-                    lowercaseContent.startsWith("sms:") ||
-                    lowercaseContent.startsWith("smsto:") ||
-                    lowercaseContent.startsWith("geo:") ||
-                    lowercaseContent.startsWith("upi:") ||
-                    lowercaseContent.startsWith("bitcoin:") ||
-                    lowercaseContent.startsWith("ethereum:") ||
-                    lowercaseContent.startsWith("solana:")
+            val innerContent = payload?.content ?: ""
 
+            if (verifyResult.isTampered) {
+                // Tampered cert — return MALICIOUS immediately
+                val result = ScanResult(
+                    rawContent = rawContent,
+                    isUrl = false,
+                    originalUrl = innerContent,
+                    expandedUrl = innerContent,
+                    safetyStatus = SafetyStatus.MALICIOUS,
+                    overallScore = 0f,
+                    certVerifyResult = verifyResult,
+                    threatDetails = listOf("🚫 Certificate signature invalid — this QR was modified after certification. Do not trust."),
+                    siteCategory = "⚠️ Tampered Certificate"
+                )
+                val entity = ScanEntity.fromScanResult(result)
+                scanDao.insert(entity)
+                return result
+            }
+
+            if (innerContent.isNotBlank()) {
+                // Run the FULL analysis pipeline on the inner content
+                val liveResult = threatAnalyzer.analyze(
+                    rawContent = innerContent,
+                    webshrinkerApiKey = webshrinkerApiKey
+                )
+
+                // Merge cert metadata into the live result
+                val certStatus = when {
+                    payload?.status == "SAFE" -> SafetyStatus.SAFE
+                    payload?.status == "CAUTION" -> SafetyStatus.CAUTION
+                    payload?.status == "MALICIOUS" -> SafetyStatus.MALICIOUS
+                    else -> SafetyStatus.UNKNOWN
+                }
+
+                // Detect stale cert: if live analysis found issues the cert didn't
+                val liveDisagrees = (certStatus == SafetyStatus.SAFE &&
+                    liveResult.safetyStatus != SafetyStatus.SAFE)
+                val staleThreatDetails = if (liveDisagrees) {
+                    listOf("⏰ Stale certificate: was marked ${certStatus.name} at certification, but live analysis now shows ${liveResult.safetyStatus.name}")
+                } else emptyList()
+
+                // Use the MORE CONSERVATIVE status between cert and live
+                val finalStatus = when {
+                    liveResult.safetyStatus == SafetyStatus.MALICIOUS -> SafetyStatus.MALICIOUS
+                    liveResult.safetyStatus == SafetyStatus.CAUTION -> SafetyStatus.CAUTION
+                    certStatus == SafetyStatus.MALICIOUS -> SafetyStatus.MALICIOUS
+                    certStatus == SafetyStatus.CAUTION -> SafetyStatus.CAUTION
+                    else -> SafetyStatus.SAFE
+                }
+
+                val finalScore = if (liveDisagrees) {
+                    // Use the lower score
+                    minOf(liveResult.overallScore, payload?.score?.toFloat() ?: 100f)
+                } else {
+                    liveResult.overallScore
+                }
+
+                val result = liveResult.copy(
+                    rawContent = rawContent,
+                    safetyStatus = finalStatus,
+                    overallScore = finalScore,
+                    certVerifyResult = verifyResult,
+                    threatDetails = liveResult.threatDetails + staleThreatDetails
+                )
+                val entity = ScanEntity.fromScanResult(result)
+                scanDao.insert(entity)
+                return result
+            }
+
+            // Cert valid but empty payload — fallback
             val result = ScanResult(
                 rawContent = rawContent,
-                isUrl = isInteractive,
-                originalUrl = payload?.content,
-                expandedUrl = payload?.content,
-                domain = payload?.content?.let { runCatching {
-                    java.net.URI(it).host
-                }.getOrNull() },
-                safetyStatus = safetyStatus,
-                overallScore = payload?.score?.toFloat() ?: 0f,
-                certVerifyResult = verifyResult,
-                threatDetails = if (verifyResult.isTampered)
-                    listOf("⚠️ Certificate signature invalid — this QR may have been tampered with")
-                else emptyList()
+                isUrl = false,
+                safetyStatus = SafetyStatus.SAFE,
+                overallScore = payload?.score?.toFloat() ?: 100f,
+                certVerifyResult = verifyResult
             )
             val entity = ScanEntity.fromScanResult(result)
             scanDao.insert(entity)
@@ -101,16 +162,8 @@ class ScanRepository(
         // NOTE: Only pass local user reports here. Cloud community reports are fetched
         // internally by ThreatAnalyzer.analyzeInternal() to avoid double-counting penalties.
 
-        // ── Check Global Cloud Cache ─────────────────────────────────────────
-        val cachedGlobalScan = com.safeqr.scanner.data.remote.CloudSyncManager.getGlobalCachedScan(rawContent)
-        if (cachedGlobalScan != null) {
-            // DYNAMICALLY update the cached scan with the latest community reports
-            val updatedCachedScan = ThreatAnalyzer.applyDynamicCommunityReports(cachedGlobalScan, communityReasons, visitCount)
-            val personalizedResult = applyPersonalTraining(updatedCachedScan)
-            val entity = ScanEntity.fromScanResult(personalizedResult)
-            scanDao.insert(entity)
-            return personalizedResult
-        }
+        // CACHE BYPASS REMOVED: We no longer return the global cloud cache here.
+        // This ensures that every scan evaluates the latest CloudDatasetManager global overrides and runs the AI.
 
         var userSafeVisits = 0
         var userReportedDomain = false
@@ -133,7 +186,10 @@ class ScanRepository(
         }
 
         // Save the NEUTRAL result to the Global Cloud Cache for other users
-        com.safeqr.scanner.data.remote.CloudSyncManager.cacheGlobalScan(result)
+        // [PRIVACY UPDATE] Telemetry removed for UPI and WiFi scans
+        if (result.upiAnalysis == null && result.wifiAnalysis == null) {
+            com.safeqr.scanner.data.remote.CloudSyncManager.cacheGlobalScan(result)
+        }
         
         // NOW apply personal training for the current user
         val personalizedResult = applyPersonalTraining(result)
@@ -158,6 +214,15 @@ class ScanRepository(
      * Clears the entire scan history from local storage.
      */
     suspend fun clearHistory() {
+        // Delete all currently saved scans from the global cloud cache first
+        val allEntities = scanDao.getAllScansSync()
+        @OptIn(kotlinx.coroutines.DelicateCoroutinesApi::class)
+        kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            allEntities.forEach { entity ->
+                com.safeqr.scanner.data.remote.CloudSyncManager.deleteGlobalScan(entity.rawContent)
+            }
+        }
+        
         scanDao.clearAll()
     }
 
@@ -166,6 +231,19 @@ class ScanRepository(
      */
     suspend fun deleteScan(rawContent: String) {
         scanDao.deleteByContent(rawContent)
+        @OptIn(kotlinx.coroutines.DelicateCoroutinesApi::class)
+        kotlinx.coroutines.GlobalScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            com.safeqr.scanner.data.remote.CloudSyncManager.deleteGlobalScan(rawContent)
+        }
+    }
+
+    suspend fun updateFavorite(rawContent: String, isFavorite: Boolean) {
+        scanDao.updateFavorite(rawContent, isFavorite)
+    }
+
+    suspend fun updateTags(rawContent: String, tags: List<String>) {
+        val json = com.google.gson.Gson().toJson(tags)
+        scanDao.updateTags(rawContent, json)
     }
 
     /**
@@ -211,11 +289,23 @@ class ScanRepository(
         // Keep safety status based on AI categorization (ThreatAnalyzer)
         val newSafetyStatus = result.safetyStatus
 
+        // Preserve history enrichment fields from previous scans
+        var isFavorite = false
+        var tags = emptyList<String>()
+        val existingScan = scanDao.findByContent(result.rawContent)
+        if (existingScan != null) {
+            val existingResult = existingScan.toScanResult()
+            isFavorite = existingResult.isFavorite
+            tags = existingResult.tags
+        }
+
         return result.copy(
             overallScore = overallScore,
             threatDetails = threatDetails,
             positiveDetails = positiveDetails,
-            safetyStatus = newSafetyStatus
+            safetyStatus = newSafetyStatus,
+            isFavorite = isFavorite,
+            tags = tags
         )
     }
 

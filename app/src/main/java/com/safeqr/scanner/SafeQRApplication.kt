@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.safeqr.scanner.data.remote.DataSeeder
 import com.safeqr.scanner.service.WeeklyDigestWorker
 import java.util.concurrent.TimeUnit
 
@@ -16,6 +17,8 @@ class SafeQRApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        DataSeeder.seedDatabaseIfEmpty()
 
         try {
             net.sqlcipher.database.SQLiteDatabase.loadLibs(this)

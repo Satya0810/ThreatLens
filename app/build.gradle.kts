@@ -37,10 +37,22 @@ android {
         buildConfigField("String", "WHOIS_XML_KEY", "\"${localProperties.getProperty("WHOIS_XML_KEY", "")}\"")
         buildConfigField("String", "CLOUDFLARE_KEY", "\"${localProperties.getProperty("CLOUDFLARE_KEY", "")}\"")
         buildConfigField("String", "GEMINI_KEY", "\"${localProperties.getProperty("GEMINI_KEY", "")}\"")
+        buildConfigField("String", "QWEN_ENDPOINT_URL", "\"${localProperties.getProperty("QWEN_ENDPOINT_URL", "")}\"")
+        buildConfigField("String", "QWEN_API_KEY", "\"${localProperties.getProperty("QWEN_API_KEY", "")}\"")
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("release.keystore")
+            storePassword = "123456"
+            keyAlias = "threatlens"
+            keyPassword = "123456"
+        }
     }
 
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

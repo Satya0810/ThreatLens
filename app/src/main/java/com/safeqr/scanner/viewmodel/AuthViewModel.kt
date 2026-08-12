@@ -27,12 +27,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 return@launch
             }
 
-            val errorMessage = CloudSyncManager.loginUser(cleanUserId, pass)
+            val (errorMessage, actualUserId) = CloudSyncManager.loginUser(cleanUserId, pass)
             
-            if (errorMessage == null) {
-                completeLogin(cleanUserId)
+            if (errorMessage == null && actualUserId != null) {
+                completeLogin(actualUserId)
             } else {
-                _authState.value = AuthState.Error(errorMessage)
+                _authState.value = AuthState.Error(errorMessage ?: "Unknown login error.")
             }
         }
     }
@@ -125,7 +125,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             val safeId = userId.trim()
             
             if (safeId.isBlank()) {
-                _authState.value = AuthState.Error("Please enter your User ID.")
+                _authState.value = AuthState.Error("Please enter your User ID or Email.")
                 return@launch
             }
             
@@ -145,6 +145,35 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             // Use a specific ID for guest
             val guestId = "guest_user"
             completeLogin(guestId)
+        }
+    }
+
+    fun signInWithGoogle(idToken: String) {
+        viewModelScope.launch {
+            _authState.value = AuthState.Loading
+            when (val result = CloudSyncManager.signInWithGoogle(idToken)) {
+                is com.safeqr.scanner.data.remote.GoogleSignInResult.SuccessExistingUser -> {
+                    completeLogin(result.userId)
+                }
+                is com.safeqr.scanner.data.remote.GoogleSignInResult.SuccessNewUser -> {
+                    _authState.value = AuthState.NewGoogleUserSetup(result.firebaseUser.email ?: "")
+                }
+                is com.safeqr.scanner.data.remote.GoogleSignInResult.Error -> {
+                    _authState.value = AuthState.Error(result.message)
+                }
+            }
+        }
+    }
+
+    fun completeGoogleSetup(userId: String, pass: String) {
+        viewModelScope.launch {
+            _authState.value = AuthState.Loading
+            val errorMessage = CloudSyncManager.completeGoogleRegistration(userId, pass)
+            if (errorMessage == null) {
+                completeLogin(userId)
+            } else {
+                _authState.value = AuthState.NewGoogleUserSetupError(errorMessage)
+            }
         }
     }
 
@@ -180,6 +209,8 @@ sealed class AuthState {
     object Loading : AuthState()
     object RegistrationSuccess : AuthState()
     object PasswordResetEmailSent : AuthState()
+    data class NewGoogleUserSetup(val email: String) : AuthState()
+    data class NewGoogleUserSetupError(val message: String) : AuthState()
     data class LoginSuccess(val userId: String) : AuthState()
     data class Error(val message: String) : AuthState()
 }

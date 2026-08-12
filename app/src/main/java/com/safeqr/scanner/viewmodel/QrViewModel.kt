@@ -250,7 +250,7 @@ class QrViewModel(application: Application) : AndroidViewModel(application) {
 
     fun verifyPasswordAndDelete(userId: String, pass: String, onResult: (Boolean, String?) -> Unit) {
         viewModelScope.launch {
-            val error = com.safeqr.scanner.data.remote.CloudSyncManager.loginUser(userId, pass)
+            val (error, _) = com.safeqr.scanner.data.remote.CloudSyncManager.loginUser(userId, pass)
             if (error == null) {
                 deleteAccount(userId) { success ->
                     if (success) {
@@ -259,6 +259,17 @@ class QrViewModel(application: Application) : AndroidViewModel(application) {
                         onResult(false, "Failed to delete from cloud")
                     }
                 }
+            } else {
+                onResult(false, error)
+            }
+        }
+    }
+
+    fun verifyPassword(userId: String, pass: String, onResult: (Boolean, String?) -> Unit) {
+        viewModelScope.launch {
+            val (error, _) = com.safeqr.scanner.data.remote.CloudSyncManager.loginUser(userId, pass)
+            if (error == null) {
+                onResult(true, null)
             } else {
                 onResult(false, error)
             }

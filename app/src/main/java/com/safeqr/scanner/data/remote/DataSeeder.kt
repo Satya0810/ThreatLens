@@ -43,10 +43,7 @@ object DataSeeder {
                     val categorizerData = WebsiteCategorizerData(
                         KNOWN_DOMAINS = WebsiteCategorizerDefaults.KNOWN_DOMAINS.mapValues { it.value.name },
                         TLD_CATEGORY_MAP = WebsiteCategorizerDefaults.TLD_CATEGORY_MAP.mapValues { it.value.name },
-                        OG_TYPE_MAP = WebsiteCategorizerDefaults.OG_TYPE_MAP.mapValues { it.value.name },
-                        KEYWORD_SIGNALS = com.safeqr.scanner.analysis.WebsiteCategorizer.KEYWORD_SIGNALS.map { signal ->
-                            KeywordSignalData(signal.category.name, signal.keywords, signal.threshold)
-                        }
+                        OG_TYPE_MAP = WebsiteCategorizerDefaults.OG_TYPE_MAP.mapValues { it.value.name }
                     )
 
                     val heuristicData = HeuristicCheckerData(
@@ -110,10 +107,7 @@ object DataSeeder {
             val categorizerData = WebsiteCategorizerData(
                 KNOWN_DOMAINS = WebsiteCategorizerDefaults.KNOWN_DOMAINS.mapValues { it.value.name },
                 TLD_CATEGORY_MAP = WebsiteCategorizerDefaults.TLD_CATEGORY_MAP.mapValues { it.value.name },
-                OG_TYPE_MAP = WebsiteCategorizerDefaults.OG_TYPE_MAP.mapValues { it.value.name },
-                KEYWORD_SIGNALS = com.safeqr.scanner.analysis.WebsiteCategorizer.KEYWORD_SIGNALS.map { signal ->
-                    KeywordSignalData(signal.category.name, signal.keywords, signal.threshold)
-                }
+                OG_TYPE_MAP = WebsiteCategorizerDefaults.OG_TYPE_MAP.mapValues { it.value.name }
             )
 
             val heuristicData = HeuristicCheckerData(

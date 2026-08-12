@@ -2,11 +2,21 @@ package com.safeqr.scanner.data.remote
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.gson.Gson
 import com.safeqr.scanner.data.model.ScanResult
 import kotlinx.coroutines.tasks.await
+
+sealed class GoogleSignInResult {
+    data class SuccessExistingUser(val userId: String) : GoogleSignInResult()
+    data class SuccessNewUser(val firebaseUser: FirebaseUser) : GoogleSignInResult()
+    data class Error(val message: String) : GoogleSignInResult()
+}
+
+
+
 
 object CloudSyncManager {
 
@@ -71,35 +81,52 @@ object CloudSyncManager {
      * Verifies a user's login against Firebase Authentication.
      * Returns null on success, or an error message string on failure.
      */
-    suspend fun loginUser(userId: String, pass: String): String? {
+    suspend fun loginUser(userIdOrEmail: String, pass: String): Pair<String?, String?> {
         return try {
-            // Lookup email by userId
-            val doc = db.collection("users").document(sanitizeUserId(userId)).get().await()
-            if (!doc.exists()) {
-                return "User ID not found! Please register first."
-            }
+            val cleanInput = userIdOrEmail.trim()
+            var actualEmail: String? = null
+            var actualUserId: String? = null
             
-            val email = doc.getString("email")
-            if (email.isNullOrEmpty()) {
-                return "This account does not have an email address linked."
+            if (cleanInput.contains("@")) {
+                // Input is an email
+                actualEmail = cleanInput
+                val query = db.collection("users").whereEqualTo("email", cleanInput).get().await()
+                if (!query.isEmpty) {
+                    val doc = query.documents.first()
+                    actualUserId = doc.getString("userId") ?: doc.id
+                }
+                if (actualUserId == null) {
+                    return Pair("Email not found! Please register first.", null)
+                }
+            } else {
+                // Input is a User ID
+                actualUserId = cleanInput
+                val doc = db.collection("users").document(sanitizeUserId(cleanInput)).get().await()
+                if (!doc.exists()) {
+                    return Pair("User ID not found! Please register first.", null)
+                }
+                actualEmail = doc.getString("email")
+                if (actualEmail.isNullOrEmpty()) {
+                    return Pair("This account does not have an email address linked.", null)
+                }
             }
 
-            val authResult = auth.signInWithEmailAndPassword(email, pass).await()
+            val authResult = auth.signInWithEmailAndPassword(actualEmail, pass).await()
             if (authResult.user != null) {
                 if (authResult.user?.isEmailVerified == false) {
-                    return "Please verify your email address before logging in. Check your inbox!"
+                    return Pair("Please verify your email address before logging in. Check your inbox!", null)
                 }
-                null
+                Pair(null, actualUserId)
             } else {
-                "Unknown login error."
+                Pair("Unknown login error.", null)
             }
         } catch (e: com.google.firebase.auth.FirebaseAuthInvalidUserException) {
-            "User ID not found! Please register first."
+            Pair("Account not found! Please register first.", null)
         } catch (e: com.google.firebase.auth.FirebaseAuthInvalidCredentialsException) {
-            "Incorrect password! Please try again or use Forgot Password."
+            Pair("Incorrect password! Please try again or use Forgot Password.", null)
         } catch (e: Exception) {
-            Log.e("CloudSync", "Failed to login user: ${e.message}")
-            "Incorrect password or User ID."
+            Log.e("CloudSync", "Failed to login user: \${e.message}")
+            Pair("Incorrect password or User ID/Email.", null)
         }
     }
 
@@ -107,17 +134,29 @@ object CloudSyncManager {
      * Retrieves the user's phone number from Firestore for OTP verification.
      */
     
-    suspend fun sendPasswordResetEmail(userId: String): String? {
+    suspend fun sendPasswordResetEmail(userIdOrEmail: String): String? {
         return try {
-            val doc = db.collection("users").document(sanitizeUserId(userId)).get().await()
-            if (!doc.exists()) {
-                return "User ID not found!"
+            val cleanInput = userIdOrEmail.trim()
+            var actualEmail: String? = null
+            
+            if (cleanInput.contains("@")) {
+                actualEmail = cleanInput
+                val query = db.collection("users").whereEqualTo("email", cleanInput).get().await()
+                if (query.isEmpty) {
+                    return "Email not found!"
+                }
+            } else {
+                val doc = db.collection("users").document(sanitizeUserId(cleanInput)).get().await()
+                if (!doc.exists()) {
+                    return "User ID not found!"
+                }
+                actualEmail = doc.getString("email")
+                if (actualEmail.isNullOrEmpty()) {
+                    return "This account does not have an email address linked."
+                }
             }
-            val email = doc.getString("email")
-            if (email.isNullOrEmpty()) {
-                return "This account does not have an email address linked."
-            }
-            auth.sendPasswordResetEmail(email).await()
+            
+            auth.sendPasswordResetEmail(actualEmail).await()
             null // Success
         } catch (e: Exception) {
             Log.e("CloudSync", "Failed to send reset email: ${e.message}")
@@ -322,33 +361,63 @@ object CloudSyncManager {
     }
 
 
-    suspend fun signInWithGoogle(idToken: String): String? {
+    suspend fun signInWithGoogle(idToken: String): GoogleSignInResult {
         return try {
             val credential = com.google.firebase.auth.GoogleAuthProvider.getCredential(idToken, null)
             val authResult = auth.signInWithCredential(credential).await()
             val user = authResult.user
             
             if (user != null) {
-                // Save user info to firestore if new
-                val userRef = db.collection("users").document(sanitizeUserId(user.uid))
-                val doc = userRef.get().await()
-                if (!doc.exists()) {
-                    val userMap = hashMapOf(
-                        "userId" to user.uid,
-                        "email" to user.email,
-                        "displayName" to user.displayName,
-                        "photoUrl" to user.photoUrl?.toString(),
-                        "createdAt" to System.currentTimeMillis()
-                    )
-                    userRef.set(userMap).await()
+                // Check if the user already has a document in Firestore (linked by email)
+                val query = db.collection("users").whereEqualTo("email", user.email).get().await()
+                if (query.isEmpty) {
+                    // New user! They need to pick a userId and password
+                    GoogleSignInResult.SuccessNewUser(user)
+                } else {
+                    // Existing user
+                    val doc = query.documents.first()
+                    val actualUserId = doc.getString("userId") ?: doc.id
+                    GoogleSignInResult.SuccessExistingUser(actualUserId)
                 }
-                null // null means success
             } else {
-                "Failed to get user after Google Sign-In"
+                GoogleSignInResult.Error("Failed to get user after Google Sign-In")
             }
         } catch (e: Exception) {
             Log.e("CloudSync", "Google Sign-In failed: ${e.message}")
-            e.localizedMessage ?: "Google Sign-In Failed"
+            GoogleSignInResult.Error(e.localizedMessage ?: "Google Sign-In Failed")
+        }
+    }
+
+    suspend fun completeGoogleRegistration(userId: String, pass: String): String? {
+        val user = auth.currentUser ?: return "User not authenticated."
+        val safeId = sanitizeUserId(userId)
+        
+        return try {
+            if (pass.length < 6) return "Password must be at least 6 characters."
+            
+            // Check if userId is taken
+            val doc = db.collection("users").document(safeId).get().await()
+            if (doc.exists()) {
+                return "This User ID is already taken!"
+            }
+
+            // Set password
+            user.updatePassword(pass).await()
+            
+            // Save to Firestore
+            val userMap = hashMapOf(
+                "userId" to userId.trim(),
+                "email" to user.email,
+                "name" to (user.displayName ?: userId.trim()),
+                "photoUrl" to user.photoUrl?.toString(),
+                "createdAt" to System.currentTimeMillis()
+            )
+            db.collection("users").document(safeId).set(userMap).await()
+            
+            null
+        } catch (e: Exception) {
+            Log.e("CloudSync", "Failed to complete google setup: ${e.message}")
+            e.localizedMessage ?: "Setup failed."
         }
     }
 
@@ -368,6 +437,28 @@ object CloudSyncManager {
         } catch (e: Exception) {
             Log.e("CloudSync", "Failed to cache global scan: ${e.message}")
             false
+        }
+    }
+
+    suspend fun deleteGlobalScan(url: String): Boolean {
+        return try {
+            val docId = url.hashCode().toString()
+            db.collection("global_scans").document(docId).delete().await()
+            true
+        } catch (e: Exception) {
+            Log.e("CloudSync", "Failed to delete global scan: ${e.message}")
+            false
+        }
+    }
+
+    suspend fun wipeAllGlobalScans() {
+        try {
+            val querySnapshot = db.collection("global_scans").get().await()
+            for (doc in querySnapshot.documents) {
+                db.collection("global_scans").document(doc.id).delete().await()
+            }
+        } catch (e: Exception) {
+            Log.e("CloudSync", "Failed to wipe global scans: ${e.message}")
         }
     }
 
@@ -540,6 +631,144 @@ object CloudSyncManager {
         } catch (e: Exception) {
             Log.e("CloudSync", "Failed to fetch Hive Mind weights: ${e.message}")
             emptyMap()
+        }
+    }
+
+    // ── GLOBAL THREAT INTELLIGENCE (CROWDSOURCED REPORTING) ─────────────────────
+
+    /**
+     * Data class for aggregated threat intelligence received from the community.
+     */
+    data class ThreatIntelReport(
+        val totalReports: Int = 0,
+        val reportTypes: List<String> = emptyList(),
+        val locations: List<String> = emptyList(),
+        val firstReportedAt: Long? = null,
+        val lastReportedAt: Long? = null,
+        val riskEscalation: String = "NONE" // "NONE", "LOW", "MEDIUM", "HIGH", "CRITICAL"
+    )
+
+    /**
+     * Submits a structured threat report to the global Firestore threat_intel collection.
+     * Reports are aggregated by content hash so multiple users reporting the same QR
+     * strengthen the community signal.
+     */
+    suspend fun submitThreatReport(report: com.safeqr.scanner.data.model.ThreatReportEntity): Boolean {
+        return try {
+            val contentHash = report.rawContent.hashCode().toString()
+            val reportRef = db.collection("threat_intel").document(contentHash)
+
+            db.runTransaction { transaction ->
+                val snapshot = transaction.get(reportRef)
+
+                if (snapshot.exists()) {
+                    // Append to existing reports
+                    val currentReports = (snapshot.get("reports") as? List<*>)?.size ?: 0
+                    val currentTypes = (snapshot.get("reportTypes") as? List<*>)?.mapNotNull { it?.toString() }?.toMutableList() ?: mutableListOf()
+                    val currentLocations = (snapshot.get("locations") as? List<*>)?.mapNotNull { it?.toString() }?.toMutableList() ?: mutableListOf()
+
+                    if (!currentTypes.contains(report.reportType)) {
+                        currentTypes.add(report.reportType)
+                    }
+                    if (report.locationName != null && !currentLocations.contains(report.locationName)) {
+                        currentLocations.add(report.locationName)
+                    }
+
+                    val escalation = when {
+                        currentReports + 1 >= 10 -> "CRITICAL"
+                        currentReports + 1 >= 5 -> "HIGH"
+                        currentReports + 1 >= 3 -> "MEDIUM"
+                        currentReports + 1 >= 1 -> "LOW"
+                        else -> "NONE"
+                    }
+
+                    transaction.update(reportRef, mapOf(
+                        "totalReports" to currentReports + 1,
+                        "reportTypes" to currentTypes,
+                        "locations" to currentLocations,
+                        "lastReportedAt" to System.currentTimeMillis(),
+                        "riskEscalation" to escalation,
+                        "rawContent" to report.rawContent
+                    ))
+                } else {
+                    // Create new entry
+                    val newData = hashMapOf(
+                        "totalReports" to 1,
+                        "reportTypes" to listOf(report.reportType),
+                        "locations" to listOfNotNull(report.locationName),
+                        "firstReportedAt" to System.currentTimeMillis(),
+                        "lastReportedAt" to System.currentTimeMillis(),
+                        "riskEscalation" to "LOW",
+                        "rawContent" to report.rawContent,
+                        "description" to report.description
+                    )
+                    transaction.set(reportRef, newData)
+                }
+            }.await()
+
+            // Also store individual report for audit trail
+            val individualRef = db.collection("threat_intel").document(contentHash)
+                .collection("individual_reports").document(report.reportId)
+            individualRef.set(hashMapOf(
+                "reportId" to report.reportId,
+                "reportType" to report.reportType,
+                "description" to report.description,
+                "latitude" to report.latitude,
+                "longitude" to report.longitude,
+                "locationName" to report.locationName,
+                "reporterUserId" to report.reporterUserId,
+                "timestamp" to report.timestamp
+            )).await()
+
+            true
+        } catch (e: Exception) {
+            Log.e("CloudSync", "Failed to submit threat report: ${e.message}")
+            false
+        }
+    }
+
+    /**
+     * Fetches aggregated community threat intelligence for a given QR content.
+     */
+    suspend fun getThreatIntel(rawContent: String): ThreatIntelReport {
+        return try {
+            val contentHash = rawContent.hashCode().toString()
+            val doc = db.collection("threat_intel").document(contentHash).get().await()
+
+            if (doc.exists()) {
+                ThreatIntelReport(
+                    totalReports = (doc.getLong("totalReports") ?: 0).toInt(),
+                    reportTypes = (doc.get("reportTypes") as? List<*>)?.mapNotNull { it?.toString() } ?: emptyList(),
+                    locations = (doc.get("locations") as? List<*>)?.mapNotNull { it?.toString() } ?: emptyList(),
+                    firstReportedAt = doc.getLong("firstReportedAt"),
+                    lastReportedAt = doc.getLong("lastReportedAt"),
+                    riskEscalation = doc.getString("riskEscalation") ?: "NONE"
+                )
+            } else {
+                ThreatIntelReport()
+            }
+        } catch (e: Exception) {
+            Log.e("CloudSync", "Failed to fetch threat intel: ${e.message}")
+            ThreatIntelReport()
+        }
+    }
+
+    /**
+     * Fetches the most recent global threat reports for a community feed.
+     */
+    suspend fun getGlobalThreatFeed(limit: Int = 20): List<Map<String, Any>> {
+        return try {
+            val snapshot = db.collection("threat_intel")
+                .orderBy("lastReportedAt", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .limit(limit.toLong())
+                .get().await()
+
+            snapshot.documents.mapNotNull { doc ->
+                doc.data?.toMutableMap()?.also { it["docId"] = doc.id }
+            }
+        } catch (e: Exception) {
+            Log.e("CloudSync", "Failed to fetch global threat feed: ${e.message}")
+            emptyList()
         }
     }
 }

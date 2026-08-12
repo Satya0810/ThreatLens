@@ -29,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,6 +57,8 @@ import com.safeqr.scanner.ui.theme.SafeGreen
 import com.safeqr.scanner.ui.theme.TextPrimary
 import com.safeqr.scanner.ui.theme.TextSecondary
 
+import androidx.compose.animation.*
+
 /**
  * A card composable for displaying a scan history entry with glassmorphism styling,
  * animated status indicator, and a colored accent bar.
@@ -65,8 +68,26 @@ fun HistoryItem(
     scanResult: ScanResult,
     onClick: () -> Unit
 ) {
-    val displayText = scanResult.domain
-        ?: scanResult.rawContent.let { if (it.length > 40) it.take(40) + "…" else it }
+    var isUpi = false
+    var upiPayee: String? = null
+    var upiAmount: String? = null
+    
+    if (scanResult.rawContent.startsWith("upi://", ignoreCase = true)) {
+        isUpi = true
+        try {
+            val uri = android.net.Uri.parse(scanResult.rawContent)
+            upiPayee = uri.getQueryParameter("pn") ?: uri.getQueryParameter("pa")
+            upiAmount = uri.getQueryParameter("am")
+        } catch (e: Exception) {
+            // ignore
+        }
+    }
+
+    val displayText = if (isUpi && upiPayee != null) {
+        upiPayee!!
+    } else {
+        scanResult.domain ?: scanResult.rawContent.let { if (it.length > 40) it.take(40) + "…" else it }
+    }
 
     val statusColor = when (scanResult.safetyStatus) {
         SafetyStatus.SAFE -> SafeGreen
@@ -114,15 +135,15 @@ fun HistoryItem(
                 indication = null,
                 onClick = onClick
             )
-            .semantics {
-                contentDescription = "Scan history item. Domain: $displayText, Status: $statusLabel"
-            },
-        shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = DarkSurface // Solid color prevents swipe-to-dismiss background bleed
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
+                .semantics {
+                    contentDescription = "Scan history item. Domain: $displayText, Status: $statusLabel"
+                },
+            shape = RoundedCornerShape(18.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = DarkSurface // Solid color prevents swipe-to-dismiss background bleed
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        ) {
         Row(modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
             // ── Left accent bar ──
             Box(
@@ -170,7 +191,7 @@ fun HistoryItem(
                         else -> "Unknown"
                     }
 
-                    if (threatTag != null) {
+                    if (threatTag != "Unknown") {
                         Row(
                             modifier = Modifier.padding(bottom = 6.dp),
                             horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -199,6 +220,24 @@ fun HistoryItem(
                                     fontWeight = FontWeight.Bold,
                                     letterSpacing = 0.5.sp
                                 )
+                            }
+                            if (upiAmount != null) {
+                                Surface(
+                                    shape = RoundedCornerShape(6.dp),
+                                    color = SafeGreen.copy(alpha = 0.12f),
+                                    contentColor = SafeGreen,
+                                    border = androidx.compose.foundation.BorderStroke(
+                                        0.5.dp, SafeGreen.copy(alpha = 0.3f)
+                                    )
+                                ) {
+                                    Text(
+                                        text = "₹$upiAmount",
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        letterSpacing = 0.5.sp
+                                    )
+                                }
                             }
                         }
                     }

@@ -18,6 +18,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -43,6 +45,7 @@ import com.google.android.gms.auth.api.signin.*
 import com.safeqr.scanner.viewmodel.QrViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Suppress("UNUSED_PARAMETER")
 @Composable
 fun SettingsScreen(
@@ -50,6 +53,7 @@ fun SettingsScreen(
     onNavigateToLogin: () -> Unit = {},
     onNavigateToVault: () -> Unit = {},
     onNavigateToSandbox: () -> Unit = {},
+    onNavigateToUpiSettings: () -> Unit = {},
     onBack: () -> Unit = {}
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -59,8 +63,6 @@ fun SettingsScreen(
         }
         var showSetPinDialog by remember { mutableStateOf(false) }
         var showVerifyPinDialog by remember { mutableStateOf(false) }
-        var showChildLockPinDialog by remember { mutableStateOf(false) }
-    var childLockPinError by remember { mutableStateOf(false) }
     var isDisablingChildLock by remember { mutableStateOf(false) }
     
     // Auth Flow Dialogs
@@ -91,16 +93,7 @@ fun SettingsScreen(
         label = "gearRotation"
     )
 
-    // Pulsing dot for active services
-    val servicePulse by infiniteTransition.animateFloat(
-        initialValue = 0.4f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1500, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "servicePulse"
-    )
+
 
     // Animated underline
     var startAnim by remember { mutableStateOf(false) }
@@ -165,126 +158,155 @@ fun SettingsScreen(
 
         GlassCard {
             if (currentUser != null) {
-                // WOW Factor Profile View
+                var profileExpanded by remember { mutableStateOf(false) }
+
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { profileExpanded = !profileExpanded }
+                        .padding(vertical = 4.dp, horizontal = 4.dp)
                 ) {
-                    // Glowing Avatar
-                    Box(
-                        modifier = Modifier
-                            .size(65.dp)
-                            .clip(CircleShape)
-                            .background(
-                                Brush.linearGradient(
-                                    colors = listOf(NeonCyan, Color(0xFF9D4EDD), NeonCyan)
-                                )
-                            )
-                            .padding(2.dp)
-                            .clip(CircleShape)
-                            .background(DarkBackground)
-                            .clickable { showUserDetailsDialog = true },
-                        contentAlignment = Alignment.Center
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        if (currentUser!!.photoUrl != null) {
-                            AsyncImage(
-                                model = currentUser!!.photoUrl,
-                                contentDescription = "Profile Picture",
-                                modifier = Modifier.fillMaxSize().clip(CircleShape)
-                            )
-                        } else {
-                            Text(
-                                text = currentUser!!.displayName.take(1).uppercase(),
-                                color = NeonCyan,
-                                fontSize = 28.sp,
-                                fontWeight = FontWeight.ExtraBold
-                            )
-                        }
-                    }
-                    Spacer(Modifier.height(12.dp))
-                    Text(
-                        text = currentUser!!.displayName,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = TextPrimary,
-                        fontWeight = FontWeight.Black,
-                        letterSpacing = 0.5.sp
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Surface(
-                        shape = RoundedCornerShape(16.dp),
-                        color = NeonCyan.copy(alpha = 0.15f),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, NeonCyan.copy(alpha = 0.4f))
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp)
+                        // Glowing Avatar
+                        Box(
+                            modifier = Modifier
+                                .size(50.dp)
+                                .clip(CircleShape)
+                                .background(Brush.linearGradient(colors = listOf(NeonCyan, Color(0xFF9D4EDD), NeonCyan)))
+                                .padding(2.dp)
+                                .clip(CircleShape)
+                                .background(DarkBackground)
+                                .clickable { showUserDetailsDialog = true },
+                            contentAlignment = Alignment.Center
                         ) {
-                            Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(NeonCyan))
-                            Spacer(modifier = Modifier.width(8.dp))
+                            if (currentUser!!.photoUrl != null) {
+                                AsyncImage(
+                                    model = currentUser!!.photoUrl,
+                                    contentDescription = "Profile Picture",
+                                    modifier = Modifier.fillMaxSize().clip(CircleShape)
+                                )
+                            } else {
+                                Text(
+                                    text = currentUser!!.displayName.take(1).uppercase(),
+                                    color = NeonCyan,
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.ExtraBold
+                                )
+                            }
+                        }
+
+                        Spacer(Modifier.width(16.dp))
+
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "ThreatLens ID: ${currentUser!!.userId}",
-                                style = MaterialTheme.typography.labelMedium,
-                                color = NeonCyan,
+                                text = currentUser!!.displayName,
+                                style = MaterialTheme.typography.titleMedium,
+                                color = TextPrimary,
                                 fontWeight = FontWeight.Bold
                             )
+                            Spacer(Modifier.height(4.dp))
+                            Text(
+                                text = "ID: ${currentUser!!.userId}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = TextSecondary,
+                                maxLines = 1,
+                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                            )
                         }
-                    }
-                }
 
-                Spacer(modifier = Modifier.height(24.dp))
-                Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(Brush.horizontalGradient(listOf(Color.Transparent, GlassBorder, Color.Transparent))))
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    // Edit Profile Button
-                    OutlinedButton(
-                        onClick = { showEditProfileDialog = true },
-                        modifier = Modifier.weight(1f).height(42.dp),
-                        shape = RoundedCornerShape(12.dp),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, GlassBorder),
-                        contentPadding = PaddingValues(0.dp)
-                    ) {
-                        Text("Edit", color = TextPrimary, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                        Icon(
+                            imageVector = if (profileExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                            contentDescription = "Expand Profile Options",
+                            tint = TextSecondary,
+                            modifier = Modifier.padding(8.dp)
+                        )
                     }
 
-                    // Copy ID Button
-                    OutlinedButton(
-                        onClick = {
-                            clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(currentUser!!.userId))
-                            android.widget.Toast.makeText(context, "User ID copied!", android.widget.Toast.LENGTH_SHORT).show()
-                        },
-                        modifier = Modifier.weight(1f).height(42.dp),
-                        shape = RoundedCornerShape(12.dp),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, GlassBorder),
-                        contentPadding = PaddingValues(0.dp)
-                    ) {
-                        Text("Copy ID", color = NeonCyan, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-                    }
+                    if (profileExpanded) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(Brush.horizontalGradient(listOf(Color.Transparent, GlassBorder, Color.Transparent))))
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    // Sign Out Button
-                    OutlinedButton(
-                        onClick = { showSignOutDialog = true },
-                        modifier = Modifier.weight(1f).height(42.dp),
-                        shape = RoundedCornerShape(12.dp),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, GlassBorder),
-                        contentPadding = PaddingValues(0.dp)
-                    ) {
-                        Text("Sign Out", color = TextSecondary, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-                    }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            // Edit Profile Button
+                            OutlinedButton(
+                                onClick = { showEditProfileDialog = true },
+                                modifier = Modifier.weight(1f).height(36.dp),
+                                shape = RoundedCornerShape(8.dp),
+                                border = BorderStroke(1.dp, GlassBorder),
+                                contentPadding = PaddingValues(0.dp)
+                            ) {
+                                Text("Edit", color = TextPrimary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            }
 
-                    // Delete Account Button
-                    Button(
-                        onClick = { showDeletePasswordDialog = true },
-                        modifier = Modifier.weight(1.2f).height(42.dp),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = MaliciousRed.copy(alpha = 0.15f)),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, MaliciousRed.copy(alpha = 0.5f)),
-                        contentPadding = PaddingValues(0.dp)
-                    ) {
-                        Text("Delete", color = MaliciousRed, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                            // Copy ID Button
+                            OutlinedButton(
+                                onClick = {
+                                    clipboardManager.setText(androidx.compose.ui.text.AnnotatedString(currentUser!!.userId))
+                                    Toast.makeText(context, "User ID copied!", Toast.LENGTH_SHORT).show()
+                                },
+                                modifier = Modifier.weight(1f).height(36.dp),
+                                shape = RoundedCornerShape(8.dp),
+                                border = BorderStroke(1.dp, GlassBorder),
+                                contentPadding = PaddingValues(0.dp)
+                            ) {
+                                Text("Copy ID", color = NeonCyan, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            }
+
+                            // Sign Out Button
+                            OutlinedButton(
+                                onClick = { showSignOutDialog = true },
+                                modifier = Modifier.weight(1f).height(36.dp),
+                                shape = RoundedCornerShape(8.dp),
+                                border = BorderStroke(1.dp, GlassBorder),
+                                contentPadding = PaddingValues(0.dp)
+                            ) {
+                                Text("Sign Out", color = TextSecondary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            }
+
+                            // Delete Account Button
+                            Button(
+                                onClick = { showDeletePasswordDialog = true },
+                                modifier = Modifier.weight(1f).height(36.dp),
+                                shape = RoundedCornerShape(8.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = MaliciousRed.copy(alpha = 0.15f)),
+                                border = BorderStroke(1.dp, MaliciousRed.copy(alpha = 0.5f)),
+                                contentPadding = PaddingValues(0.dp)
+                            ) {
+                                Text("Delete", color = MaliciousRed, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            // Wipe Cloud Cache Button
+                            Button(
+                                onClick = {
+                                    @OptIn(kotlinx.coroutines.DelicateCoroutinesApi::class)
+                                    kotlinx.coroutines.GlobalScope.launch {
+                                        com.safeqr.scanner.data.remote.CloudSyncManager.wipeAllGlobalScans()
+                                    }
+                                    Toast.makeText(context, "Cloud Database Wiped!", Toast.LENGTH_SHORT).show()
+                                },
+                                modifier = Modifier.fillMaxWidth().height(36.dp),
+                                shape = RoundedCornerShape(8.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = CautionAmber.copy(alpha = 0.15f)),
+                                border = BorderStroke(1.dp, CautionAmber.copy(alpha = 0.5f)),
+                                contentPadding = PaddingValues(0.dp)
+                            ) {
+                                Text("Wipe Dev Cloud Cache", color = CautionAmber, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            }
+                        }
                     }
                 }
             } else {
@@ -569,15 +591,151 @@ fun SettingsScreen(
             )
         }
 
+        // ——— LINK GUARD Section ———
+        Spacer(modifier = Modifier.height(24.dp))
+        SectionHeader(title = "LINK GUARD")
+        Spacer(modifier = Modifier.height(10.dp))
+        GlassCard {
+            var linkGuardEnabled by remember {
+                mutableStateOf(com.safeqr.scanner.data.LinkGuardPreferences.isLinkGuardEnabled(context))
+            }
+            var sensitivity by remember {
+                mutableStateOf(com.safeqr.scanner.data.LinkGuardPreferences.getSensitivityLevel(context))
+            }
+            val linksScanned = remember { com.safeqr.scanner.data.LinkGuardPreferences.getLinksScanned(context) }
+            val threatsBlocked = remember { com.safeqr.scanner.data.LinkGuardPreferences.getThreatsBlocked(context) }
+            var showPermissionDialog by remember { mutableStateOf(false) }
+
+            Column(modifier = Modifier.fillMaxWidth()) {
+                // Main Toggle
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .background(if (linkGuardEnabled) SafeGreen.copy(alpha = 0.2f) else DarkCard),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(Icons.Filled.Security, null, tint = if (linkGuardEnabled) SafeGreen else TextSecondary, modifier = Modifier.size(18.dp))
+                        }
+                        Spacer(Modifier.width(12.dp))
+                        Column {
+                            Text("System-Wide Protection", fontWeight = FontWeight.SemiBold, fontSize = 15.sp, color = TextPrimary)
+                            Text("Monitor incoming messages for threats", fontSize = 11.sp, color = TextSecondary)
+                        }
+                    }
+                    Switch(
+                        checked = linkGuardEnabled,
+                        onCheckedChange = { isEnabled ->
+                            val hasPermission = androidx.core.app.NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName)
+                            if (isEnabled && !hasPermission) {
+                                showPermissionDialog = true
+                            } else {
+                                linkGuardEnabled = isEnabled
+                                com.safeqr.scanner.data.LinkGuardPreferences.setLinkGuardEnabled(context, isEnabled)
+                            }
+                        },
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = SafeGreen,
+                            checkedTrackColor = SafeGreen.copy(alpha = 0.3f)
+                        )
+                    )
+                }
+
+                if (linkGuardEnabled) {
+                    Spacer(Modifier.height(16.dp))
+                    Divider(color = GlassBorder)
+                    Spacer(Modifier.height(16.dp))
+
+                    // Stats row
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
+                            Text(linksScanned.toString(), fontWeight = FontWeight.Bold, fontSize = 20.sp, color = NeonCyan)
+                            Text("Links Scanned", fontSize = 11.sp, color = TextSecondary)
+                        }
+                        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
+                            Text(threatsBlocked.toString(), fontWeight = FontWeight.Bold, fontSize = 20.sp, color = MaliciousRed)
+                            Text("Threats Blocked", fontSize = 11.sp, color = TextSecondary)
+                        }
+                    }
+
+                    Spacer(Modifier.height(16.dp))
+                    Text("Sensitivity Level", fontSize = 12.sp, color = TextSecondary, fontWeight = FontWeight.SemiBold)
+                    Spacer(Modifier.height(8.dp))
+                    
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        com.safeqr.scanner.data.LinkGuardPreferences.SensitivityLevel.entries.forEach { level ->
+                            val isSelected = sensitivity == level
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(if (isSelected) NeonCyan.copy(alpha = 0.15f) else DarkBackground)
+                                    .border(1.dp, if (isSelected) NeonCyan else GlassBorder, RoundedCornerShape(8.dp))
+                                    .clickable {
+                                        sensitivity = level
+                                        com.safeqr.scanner.data.LinkGuardPreferences.setSensitivityLevel(context, level)
+                                    }
+                                    .padding(vertical = 8.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    level.name,
+                                    fontSize = 11.sp,
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                    color = if (isSelected) NeonCyan else TextSecondary
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (showPermissionDialog) {
+                AlertDialog(
+                    onDismissRequest = { showPermissionDialog = false },
+                    containerColor = DarkSurface,
+                    title = { Text("Notification Access Required", color = TextPrimary) },
+                    text = { 
+                        Text(
+                            "Link Guard needs permission to read notifications in order to monitor incoming messages (SMS, WhatsApp) for malicious links. We do not store or transmit your personal messages.", 
+                            color = TextSecondary, fontSize = 14.sp
+                        ) 
+                    },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            showPermissionDialog = false
+                            val intent = android.content.Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS")
+                            try {
+                                context.startActivity(intent)
+                            } catch (e: Exception) {
+                                Toast.makeText(context, "Please open Settings and enable Notification Access for ThreatLens", Toast.LENGTH_LONG).show()
+                            }
+                        }) {
+                            Text("Open Settings", color = NeonCyan)
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showPermissionDialog = false }) {
+                            Text("Cancel", color = TextSecondary)
+                        }
+                    }
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+
         // ——— SECURITY Section ———
         SectionHeader(title = "SECURITY")
         Spacer(modifier = Modifier.height(10.dp))
         GlassCard {
             var autoBlock by remember {
                 mutableStateOf(com.safeqr.scanner.data.PreferencesManager.getAutoBlock(context))
-            }
-            var vibrateOnDetection by remember {
-                mutableStateOf(com.safeqr.scanner.data.PreferencesManager.getVibrate(context))
             }
 
             Row(
@@ -620,40 +778,6 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Vibrate on Detection",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = TextPrimary,
-                        fontWeight = FontWeight.Medium
-                    )
-                    Text(
-                        text = "Haptic feedback when QR is found",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = TextSecondary
-                    )
-                }
-                Switch(
-                    checked = vibrateOnDetection,
-                    onCheckedChange = {
-                        vibrateOnDetection = it
-                        com.safeqr.scanner.data.PreferencesManager.setVibrate(context, it)
-                    },
-                    colors = SwitchDefaults.colors(
-                        checkedTrackColor = NeonCyan,
-                        uncheckedTrackColor = DarkCard
-                    )
-                )
-            }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            Box(modifier = Modifier.fillMaxWidth().height(0.5.dp).background(GlassBorder))
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { onNavigateToSandbox() }
@@ -680,8 +804,259 @@ fun SettingsScreen(
                 )
             }
         }
-
+        
         Spacer(modifier = Modifier.height(28.dp))
+
+        // ——— UPI PROTECTION Section ———
+        SectionHeader(title = "UPI PROTECTION")
+        Spacer(modifier = Modifier.height(10.dp))
+        GlassCard {
+            var showUnlockMethodDialog by remember { mutableStateOf(false) }
+            var showAppPasswordDialog by remember { mutableStateOf(false) }
+            var appPasswordInput by remember { mutableStateOf("") }
+            var isVerifyingAppPassword by remember { mutableStateOf(false) }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { showUnlockMethodDialog = true }
+                    .padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = "Lock",
+                        tint = NeonCyan,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column {
+                        Text(
+                            text = "Manage UPI Security",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = TextPrimary,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            text = "Limits, VPAs, and late-night warnings",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = TextSecondary
+                        )
+                    }
+                }
+                Icon(
+                    imageVector = Icons.Default.ChevronRight,
+                    contentDescription = null,
+                    tint = NeonCyan
+                )
+            }
+
+            if (showUnlockMethodDialog) {
+                AlertDialog(
+                    onDismissRequest = { showUnlockMethodDialog = false },
+                    containerColor = DarkSurface,
+                    shape = RoundedCornerShape(24.dp),
+                    title = { Text("Unlock UPI Settings", color = NeonCyan, fontWeight = FontWeight.Bold, fontSize = 18.sp) },
+                    text = { Text("Choose an authentication method to manage your payment security.", color = TextSecondary, fontSize = 14.sp) },
+                    confirmButton = {
+                        Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Button(
+                                onClick = {
+                                    showUnlockMethodDialog = false
+                                    // Launch Biometric Auth
+                                    val biometricManager = androidx.biometric.BiometricManager.from(context)
+                                    var currentContext = context
+                                    while (currentContext is android.content.ContextWrapper && currentContext !is androidx.fragment.app.FragmentActivity) {
+                                        currentContext = currentContext.baseContext
+                                    }
+                                    val fragmentActivity = currentContext as? androidx.fragment.app.FragmentActivity
+
+                                    if (fragmentActivity != null && biometricManager.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG or androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL) == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS) {
+                                        val promptInfo = androidx.biometric.BiometricPrompt.PromptInfo.Builder()
+                                            .setTitle("Unlock UPI Settings")
+                                            .setSubtitle("Authenticate to manage your payment security")
+                                            .setAllowedAuthenticators(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG or androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+                                            .build()
+
+                                        val biometricPrompt = androidx.biometric.BiometricPrompt(
+                                            fragmentActivity,
+                                            androidx.core.content.ContextCompat.getMainExecutor(context),
+                                            object : androidx.biometric.BiometricPrompt.AuthenticationCallback() {
+                                                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                                                    super.onAuthenticationError(errorCode, errString)
+                                                    android.widget.Toast.makeText(context, "Authentication error: $errString", android.widget.Toast.LENGTH_SHORT).show()
+                                                }
+                                                override fun onAuthenticationSucceeded(result: androidx.biometric.BiometricPrompt.AuthenticationResult) {
+                                                    super.onAuthenticationSucceeded(result)
+                                                    onNavigateToUpiSettings()
+                                                }
+                                                override fun onAuthenticationFailed() {
+                                                    super.onAuthenticationFailed()
+                                                    android.widget.Toast.makeText(context, "Authentication failed", android.widget.Toast.LENGTH_SHORT).show()
+                                                }
+                                            }
+                                        )
+                                        biometricPrompt.authenticate(promptInfo)
+                                    } else {
+                                        onNavigateToUpiSettings()
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(containerColor = NeonCyan)
+                            ) {
+                                Text("Use Biometric / Device PIN", color = DarkBackground, fontWeight = FontWeight.Bold)
+                            }
+
+                            if (currentUser != null) {
+                                OutlinedButton(
+                                    onClick = {
+                                        showUnlockMethodDialog = false
+                                        appPasswordInput = ""
+                                        showAppPasswordDialog = true
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    border = BorderStroke(1.dp, NeonCyan),
+                                    colors = ButtonDefaults.outlinedButtonColors(contentColor = NeonCyan)
+                                ) {
+                                    Text("Use ThreatLens App Password", fontWeight = FontWeight.Bold)
+                                }
+                            }
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showUnlockMethodDialog = false }) { Text("Cancel", color = TextSecondary) }
+                    }
+                )
+            }
+
+            if (showAppPasswordDialog && currentUser != null) {
+                AlertDialog(
+                    onDismissRequest = { showAppPasswordDialog = false },
+                    containerColor = DarkSurface,
+                    shape = RoundedCornerShape(24.dp),
+                    title = { Text("App Password", color = NeonCyan, fontWeight = FontWeight.Bold, fontSize = 18.sp) },
+                    text = {
+                        Column {
+                            Text("Enter your ThreatLens account password to unlock UPI Settings.", color = TextSecondary, fontSize = 14.sp)
+                            Spacer(Modifier.height(12.dp))
+                            OutlinedTextField(
+                                value = appPasswordInput,
+                                onValueChange = { appPasswordInput = it },
+                                label = { Text("Password", color = TextSecondary) },
+                                singleLine = true,
+                                visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                                colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = NeonCyan, unfocusedBorderColor = GlassBorder, focusedTextColor = TextPrimary, unfocusedTextColor = TextPrimary)
+                            )
+                        }
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                if (appPasswordInput.isBlank()) return@Button
+                                isVerifyingAppPassword = true
+                                qrViewModel.verifyPassword(currentUser!!.userId, appPasswordInput) { success, error ->
+                                    isVerifyingAppPassword = false
+                                    if (success) {
+                                        showAppPasswordDialog = false
+                                        onNavigateToUpiSettings()
+                                    } else {
+                                        android.widget.Toast.makeText(context, error ?: "Incorrect password", android.widget.Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = NeonCyan),
+                            enabled = !isVerifyingAppPassword
+                        ) {
+                            if (isVerifyingAppPassword) CircularProgressIndicator(color = DarkBackground, modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
+                            else Text("Unlock", color = DarkBackground, fontWeight = FontWeight.Bold)
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { showAppPasswordDialog = false }, enabled = !isVerifyingAppPassword) { Text("Cancel", color = TextSecondary) }
+                    }
+                )
+            }
+        }
+        
+        Spacer(modifier = Modifier.height(28.dp))
+
+        // ——— SCAN FEEDBACK Section ———
+        SectionHeader(title = "SCAN FEEDBACK")
+        Spacer(modifier = Modifier.height(10.dp))
+        GlassCard {
+            var vibrateOnDetection by remember { mutableStateOf(com.safeqr.scanner.data.PreferencesManager.getVibrate(context)) }
+            var hapticIntensity by remember { mutableStateOf(com.safeqr.scanner.data.PreferencesManager.getHapticIntensity(context)) }
+            var soundEnabled by remember { mutableStateOf(com.safeqr.scanner.data.PreferencesManager.getSoundEnabled(context)) }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("Vibrate on Detection", style = MaterialTheme.typography.bodyLarge, color = TextPrimary, fontWeight = FontWeight.Medium)
+                    Text("Haptic feedback when QR is found", style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+                }
+                Switch(
+                    checked = vibrateOnDetection,
+                    onCheckedChange = {
+                        vibrateOnDetection = it
+                        com.safeqr.scanner.data.PreferencesManager.setVibrate(context, it)
+                    },
+                    colors = SwitchDefaults.colors(checkedTrackColor = NeonCyan, uncheckedTrackColor = DarkCard)
+                )
+            }
+
+            if (vibrateOnDetection) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text("Intensity:", color = TextSecondary, fontSize = 14.sp)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Slider(
+                        value = hapticIntensity.toFloat(),
+                        onValueChange = { 
+                            hapticIntensity = it.toInt()
+                            com.safeqr.scanner.data.PreferencesManager.setHapticIntensity(context, it.toInt())
+                        },
+                        valueRange = 1f..3f,
+                        steps = 1,
+                        modifier = Modifier.weight(1f),
+                        colors = SliderDefaults.colors(
+                            thumbColor = NeonCyan,
+                            activeTrackColor = NeonCyan,
+                            inactiveTrackColor = DarkCard
+                        )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(modifier = Modifier.fillMaxWidth().height(0.5.dp).background(GlassBorder))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("Play Sound on Detection", style = MaterialTheme.typography.bodyLarge, color = TextPrimary, fontWeight = FontWeight.Medium)
+                    Text("Audio cue when scan completes", style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+                }
+                Switch(
+                    checked = soundEnabled,
+                    onCheckedChange = {
+                        soundEnabled = it
+                        com.safeqr.scanner.data.PreferencesManager.setSoundEnabled(context, it)
+                    },
+                    colors = SwitchDefaults.colors(checkedTrackColor = NeonCyan, uncheckedTrackColor = DarkCard)
+                )
+            }
+        }
+        
+
+
 
 
 
@@ -800,8 +1175,9 @@ fun SettingsScreen(
                                 isTestingUrl = true
                                 scope.launch {
                                     val domain = try {
-                                        java.net.URI(if (testUrl.startsWith("http")) testUrl else "https://$testUrl").host ?: testUrl
-                                    } catch (e: Exception) { testUrl }
+                                        java.net.URI(if (testUrl.startsWith("http")) testUrl else "https://$testUrl").host
+                                            ?.lowercase()?.removePrefix("www.") ?: testUrl.lowercase().removePrefix("www.")
+                                    } catch (e: Exception) { testUrl.lowercase().removePrefix("www.") }
                                     
                                     val signals = com.safeqr.scanner.analysis.WebsiteCategorizer.PageSignals(
                                         url = testUrl,
@@ -827,8 +1203,7 @@ fun SettingsScreen(
                     
                     if (testCategoryResult != null) {
                         Spacer(modifier = Modifier.height(16.dp))
-                        var selectedOverrideCategory by remember(testCategoryResult) { mutableStateOf(testCategoryResult!!.category) }
-                        var showOverrideDropdown by remember { mutableStateOf(false) }
+                        var customOverrideCategory by remember(testCategoryResult) { mutableStateOf(testCategoryResult!!.customCategoryLabel ?: testCategoryResult!!.category.name) }
                         var isOverriding by remember { mutableStateOf(false) }
 
                         Surface(
@@ -857,33 +1232,75 @@ fun SettingsScreen(
                                 Text("Correct & Assign Override (Global DB):", color = MaliciousRed, fontWeight = FontWeight.Bold, fontSize = 14.sp)
                                 Spacer(Modifier.height(8.dp))
                                 
-                                Box(modifier = Modifier.fillMaxWidth()) {
-                                    OutlinedButton(
-                                        onClick = { showOverrideDropdown = true },
-                                        modifier = Modifier.fillMaxWidth(),
-                                        colors = ButtonDefaults.outlinedButtonColors(contentColor = TextPrimary),
-                                        border = BorderStroke(1.dp, GlassBorder),
-                                        shape = RoundedCornerShape(8.dp)
+                                var isCustomOverrideMode by remember { mutableStateOf(false) }
+                                var overrideExpanded by remember { mutableStateOf(false) }
+                                val existingCategories = remember {
+                                    com.safeqr.scanner.analysis.WebsiteCategorizer.SiteCategory.values().toList()
+                                }
+                                val focusManager = androidx.compose.ui.platform.LocalFocusManager.current
+
+                                // Mode Selector: Select Predefined vs Enter Custom
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(DarkSurface)
+                                        .border(1.dp, GlassBorder, RoundedCornerShape(8.dp))
+                                        .padding(4.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .clip(RoundedCornerShape(6.dp))
+                                            .background(if (!isCustomOverrideMode) NeonCyan.copy(alpha = 0.2f) else Color.Transparent)
+                                            .border(if (!isCustomOverrideMode) 1.dp else 0.dp, if (!isCustomOverrideMode) NeonCyan else Color.Transparent, RoundedCornerShape(6.dp))
+                                            .clickable { isCustomOverrideMode = false }
+                                            .padding(vertical = 8.dp),
+                                        contentAlignment = Alignment.Center
                                     ) {
-                                        Text("${selectedOverrideCategory.emoji} ${selectedOverrideCategory.label}")
+                                        Text("Select Predefined", color = if (!isCustomOverrideMode) NeonCyan else TextSecondary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                                     }
-                                    
-                                    var searchQuery by remember { mutableStateOf("") }
-                                    val filteredCategories = com.safeqr.scanner.analysis.WebsiteCategorizer.SiteCategory.values().filter {
-                                        it.name.contains(searchQuery, ignoreCase = true) || it.label.contains(searchQuery, ignoreCase = true)
+
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .clip(RoundedCornerShape(6.dp))
+                                            .background(if (isCustomOverrideMode) NeonCyan.copy(alpha = 0.2f) else Color.Transparent)
+                                            .border(if (isCustomOverrideMode) 1.dp else 0.dp, if (isCustomOverrideMode) NeonCyan else Color.Transparent, RoundedCornerShape(6.dp))
+                                            .clickable { isCustomOverrideMode = true }
+                                            .padding(vertical = 8.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text("Enter Custom", color = if (isCustomOverrideMode) NeonCyan else TextSecondary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                                     }
-                                    
-                                    DropdownMenu(
-                                        expanded = showOverrideDropdown,
-                                        onDismissRequest = { showOverrideDropdown = false },
-                                        modifier = Modifier.background(DarkSurface).heightIn(max = 350.dp).fillMaxWidth(0.85f)
+                                }
+
+                                Spacer(Modifier.height(10.dp))
+
+                                if (!isCustomOverrideMode) {
+                                    // Option 1: Select from Predefined Categories
+                                    val selectedCategoryObj = existingCategories.find { it.name.equals(customOverrideCategory, ignoreCase = true) }
+                                    val displayText = if (selectedCategoryObj != null) "${selectedCategoryObj.emoji} ${selectedCategoryObj.label} (${selectedCategoryObj.name})" else customOverrideCategory
+
+                                    ExposedDropdownMenuBox(
+                                        expanded = overrideExpanded,
+                                        onExpandedChange = { overrideExpanded = !overrideExpanded },
+                                        modifier = Modifier.fillMaxWidth()
                                     ) {
                                         OutlinedTextField(
-                                            value = searchQuery,
-                                            onValueChange = { searchQuery = it },
-                                            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
-                                            placeholder = { Text("Search category...", color = TextSecondary) },
+                                            value = customOverrideCategory,
+                                            onValueChange = { 
+                                                customOverrideCategory = it 
+                                                overrideExpanded = true
+                                            },
+                                            readOnly = false,
+                                            modifier = Modifier.fillMaxWidth().menuAnchor(),
+                                            label = { Text("Search or Select Category", color = TextSecondary) },
                                             singleLine = true,
+                                            trailingIcon = { 
+                                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = overrideExpanded)
+                                            },
                                             colors = OutlinedTextFieldDefaults.colors(
                                                 focusedBorderColor = NeonCyan,
                                                 unfocusedBorderColor = GlassBorder,
@@ -891,23 +1308,54 @@ fun SettingsScreen(
                                                 unfocusedTextColor = TextPrimary
                                             )
                                         )
-                                        filteredCategories.forEach { cat ->
-                                            DropdownMenuItem(
-                                                text = { Text("${cat.emoji} ${cat.label}", color = TextPrimary) },
-                                                onClick = {
-                                                    selectedOverrideCategory = cat
-                                                    showOverrideDropdown = false
-                                                    searchQuery = "" // Reset search
-                                                }
-                                            )
-                                        }
-                                        if (filteredCategories.isEmpty()) {
-                                            DropdownMenuItem(
-                                                text = { Text("No category found", color = TextSecondary) },
-                                                onClick = { }
-                                            )
+
+                                        ExposedDropdownMenu(
+                                            expanded = overrideExpanded,
+                                            onDismissRequest = { overrideExpanded = false },
+                                            modifier = Modifier
+                                                .background(DarkSurface)
+                                                .heightIn(max = 280.dp)
+                                        ) {
+                                            val filteredCategories = existingCategories.filter { 
+                                                it.name.contains(customOverrideCategory, ignoreCase = true) || 
+                                                it.label.contains(customOverrideCategory, ignoreCase = true) 
+                                            }
+                                            filteredCategories.forEach { category ->
+                                                DropdownMenuItem(
+                                                    text = { 
+                                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                                            Text(category.emoji, fontSize = 16.sp)
+                                                            Spacer(Modifier.width(8.dp))
+                                                            Text(category.label, color = TextPrimary, fontWeight = FontWeight.SemiBold)
+                                                            Spacer(Modifier.width(6.dp))
+                                                            Text("(${category.name})", color = TextSecondary, fontSize = 11.sp)
+                                                        }
+                                                    },
+                                                    onClick = {
+                                                        customOverrideCategory = category.name
+                                                        overrideExpanded = false
+                                                        focusManager.clearFocus()
+                                                    }
+                                                )
+                                            }
                                         }
                                     }
+                                } else {
+                                    // Option 2: Enter Custom Category Name
+                                    OutlinedTextField(
+                                        value = customOverrideCategory,
+                                        onValueChange = { customOverrideCategory = it },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        label = { Text("Enter Custom Category", color = TextSecondary) },
+                                        placeholder = { Text("e.g. GAMING, CRYPTO_EXCHANGE, GOVT", color = TextSecondary.copy(alpha = 0.5f)) },
+                                        singleLine = true,
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            focusedBorderColor = NeonCyan,
+                                            unfocusedBorderColor = GlassBorder,
+                                            focusedTextColor = TextPrimary,
+                                            unfocusedTextColor = TextPrimary
+                                        )
+                                    )
                                 }
                                 
                                 Spacer(Modifier.height(12.dp))
@@ -917,14 +1365,26 @@ fun SettingsScreen(
                                         isOverriding = true
                                         val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
                                         val domain = try {
-                                            java.net.URI(if (testUrl.startsWith("http")) testUrl else "https://$testUrl").host ?: testUrl
-                                        } catch (e: Exception) { testUrl }
+                                            java.net.URI(if (testUrl.startsWith("http")) testUrl else "https://$testUrl").host
+                                                ?.lowercase()?.removePrefix("www.") ?: testUrl.lowercase().removePrefix("www.")
+                                        } catch (e: Exception) { testUrl.lowercase().removePrefix("www.") }
                                         
+                                        val updateData = mapOf(
+                                            "websiteCategorizerData" to mapOf(
+                                                "KNOWN_DOMAINS" to mapOf(
+                                                    domain to customOverrideCategory.uppercase().trim()
+                                                )
+                                            )
+                                        )
                                         db.collection("app_config").document("datasets")
-                                            .update(com.google.firebase.firestore.FieldPath.of("websiteCategorizerData", "KNOWN_DOMAINS", domain), selectedOverrideCategory.name)
+                                            .set(updateData, com.google.firebase.firestore.SetOptions.merge())
                                             .addOnSuccessListener {
-                                                isOverriding = false
-                                                android.widget.Toast.makeText(context, "Global Database Updated Successfully!", android.widget.Toast.LENGTH_LONG).show()
+                                                // Refresh local cache so the override takes effect immediately
+                                                scope.launch {
+                                                    com.safeqr.scanner.data.remote.CloudDatasetManager.fetchAndCacheAll(context)
+                                                    isOverriding = false
+                                                    android.widget.Toast.makeText(context, "✅ Override deployed & local cache refreshed!", android.widget.Toast.LENGTH_LONG).show()
+                                                }
                                             }
                                             .addOnFailureListener { e ->
                                                 isOverriding = false
@@ -943,6 +1403,257 @@ fun SettingsScreen(
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    // KEYWORD INJECTION UI
+                    Spacer(Modifier.height(24.dp))
+                    Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(GlassBorder))
+                    Spacer(Modifier.height(16.dp))
+
+                    Text("Inject Category Keywords (Global DB):", color = MaliciousRed, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Spacer(Modifier.height(8.dp))
+
+                    var isCustomKeywordMode by remember { mutableStateOf(false) }
+                    var keywordCategory by remember { mutableStateOf("") }
+                    var keywordsInput by remember { mutableStateOf("") }
+                    var isInjecting by remember { mutableStateOf(false) }
+
+                    var keywordExpanded by remember { mutableStateOf(false) }
+                    val existingKeywordCategories = remember {
+                        com.safeqr.scanner.analysis.WebsiteCategorizer.SiteCategory.values().toList()
+                    }
+                    val mergedSignals = remember(isInjecting) {
+                        com.safeqr.scanner.analysis.WebsiteCategorizer.getMergedKeywordSignals()
+                    }
+                    val keywordFocusManager = androidx.compose.ui.platform.LocalFocusManager.current
+
+                    // Mode Selector for Keywords: Select Predefined vs Enter Custom
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(DarkSurface)
+                            .border(1.dp, GlassBorder, RoundedCornerShape(8.dp))
+                            .padding(4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(if (!isCustomKeywordMode) NeonCyan.copy(alpha = 0.2f) else Color.Transparent)
+                                .border(if (!isCustomKeywordMode) 1.dp else 0.dp, if (!isCustomKeywordMode) NeonCyan else Color.Transparent, RoundedCornerShape(6.dp))
+                                .clickable { isCustomKeywordMode = false }
+                                .padding(vertical = 8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("Select Predefined", color = if (!isCustomKeywordMode) NeonCyan else TextSecondary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(if (isCustomKeywordMode) NeonCyan.copy(alpha = 0.2f) else Color.Transparent)
+                                .border(if (isCustomKeywordMode) 1.dp else 0.dp, if (isCustomKeywordMode) NeonCyan else Color.Transparent, RoundedCornerShape(6.dp))
+                                .clickable { isCustomKeywordMode = true }
+                                .padding(vertical = 8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("Enter Custom", color = if (isCustomKeywordMode) NeonCyan else TextSecondary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                        }
+                    }
+
+                    Spacer(Modifier.height(10.dp))
+
+                    if (!isCustomKeywordMode) {
+                        // Select Predefined Category
+                        val selectedKeywordCatObj = existingKeywordCategories.find { it.name.equals(keywordCategory, ignoreCase = true) }
+                        val displayKeywordCatText = if (selectedKeywordCatObj != null) "${selectedKeywordCatObj.emoji} ${selectedKeywordCatObj.label} (${selectedKeywordCatObj.name})" else keywordCategory
+
+                        ExposedDropdownMenuBox(
+                            expanded = keywordExpanded,
+                            onExpandedChange = { keywordExpanded = !keywordExpanded },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            OutlinedTextField(
+                                value = keywordCategory,
+                                onValueChange = { 
+                                    keywordCategory = it 
+                                    keywordExpanded = true
+                                },
+                                readOnly = false,
+                                modifier = Modifier.fillMaxWidth().menuAnchor(),
+                                label = { Text("Search or Select Category", color = TextSecondary) },
+                                singleLine = true,
+                                trailingIcon = { 
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = keywordExpanded)
+                                },
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedBorderColor = NeonCyan,
+                                    unfocusedBorderColor = GlassBorder,
+                                    focusedTextColor = TextPrimary,
+                                    unfocusedTextColor = TextPrimary
+                                )
+                            )
+
+                            ExposedDropdownMenu(
+                                expanded = keywordExpanded,
+                                onDismissRequest = { keywordExpanded = false },
+                                modifier = Modifier
+                                    .background(DarkSurface)
+                                    .heightIn(max = 280.dp)
+                            ) {
+                                val filteredCategories = existingKeywordCategories.filter { 
+                                    it.name.contains(keywordCategory, ignoreCase = true) || 
+                                    it.label.contains(keywordCategory, ignoreCase = true) 
+                                }
+                                filteredCategories.forEach { category ->
+                                    DropdownMenuItem(
+                                        text = { 
+                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                                Text(category.emoji, fontSize = 16.sp)
+                                                Spacer(Modifier.width(8.dp))
+                                                Text(category.label, color = TextPrimary, fontWeight = FontWeight.SemiBold)
+                                                Spacer(Modifier.width(6.dp))
+                                                Text("(${category.name})", color = TextSecondary, fontSize = 11.sp)
+                                            }
+                                        },
+                                        onClick = {
+                                            keywordCategory = category.name
+                                            keywordExpanded = false
+                                            keywordFocusManager.clearFocus()
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    } else {
+                        // Enter Custom Category Name
+                        OutlinedTextField(
+                            value = keywordCategory,
+                            onValueChange = { keywordCategory = it },
+                            modifier = Modifier.fillMaxWidth(),
+                            label = { Text("Enter Custom Category Name", color = TextSecondary) },
+                            placeholder = { Text("e.g. CRYPTO_EXCHANGE, GAMING_HUB, EDTECH", color = TextSecondary.copy(alpha = 0.5f)) },
+                            singleLine = true,
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = NeonCyan,
+                                unfocusedBorderColor = GlassBorder,
+                                focusedTextColor = TextPrimary,
+                                unfocusedTextColor = TextPrimary
+                            )
+                        )
+                    }
+
+                    // Display Existing Related Keywords Box
+                    if (keywordCategory.isNotBlank()) {
+                        Spacer(Modifier.height(8.dp))
+                        val currentExistingKw = remember(keywordCategory, mergedSignals) {
+                            val matchSignal = mergedSignals.find { 
+                                it.category.name.equals(keywordCategory, ignoreCase = true) || 
+                                it.category.label.equals(keywordCategory, ignoreCase = true) 
+                            }
+                            matchSignal?.keywords ?: emptyList()
+                        }
+
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            color = DarkBackground,
+                            border = BorderStroke(1.dp, GlassBorder),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Column(modifier = Modifier.padding(10.dp)) {
+                                Text(
+                                    "🏷️ Current Keywords for \"$keywordCategory\" (${currentExistingKw.size}):",
+                                    color = NeonCyan,
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Spacer(Modifier.height(6.dp))
+                                if (currentExistingKw.isEmpty()) {
+                                    Text("No keywords currently registered for this category.", color = TextSecondary, fontSize = 11.sp)
+                                } else {
+                                    Text(
+                                        currentExistingKw.joinToString(", "),
+                                        color = TextSecondary,
+                                        fontSize = 11.sp,
+                                        lineHeight = 16.sp
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = keywordsInput,
+                        onValueChange = { keywordsInput = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("Keywords (comma separated)", color = TextSecondary) },
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = NeonCyan,
+                            unfocusedBorderColor = GlassBorder,
+                            focusedTextColor = TextPrimary,
+                            unfocusedTextColor = TextPrimary
+                        )
+                    )
+                    Spacer(Modifier.height(12.dp))
+                    Button(
+                        onClick = {
+                            if (keywordCategory.isNotBlank() && keywordsInput.isNotBlank()) {
+                                isInjecting = true
+                                val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                                
+                                val currentSignals = com.safeqr.scanner.data.remote.CloudDatasetManager.getWebsiteCategorizerData().KEYWORD_SIGNALS.toMutableList()
+                                val targetCategory = keywordCategory.uppercase().trim().replace(" ", "_")
+                                val newKeywords = keywordsInput.split(",").map { it.trim().lowercase() }.filter { it.isNotEmpty() }
+                                
+                                val existingIndex = currentSignals.indexOfFirst { it.category == targetCategory }
+                                if (existingIndex != -1) {
+                                    val existing = currentSignals[existingIndex]
+                                    val mergedKeywords = (existing.keywords + newKeywords).distinct()
+                                    currentSignals[existingIndex] = existing.copy(keywords = mergedKeywords)
+                                } else {
+                                    currentSignals.add(com.safeqr.scanner.data.remote.KeywordSignalData(category = targetCategory, keywords = newKeywords, threshold = 3))
+                                }
+                                
+                                val updateData = mapOf(
+                                    "websiteCategorizerData" to mapOf(
+                                        "KEYWORD_SIGNALS" to currentSignals
+                                    )
+                                )
+                                
+                                db.collection("app_config").document("datasets")
+                                    .set(updateData, com.google.firebase.firestore.SetOptions.merge())
+                                    .addOnSuccessListener {
+                                        scope.launch {
+                                            isInjecting = false
+                                            keywordCategory = ""
+                                            keywordsInput = ""
+                                            android.widget.Toast.makeText(context, "✅ Keywords injected!", android.widget.Toast.LENGTH_LONG).show()
+                                            
+                                            kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                                                com.safeqr.scanner.data.remote.CloudDatasetManager.fetchAndCacheAll(context)
+                                            }
+                                        }
+                                    }
+                                    .addOnFailureListener { e ->
+                                        isInjecting = false
+                                        android.widget.Toast.makeText(context, "Failed to update: ${e.message}", android.widget.Toast.LENGTH_LONG).show()
+                                    }
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth().height(42.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = NeonCyan),
+                        shape = RoundedCornerShape(8.dp),
+                        enabled = !isInjecting
+                    ) {
+                        if (isInjecting) {
+                            CircularProgressIndicator(color = DarkBackground, modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
+                        } else {
+                            Text("INJECT KEYWORDS", color = DarkBackground, fontWeight = FontWeight.Bold)
                         }
                     }
                 }

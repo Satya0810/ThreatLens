@@ -125,6 +125,44 @@ object PreferencesManager {
         getPrefs(context).edit().putBoolean(KEY_VIBRATE, value).apply()
     }
 
+    private const val KEY_HAPTIC_INTENSITY = "haptic_intensity" // 0: off, 1: light, 2: strong
+    private const val KEY_SOUND_ENABLED = "sound_enabled"
+    private const val KEY_BATCH_SCAN_MODE = "batch_scan_mode"
+
+    fun getHapticIntensity(context: Context): Int {
+        return getPrefs(context).getInt(KEY_HAPTIC_INTENSITY, 2)
+    }
+
+    fun setHapticIntensity(context: Context, intensity: Int) {
+        getPrefs(context).edit().putInt(KEY_HAPTIC_INTENSITY, intensity).apply()
+    }
+
+    fun getSoundEnabled(context: Context): Boolean {
+        return getPrefs(context).getBoolean(KEY_SOUND_ENABLED, false)
+    }
+
+    fun setSoundEnabled(context: Context, enabled: Boolean) {
+        getPrefs(context).edit().putBoolean(KEY_SOUND_ENABLED, enabled).apply()
+    }
+    
+    private const val KEY_DEFAULT_DASHBOARD_TAB = "default_dashboard_tab"
+
+    fun getDefaultDashboardTab(context: Context): Int {
+        return getPrefs(context).getInt(KEY_DEFAULT_DASHBOARD_TAB, 0) // 0 for My Scans, 1 for AI Neural Core
+    }
+
+    fun setDefaultDashboardTab(context: Context, tabIndex: Int) {
+        getPrefs(context).edit().putInt(KEY_DEFAULT_DASHBOARD_TAB, tabIndex).apply()
+    }
+
+    fun getBatchScanMode(context: Context): Boolean {
+        return getPrefs(context).getBoolean(KEY_BATCH_SCAN_MODE, false)
+    }
+
+    fun setBatchScanMode(context: Context, enabled: Boolean) {
+        getPrefs(context).edit().putBoolean(KEY_BATCH_SCAN_MODE, enabled).apply()
+    }
+
     // ── Child Lock (Parental Control) ────────────────────────────────────
 
     private const val KEY_CHILD_LOCK_ENABLED = "child_lock_enabled"
@@ -305,6 +343,107 @@ object PreferencesManager {
             .remove(KEY_PARENTAL_CONFIG)
             .remove(KEY_PARENTAL_LOGS)
             .remove(KEY_THEME)
+            .remove(KEY_HAPTIC_INTENSITY)
+            .remove(KEY_SOUND_ENABLED)
+            .remove(KEY_BATCH_SCAN_MODE)
             .apply()
+    }
+
+    // ── QR Templates ────────────────────────────────────────────────────────
+    private const val KEY_QR_TEMPLATES = "qr_templates"
+    private const val MAX_TEMPLATES = 20
+
+    data class QrTemplateData(
+        val name: String,
+        val type: String,      // QrType.name
+        val f1: String = "",
+        val f2: String = "",
+        val f3: String = "",
+        val f4: String = "",
+        val f5: String = "",
+        val colorTheme: String,   // QrColorTheme.name
+        val dotStyle: String,     // QrDotStyle.name
+        val eyeStyle: String,     // QrEyeStyle.name
+        val bgStyle: String,      // QrBgStyle.name
+        val logo: String,         // QrLogo.name
+        val frameText: String = "",
+        val createdAt: Long = System.currentTimeMillis()
+    )
+
+    fun getQrTemplates(context: Context): List<QrTemplateData> {
+        val jsonString = getPrefs(context).getString(KEY_QR_TEMPLATES, null)
+        if (jsonString.isNullOrEmpty()) return emptyList()
+        return try {
+            val array = JSONArray(jsonString)
+            val templates = mutableListOf<QrTemplateData>()
+            for (i in 0 until array.length()) {
+                val obj = array.getJSONObject(i)
+                templates.add(
+                    QrTemplateData(
+                        name = obj.getString("name"),
+                        type = obj.getString("type"),
+                        f1 = obj.optString("f1", ""),
+                        f2 = obj.optString("f2", ""),
+                        f3 = obj.optString("f3", ""),
+                        f4 = obj.optString("f4", ""),
+                        f5 = obj.optString("f5", ""),
+                        colorTheme = obj.optString("colorTheme", "NEON_CYAN"),
+                        dotStyle = obj.optString("dotStyle", "ROUNDED"),
+                        eyeStyle = obj.optString("eyeStyle", "CYBER_HEX"),
+                        bgStyle = obj.optString("bgStyle", "DARK"),
+                        logo = obj.optString("logo", "THREATLENS"),
+                        frameText = obj.optString("frameText", ""),
+                        createdAt = obj.optLong("createdAt", System.currentTimeMillis())
+                    )
+                )
+            }
+            templates.sortedByDescending { it.createdAt }
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    fun saveQrTemplate(context: Context, template: QrTemplateData): Boolean {
+        val current = getQrTemplates(context).toMutableList()
+        // Prevent duplicates by name
+        current.removeAll { it.name == template.name }
+        if (current.size >= MAX_TEMPLATES) {
+            // Remove oldest
+            current.sortByDescending { it.createdAt }
+            while (current.size >= MAX_TEMPLATES) current.removeLastOrNull()
+        }
+        current.add(0, template)
+        writeTemplates(context, current)
+        return true
+    }
+
+    fun deleteQrTemplate(context: Context, templateName: String) {
+        val current = getQrTemplates(context).toMutableList()
+        current.removeAll { it.name == templateName }
+        writeTemplates(context, current)
+    }
+
+    private fun writeTemplates(context: Context, templates: List<QrTemplateData>) {
+        val array = JSONArray()
+        templates.forEach { t ->
+            val obj = JSONObject().apply {
+                put("name", t.name)
+                put("type", t.type)
+                put("f1", t.f1)
+                put("f2", t.f2)
+                put("f3", t.f3)
+                put("f4", t.f4)
+                put("f5", t.f5)
+                put("colorTheme", t.colorTheme)
+                put("dotStyle", t.dotStyle)
+                put("eyeStyle", t.eyeStyle)
+                put("bgStyle", t.bgStyle)
+                put("logo", t.logo)
+                put("frameText", t.frameText)
+                put("createdAt", t.createdAt)
+            }
+            array.put(obj)
+        }
+        getPrefs(context).edit().putString(KEY_QR_TEMPLATES, array.toString()).apply()
     }
 }

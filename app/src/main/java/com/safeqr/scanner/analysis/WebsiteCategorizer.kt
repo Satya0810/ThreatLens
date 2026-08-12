@@ -11,8 +11,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.content
 import com.safeqr.scanner.data.ApiKeys
 
 /**
@@ -35,14 +33,24 @@ object WebsiteCategorizer {
     private val btcRegex = Regex("\\b([13][a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[ac-hj-np-z02-9]{11,71})\\b")
     private val ethRegex = Regex("\\b(0x[a-fA-F0-9]{40})\\b")
     
-    private val compiledPatterns: Map<String, Regex> by lazy {
+    @Volatile private var cachedMergedSignals: List<KeywordSignal>? = null
+    @Volatile private var cachedPatterns: Map<String, Regex>? = null
+
+    fun invalidateCache() {
+        cachedMergedSignals = null
+        cachedPatterns = null
+    }
+
+    private fun getCompiledPatterns(): Map<String, Regex> {
+        cachedPatterns?.let { return it }
         val map = mutableMapOf<String, Regex>()
-        for (signal in KEYWORD_SIGNALS) {
+        for (signal in getMergedKeywordSignals()) {
             for (keyword in signal.keywords) {
                 map[keyword] = Regex("\\b${Regex.escape(keyword)}\\b", RegexOption.IGNORE_CASE)
             }
         }
-        map
+        cachedPatterns = map
+        return map
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -3496,12 +3504,12 @@ object WebsiteCategorizer {
         KeywordSignal(SiteCategory.PHISHING, listOf("verify your account", "confirm your identity", "account suspended", "unusual activity", "update your payment", "click here immediately", "password reset", "security alert", "unauthorized access", "action required", "account locked", "final warning", "validate your details", "billing error"), 1),
         // MALWARE raised to 2 — single words like "virus", "exploit" appear on cybersecurity/antivirus sites
         KeywordSignal(SiteCategory.MALWARE, listOf("trojan", "ransomware", "exploit", "backdoor", "rootkit", "keylogger", "botnet", "payload", "virus", "worm", "spyware", "adware", "cryptojacking", "dropper", "zero-day"), 2),
-        // ── DANGEROUS: Adult & Porn — raised to 2: "strip", "amateur", "webcam" appear on legitimate sites ──
-        KeywordSignal(SiteCategory.PORNOGRAPHY, listOf("porn", "xxx", "nude", "nsfw", "mature content", "escort", "onlyfans", "cam girl", "hentai", "erotic", "adult entertainment", "webcam", "fetish", "bdsm", "milf", "stepmom", "blowjob", "hardcore", "softcore", "sex toy", "live sex", "pornstar", "sex tape", "sex chat"), 2),
-        // ── DANGEROUS: Gambling — raised to 2: "odds", "jackpot", "payout" appear in news/finance ──
-        KeywordSignal(SiteCategory.ONLINE_CASINOS, listOf("casino", "betting", "sportsbook", "poker online", "slots", "roulette", "wager", "jackpot", "odds", "bookie", "place bet", "blackjack", "live dealer", "deposit bonus", "free spins", "gamble", "baccarat", "craps", "payout", "lottery", "sweepstakes", "bingo"), 2),
-        // ── DANGEROUS: Piracy — raised to 2: "crack", "free download" appear on legitimate software sites ──
-        KeywordSignal(SiteCategory.SOFTWARE_PIRACY, listOf("torrent", "crack", "keygen", "warez", "pirate", "nulled", "seeders", "leechers", "repack", "magnet link", "movie download", "full movie", "hdcam", "webrip", "dvdscr", "free download", "yts", "thepiratebay", "1337x", "watch free", "unblocked", "piracy"), 2),
+        // ── CAUTION: Adult & Porn — raised to 2: "strip", "amateur", "webcam" appear on legitimate sites ──
+        KeywordSignal(SiteCategory.PORNOGRAPHY, listOf("porn", "xxx", "nude", "nsfw", "mature content", "escort", "onlyfans", "cam girl", "hentai", "erotic", "adult entertainment", "webcam", "fetish", "bdsm", "milf", "stepmom", "blowjob", "hardcore", "softcore", "sex toy", "live sex", "pornstar", "sex tape", "sex chat", "hot video", "desi xxx", "leaked video", "leaked photos", "intimate video", "adult content warning", "age verification", "adults only", "explicit material", "18+ only", "naked", "strip club", "lap dance", "adult cam", "live cam", "sex worker", "call girl"), 2),
+        // ── CAUTION: Gambling — raised to 2: "odds", "jackpot", "payout" appear in news/finance ──
+        KeywordSignal(SiteCategory.ONLINE_CASINOS, listOf("casino", "betting", "sportsbook", "poker online", "slots", "roulette", "wager", "jackpot", "odds", "bookie", "place bet", "blackjack", "live dealer", "deposit bonus", "free spins", "gamble", "baccarat", "craps", "payout", "lottery", "sweepstakes", "bingo", "satta", "matka", "teen patti", "rummy online", "fantasy cricket", "ipl betting", "cricket satta", "slot machine", "progressive jackpot", "no deposit bonus", "welcome bonus", "cashback bonus", "responsible gambling", "wagering requirements", "bet365", "1xbet", "betway", "spin and win", "lucky draw"), 2),
+        // ── CAUTION: Piracy — raised to 2: "crack", "free download" appear on legitimate software sites ──
+        KeywordSignal(SiteCategory.SOFTWARE_PIRACY, listOf("torrent", "crack", "keygen", "warez", "pirate", "nulled", "seeders", "leechers", "repack", "magnet link", "movie download", "full movie", "hdcam", "webrip", "dvdscr", "free download", "yts", "thepiratebay", "1337x", "watch free", "unblocked", "piracy", "watch free online", "free streaming", "no subscription", "putlocker", "123movies", "fmovies", "soap2day", "gomovies", "watchseries", "solarmovie", "apk mod", "modded apk", "premium crack", "activation key", "license key generator", "serial number", "patch download", "cracked software", "full version free", "download crack"), 2),
         // ── DANGEROUS: Illegal Goods & Dark Web — keeps threshold=1 (all multi-word phrases) ──
         KeywordSignal(SiteCategory.ILLEGAL_DRUG_SALES, listOf("buy weed", "buy steroids", "darknet market", "buy cocaine", "lsd", "mdma", "magic mushrooms", "buy pills online", "fentanyl", "meth", "heroin", "psychedelics"), 1),
         KeywordSignal(SiteCategory.ILLEGAL_WEAPONS, listOf("buy guns online", "ghost gun", "unregistered firearm", "buy ammo", "suppressor", "switchblade", "automatic weapon", "firearms sale"), 1),
@@ -3586,18 +3594,30 @@ object WebsiteCategorizer {
         val sslGrade: String? = null,
         val isNsfwLikely: Boolean = false,
         // ── New: Meta Keywords for deeper categorization ──
-        val metaKeywords: String = ""
+        val metaKeywords: String = "",
+        // ── New: Schema.org and Twitter Card Metadata ──
+        val jsonLdType: String? = null,
+        val twitterCard: String? = null
     )
 
     data class CategoryResult(
         val category: SiteCategory,
         val confidence: Float,
-        val reason: String
+        val reason: String,
+        val customCategoryLabel: String? = null
     )
 
     suspend fun categorize(signals: PageSignals, webshrinkerCategories: List<SiteCategory> = emptyList()): CategoryResult {
         val domain = signals.domain?.lowercase()?.removePrefix("www.") ?: ""
         val fullUrl = signals.url.lowercase()
+
+        // ── GLOBAL OVERRIDE / KNOWN DOMAINS ──
+        // If the domain is explicitly categorized in our cloud database or local defaults,
+        // it acts as an absolute override, bypassing all heuristics.
+        val knownResult = lookupDomain(domain)
+        if (knownResult != null) {
+            return knownResult
+        }
 
         val scores = mutableMapOf<SiteCategory, Float>()
         fun addScore(category: SiteCategory, weight: Float) {
@@ -3639,13 +3659,50 @@ object WebsiteCategorizer {
             if (nl.contains("malware") || nl.contains("virus")) {
                 addScore(SiteCategory.MALWARE, 80f)
             }
-            if (nl.contains("adult") || nl.contains("porn") || nl.contains("nsfw")) {
+            if (nl.contains("adult") || nl.contains("porn") || nl.contains("nsfw") || nl.contains("nude") || nl.contains("explicit")) {
                 addScore(SiteCategory.PORNOGRAPHY, 80f)
+            }
+            if (nl.contains("gambl") || nl.contains("casino") || nl.contains("betting") || nl.contains("satta")) {
+                addScore(SiteCategory.ONLINE_CASINOS, 80f)
+            }
+            if (nl.contains("piracy") || nl.contains("torrent") || nl.contains("pirate") || nl.contains("illegal stream") || nl.contains("crack") || nl.contains("warez")) {
+                addScore(SiteCategory.SOFTWARE_PIRACY, 80f)
+            }
+            if (nl.contains("scam") || nl.contains("fraud") || nl.contains("cheat")) {
+                addScore(SiteCategory.FINANCIAL_FRAUD, 75f)
+            }
+        }
+        // ── ENTERPRISE: Schema.org Structured Data (JSON-LD) ──
+        if (signals.jsonLdType != null) {
+            val schemaType = signals.jsonLdType.lowercase()
+            val schemaCategory = when (schemaType) {
+                "newsarticle", "article", "reportagenewsarticle" -> SiteCategory.NATIONAL_NEWS
+                "product", "offer", "someproducts" -> SiteCategory.ONLINE_RETAIL
+                "movie", "videoobject", "tvepisode", "tvseries" -> SiteCategory.MOVIE_STREAMING
+                "course", "educationalorganization", "collegeoruniversity" -> SiteCategory.ONLINE_LEARNING
+                "localbusiness", "store", "restaurant" -> SiteCategory.FOOD_DELIVERY
+                "flight", "airline" -> SiteCategory.FLIGHT_BOOKING
+                "hotel", "lodgingbusiness" -> SiteCategory.HOTEL_BOOKING
+                "jobposting" -> SiteCategory.PROFESSIONAL_NETWORKING
+                "medicalwebpage", "medicalcondition" -> SiteCategory.MEDICAL_INFORMATION
+                else -> null
+            }
+            if (schemaCategory != null) {
+                addScore(schemaCategory, 80f)
             }
         }
 
-        // 1. Known Domain
-        lookupDomain(domain)?.let { addScore(it, 100f) }
+        // ── ENTERPRISE: Twitter Card Metadata ──
+        if (signals.twitterCard != null) {
+            val tc = signals.twitterCard.lowercase()
+            if (tc == "summary_large_image" || tc == "summary" || tc == "player") {
+                addScore(SiteCategory.BLOGGING, 20f)
+                addScore(SiteCategory.NATIONAL_NEWS, 15f)
+            }
+        }
+
+        // 1. Known Domain (Already checked above as an absolute override)
+
         // 2. TLD
         lookupTLD(domain)?.let { addScore(it, 30f) }
         // 2.5 Domain Keywords — reduced weight to 20f to prevent false positives from substring matches
@@ -3710,7 +3767,7 @@ object WebsiteCategorizer {
         // 6b. OG Site Name bonus — if site name matches a known brand
         val siteName = signals.ogSiteName.lowercase()
         if (siteName.isNotBlank()) {
-            lookupDomain("$siteName.com")?.let { addScore(it, 40f) }
+            lookupDomain("$siteName.com")?.let { addScore(it.category, 40f) }
         }
 
         // ── 6c. Title Phrase Matching — require 2+ phrase matches and use specific phrases ──
@@ -3805,26 +3862,58 @@ object WebsiteCategorizer {
         return CategoryResult(SiteCategory.UNKNOWN, 0.5f, "No strong heuristic signals found.")
     }
 
-    private fun lookupDomain(domain: String): SiteCategory? {
+    fun getMergedKeywordSignals(): List<KeywordSignal> {
+        cachedMergedSignals?.let { return it }
+        val baseList = KEYWORD_SIGNALS.toMutableList()
+        val cloudList = com.safeqr.scanner.data.remote.CloudDatasetManager.getWebsiteCategorizerData().KEYWORD_SIGNALS
+        for (cData in cloudList) {
+            val matchedCategory = SiteCategory.entries.find { it.name.equals(cData.category, ignoreCase = true) || it.label.equals(cData.category, ignoreCase = true) } ?: SiteCategory.UNKNOWN
+            val existingIndex = baseList.indexOfFirst { it.category == matchedCategory }
+            if (existingIndex != -1) {
+                val existing = baseList[existingIndex]
+                val mergedKw = (existing.keywords + cData.keywords).distinct()
+                baseList[existingIndex] = existing.copy(keywords = mergedKw)
+            } else {
+                baseList.add(KeywordSignal(matchedCategory, cData.keywords.distinct(), cData.threshold))
+            }
+        }
+        cachedMergedSignals = baseList
+        return baseList
+    }
+
+    private fun lookupDomain(domain: String): CategoryResult? {
         // 1. Try exact match first (cloud then local)
         val cloudMap = com.safeqr.scanner.data.remote.CloudDatasetManager.getWebsiteCategorizerData().KNOWN_DOMAINS
         val catName = cloudMap[domain]
         if (catName != null) {
-            return SiteCategory.entries.find { it.name == catName }
+            val matchedEnum = SiteCategory.entries.find { it.name.equals(catName, ignoreCase = true) || it.label.equals(catName, ignoreCase = true) }
+            return if (matchedEnum != null) {
+                CategoryResult(matchedEnum, 1.0f, "Matched known domain global override.")
+            } else {
+                CategoryResult(SiteCategory.UNKNOWN, 1.0f, "Matched custom category global override.", customCategoryLabel = catName)
+            }
         }
-        WebsiteCategorizerDefaults.KNOWN_DOMAINS[domain]?.let { return it }
+        WebsiteCategorizerDefaults.KNOWN_DOMAINS[domain]?.let { 
+            return CategoryResult(it, 1.0f, "Matched default known domain database.")
+        }
 
         // 2. Subdomain-aware fallback: strip subdomains progressively
-        //    e.g., "news.google.com" → "google.com" → match!
         val parts = domain.split(".")
         if (parts.size > 2) {
             for (i in 1 until parts.size - 1) {
                 val parent = parts.subList(i, parts.size).joinToString(".")
                 val cloudParent = cloudMap[parent]
                 if (cloudParent != null) {
-                    return SiteCategory.entries.find { it.name == cloudParent }
+                    val matchedEnum = SiteCategory.entries.find { it.name.equals(cloudParent, ignoreCase = true) || it.label.equals(cloudParent, ignoreCase = true) }
+                    return if (matchedEnum != null) {
+                        CategoryResult(matchedEnum, 1.0f, "Matched known parent domain global override.")
+                    } else {
+                        CategoryResult(SiteCategory.UNKNOWN, 1.0f, "Matched custom category parent domain global override.", customCategoryLabel = cloudParent)
+                    }
                 }
-                WebsiteCategorizerDefaults.KNOWN_DOMAINS[parent]?.let { return it }
+                WebsiteCategorizerDefaults.KNOWN_DOMAINS[parent]?.let { 
+                    return CategoryResult(it, 1.0f, "Matched default parent domain database.")
+                }
             }
         }
         return null
@@ -3872,6 +3961,13 @@ object WebsiteCategorizer {
         }
         
         return when {
+            // Adult — check first (high priority for parental controls)
+            domainContainsWord("porn") || domainContainsWord("xxx") || domainContainsWord("sex") || domainContainsWord("nude") || domainContainsWord("nsfw") || domainContainsWord("escort") || domainContainsWord("hentai") || domainContainsWord("cam") || domainContainsWord("adult") || domainContainsWord("erotic") || domainContainsWord("fetish") || domainContainsWord("bdsm") -> SiteCategory.PORNOGRAPHY
+            // Gambling
+            domainContainsWord("bet") || domainContainsWord("casino") || domainContainsWord("poker") || domainContainsWord("slots") || domainContainsWord("gamble") || domainContainsWord("wager") || domainContainsWord("sportsbook") || domainContainsWord("lottery") || domainContainsWord("satta") || domainContainsWord("matka") || domainContainsWord("rummy") || domainContainsWord("bingo") -> SiteCategory.ONLINE_CASINOS
+            // Piracy
+            domainContainsWord("torrent") || domainContainsWord("warez") || domainContainsWord("pirate") || domainContainsWord("crack") || domainBody.contains("1337x") || domainBody.contains("yts") -> SiteCategory.SOFTWARE_PIRACY
+            // Safe categories
             domainContainsWord("bank") || domainContainsWord("banking") -> SiteCategory.BANKING
             domainContainsWord("shop") || domainContainsWord("store") || domainContainsWord("retail") || domainContainsWord("mart") -> SiteCategory.ONLINE_RETAIL
             domainContainsWord("news") || domainContainsWord("daily") || domainContainsWord("times") -> SiteCategory.NATIONAL_NEWS
@@ -3883,14 +3979,18 @@ object WebsiteCategorizer {
             domainContainsWord("travel") || domainContainsWord("hotel") || domainContainsWord("flight") -> SiteCategory.FLIGHT_BOOKING
             domainContainsWord("food") || domainContainsWord("restaurant") || domainContainsWord("pizza") || domainContainsWord("burger") -> SiteCategory.FOOD_DELIVERY
             domainContainsWord("crypto") || domainContainsWord("coin") || domainContainsWord("token") -> SiteCategory.CRYPTOCURRENCY
-            domainContainsWord("bet") || domainContainsWord("casino") -> SiteCategory.ONLINE_CASINOS
-            domainContainsWord("porn") || domainContainsWord("xxx") || domainContainsWord("sex") -> SiteCategory.PORNOGRAPHY
             else -> null
         }
     }
 
     private fun extractCategoryFromUrlPath(url: String): SiteCategory? {
         return when {
+            // Adult content paths (check first — high priority for parental controls)
+            url.contains("/porn/") || url.contains("/xxx/") || url.contains("/nsfw/") || url.contains("/adult/") || url.contains("/nude/") || url.contains("/erotic/") || url.contains("/hentai/") || url.contains("/escort/") || url.contains("/cam-girls/") || url.contains("/live-sex/") || url.contains("/sex-chat/") -> SiteCategory.PORNOGRAPHY
+            // Piracy paths
+            url.contains("/torrent/") || url.contains("/torrents/") || url.contains("/download-free/") || url.contains("/pirate/") || url.contains("/cracked/") || url.contains("/nulled/") || url.contains("/warez/") || url.contains("/keygen/") || url.contains("/modded-apk/") || url.contains("/apk-mod/") || url.contains("/free-movie/") || url.contains("/free-download/") -> SiteCategory.SOFTWARE_PIRACY
+            // Gambling (caution — check before generic entertainment)
+            url.contains("/casino/") || url.contains("/betting/") || url.contains("/poker/") || url.contains("/slots/") || url.contains("/satta/") || url.contains("/matka/") || url.contains("/roulette/") || url.contains("/blackjack/") || url.contains("/live-dealer/") || url.contains("/sportsbook/") -> SiteCategory.ONLINE_CASINOS
             // Shopping
             url.contains("/shop/") || url.contains("/product/") || url.contains("/cart") || url.contains("/checkout") -> SiteCategory.ONLINE_RETAIL
             // News
@@ -3919,8 +4019,6 @@ object WebsiteCategorizer {
             url.contains("/forum/") || url.contains("/community/") || url.contains("/discussion/") || url.contains("/thread/") -> SiteCategory.FORUMS_COMMUNITIES
             // Blog
             url.contains("/blog/") || url.contains("/blogs/") -> SiteCategory.BLOGGING
-            // Gambling (caution — check before generic entertainment)
-            url.contains("/casino/") || url.contains("/betting/") || url.contains("/poker/") || url.contains("/slots/") -> SiteCategory.ONLINE_CASINOS
             // Government
             url.contains("/gov/") || url.contains("/government/") || url.contains("/public-services/") -> SiteCategory.GOVERNMENT_PORTALS
             else -> null
@@ -3982,10 +4080,11 @@ object WebsiteCategorizer {
         
         if (highValueText.length + lowValueText.length < 10) return
 
-        for (signal in KEYWORD_SIGNALS) {
+        val patterns = getCompiledPatterns()
+        for (signal in getMergedKeywordSignals()) {
             var matchPoints = 0
             for (keyword in signal.keywords) {
-                val pattern = compiledPatterns[keyword] ?: continue
+                val pattern = patterns[keyword] ?: continue
                 // A match in title/heading is worth 2x a match in the body
                 if (pattern.containsMatchIn(highValueText)) {
                     matchPoints += 2
@@ -4022,67 +4121,13 @@ object WebsiteCategorizer {
     }
 
     private suspend fun tryAIClassification(signals: PageSignals): CategoryResult? {
-        val geminiKey = ApiKeys.GEMINI
-        if (geminiKey.isBlank()) return null
+        // [PERFORMANCE UPDATE] AI fallback completely disabled and removed by user request due to timeouts.
+        return null
+    }
 
-        // Build context from available signals — AI can work with just URL + domain
-        val contextText = buildString {
-            append("URL: ${signals.url}\n")
-            if (signals.domain != null) append("Domain: ${signals.domain}\n")
-            if (signals.scrapedTitle.isNotBlank()) append("Title: ${signals.scrapedTitle}\n")
-            if (signals.scrapedDescription.isNotBlank()) append("Description: ${signals.scrapedDescription}\n")
-            if (signals.ogSiteName.isNotBlank()) append("Site Name: ${signals.ogSiteName}\n")
-            if (signals.h1h2Text.isNotBlank()) append("Headings: ${signals.h1h2Text.take(300)}\n")
-            if (signals.metaKeywords.isNotBlank()) append("Keywords: ${signals.metaKeywords.take(200)}\n")
-            if (signals.cloudflareCategory != null) append("Cloudflare Category: ${signals.cloudflareCategory}\n")
-            if (signals.bodyText.isNotBlank()) append("Content: ${signals.bodyText.take(500)}\n")
-        }
-        // URL alone is enough for AI to attempt classification
-        if (signals.url.isBlank()) return null
-
-        return try {
-            withTimeoutOrNull(8000) {
-                // Only send the most relevant categories to reduce confusion
-                val safeCategories = SiteCategory.entries
-                    .filter { it != SiteCategory.UNKNOWN }
-                    .joinToString(", ") { it.name }
-
-                val prompt = """You are a website categorizer. Based on the following data, classify this website into EXACTLY ONE of these categories:
-$safeCategories
-
-$contextText
-Respond with ONLY the category name (e.g., "ONLINE_RETAIL" or "TECH_NEWS"). No explanation, no punctuation, just the category name."""
-
-                val model = GenerativeModel(
-                    modelName = "gemini-2.0-flash",
-                    apiKey = geminiKey
-                )
-                val response = model.generateContent(content { text(prompt) })
-                val aiResponse = response.text?.trim()?.uppercase()?.replace(" ", "_")?.replace("\"", "") ?: return@withTimeoutOrNull null
-
-                // Strict parsing: only accept valid enum names
-                val matchedCategory = SiteCategory.entries.find { it.name == aiResponse }
-                if (matchedCategory != null) {
-                    Log.d(TAG, "AI classified ${signals.url} as ${matchedCategory.label}")
-                    CategoryResult(matchedCategory, 0.80f, "AI Classification (Gemini)")
-                } else {
-                    // Try fuzzy match — AI might return "ONLINE RETAIL" instead of "ONLINE_RETAIL"
-                    val fuzzyMatch = SiteCategory.entries.find { 
-                        aiResponse.contains(it.name) || it.name.contains(aiResponse)
-                    }
-                    if (fuzzyMatch != null) {
-                        Log.d(TAG, "AI fuzzy-classified ${signals.url} as ${fuzzyMatch.label} (raw: $aiResponse)")
-                        CategoryResult(fuzzyMatch, 0.70f, "AI Classification (Gemini, fuzzy)")
-                    } else {
-                        Log.w(TAG, "AI returned invalid category: $aiResponse")
-                        null
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "AI classification failed", e)
-            null
-        }
+    suspend fun generateThreatInsight(reportText: String): String? {
+        // [PERFORMANCE UPDATE] AI insight generation completely disabled and removed by user request due to timeouts.
+        return null
     }
 
 }

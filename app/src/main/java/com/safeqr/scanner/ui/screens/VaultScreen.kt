@@ -10,13 +10,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.*
+import androidx.compose.foundation.lazy.items
+import com.safeqr.scanner.data.local.ScanDatabase
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,6 +47,11 @@ fun VaultScreen(
     val context = LocalContext.current
     var isAuthenticated by remember { mutableStateOf(false) }
     var vaultItems by remember { mutableStateOf<List<ScanResult>>(emptyList()) }
+    var selectedTab by remember { mutableStateOf(0) }
+    val tabs = listOf("Secure Scans", "Verifiable Credentials")
+
+    val db = com.safeqr.scanner.data.local.ScanDatabase.getInstance(context)
+    val vcList by db.verifiableCredentialDao().getAllCredentials().collectAsState(initial = emptyList())
 
     LaunchedEffect(Unit) {
         val biometricManager = BiometricManager.from(context)
@@ -94,7 +103,7 @@ fun VaultScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -105,31 +114,88 @@ fun VaultScreen(
         containerColor = DarkSurface
     ) { paddingValues ->
         if (isAuthenticated) {
-            LazyColumn(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                if (vaultItems.isEmpty()) {
-                    item {
-                        Text(
-                            "Your vault is empty.",
-                            color = Color.Gray,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                TabRow(
+                    selectedTabIndex = selectedTab,
+                    containerColor = DarkSurface,
+                    contentColor = NeonCyan,
+                    indicator = { tabPositions ->
+                        TabRowDefaults.Indicator(
+                            Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
+                            color = NeonCyan
                         )
                     }
-                } else {
-                    items(vaultItems) { item ->
-                        VaultItemCard(
-                            scanResult = item,
-                            onDelete = {
-                                SecureVaultManager.removeFromVault(context, item.rawContent)
-                                vaultItems = SecureVaultManager.getVaultItems(context)
-                            }
+                ) {
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            text = { Text(title, fontWeight = FontWeight.Bold, color = if (selectedTab == index) NeonCyan else Color.Gray) }
                         )
+                    }
+                }
+
+                if (selectedTab == 0) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        if (vaultItems.isEmpty()) {
+                            item {
+                                Text(
+                                    "Your vault is empty.",
+                                    color = Color.Gray,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                )
+                            }
+                        } else {
+                            items(vaultItems) { item ->
+                                VaultItemCard(
+                                    scanResult = item,
+                                    onDelete = {
+                                        SecureVaultManager.removeFromVault(context, item.rawContent)
+                                        vaultItems = SecureVaultManager.getVaultItems(context)
+                                    }
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    val scope = rememberCoroutineScope()
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        if (vcList.isEmpty()) {
+                            item {
+                                Text(
+                                    "No verifiable credentials stored.",
+                                    color = Color.Gray,
+                                    modifier = Modifier.fillMaxWidth(),
+                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                )
+                            }
+                        } else {
+                            items(vcList) { vc ->
+                                VerifiableCredentialVaultItemCard(
+                                    vcEntity = vc,
+                                    onDelete = {
+                                        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                                            db.verifiableCredentialDao().deleteById(vc.vcId)
+                                        }
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -169,6 +235,47 @@ fun VaultItemCard(scanResult: ScanResult, onDelete: () -> Unit) {
                 text = if (isVisible) scanResult.rawContent else "••••••••••••••••••••••••",
                 color = Color.White,
                 fontSize = 16.sp
+            )
+        }
+        
+        IconButton(onClick = { isVisible = !isVisible }) {
+            Icon(
+                imageVector = if (isVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                contentDescription = "Toggle Visibility",
+                tint = Color.Gray
+            )
+        }
+        
+        IconButton(onClick = onDelete) {
+            Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaliciousRed)
+        }
+    }
+}
+
+@Composable
+fun VerifiableCredentialVaultItemCard(vcEntity: com.safeqr.scanner.data.model.VerifiableCredentialEntity, onDelete: () -> Unit) {
+    var isVisible by remember { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(GlassWhite.copy(alpha = 0.05f))
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = "${vcEntity.type} — ${vcEntity.issuerName}",
+                color = NeonCyan,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = if (isVisible) "Subject: ${vcEntity.subjectName}\nIssued: ${vcEntity.issuedAt}\nData: ${vcEntity.claims}" else "••••••••••••••••••••••••",
+                color = Color.White,
+                fontSize = 14.sp
             )
         }
         

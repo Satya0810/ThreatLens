@@ -20,7 +20,7 @@ object RetrofitClient {
     private const val WHOIS_REPUTATION_BASE_URL = "https://domain-reputation.whoisxmlapi.com/"
     private const val CLOUDFLARE_RADAR_BASE_URL = "https://api.cloudflare.com/"
     private const val IP_API_BASE_URL = "http://ip-api.com/"
-    private const val TIMEOUT_SECONDS = 15L
+    private const val TIMEOUT_SECONDS = 90L
 
     private val loggingInterceptor: HttpLoggingInterceptor by lazy {
         HttpLoggingInterceptor().apply {
@@ -93,5 +93,10 @@ object RetrofitClient {
 
     val ipApi: IpApi by lazy {
         createRetrofit(IP_API_BASE_URL).create(IpApi::class.java)
+    }
+
+    fun getQwenApi(baseUrl: String): QwenApiClient {
+        val url = if (baseUrl.endsWith("/")) baseUrl else "$baseUrl/"
+        return createRetrofit(url).create(QwenApiClient::class.java)
     }
 }

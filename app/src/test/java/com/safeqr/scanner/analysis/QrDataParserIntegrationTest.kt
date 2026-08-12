@@ -32,7 +32,7 @@ class QrDataParserIntegrationTest {
         val parsed = QrDataParser.parse(payload)
         assertEquals(QrDataType.WIFI, parsed.type)
         assertEquals("MySecretNetwork", parsed.primaryText)
-        assertEquals("Security: WPA", parsed.secondaryText)
+        assertEquals("Security: WPA\nPassword: SuperSecret123", parsed.secondaryText)
     }
 
     @Test

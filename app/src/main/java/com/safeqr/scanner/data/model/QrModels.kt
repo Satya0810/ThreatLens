@@ -25,7 +25,8 @@ enum class QrType(val label: String, val icon: String) {
     YOUTUBE("YouTube", "▶️"),
     CRYPTO("Crypto Wallet", "🪙"),
     DYNAMIC("Dynamic QR", "⚡"),
-    TICKET("Event Ticket", "🎟️")
+    TICKET("Event Ticket", "🎟️"),
+    CREDENTIAL("Verifiable Credential", "🆔")
 }
 
 // ── Dynamic QR — stored in local DB, URL can be edited after generation ────
@@ -87,4 +88,18 @@ data class SharedQrEvent(
     val eventName: String,                  // e.g. "Office Entry", "Conference Badge"
     val sharedAt: Long = System.currentTimeMillis(),
     val isEntryType: Boolean = true         // true=entry, false=exit
+)
+
+// ── Templates ─────────────────────────────────────────────────────────────
+data class QrTemplate(
+    val name: String,
+    val description: String,
+    val type: QrType,
+    val prefillData: Map<String, String>,
+    val colorTheme: com.safeqr.scanner.ui.components.QrColorTheme,
+    val dotStyle: com.safeqr.scanner.ui.components.QrDotStyle,
+    val eyeStyle: com.safeqr.scanner.ui.components.QrEyeStyle,
+    val bgStyle: com.safeqr.scanner.ui.components.QrBgStyle = com.safeqr.scanner.ui.components.QrBgStyle.DARK,
+    val logo: com.safeqr.scanner.ui.components.QrLogo,
+    val frameText: String? = null
 )

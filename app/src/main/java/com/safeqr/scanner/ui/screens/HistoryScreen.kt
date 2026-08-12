@@ -16,14 +16,18 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -55,39 +59,66 @@ fun HistoryScreen(
     val selectedScan by viewModel.selectedScan.collectAsState()
 
     var searchQuery by remember { mutableStateOf("") }
-    var searchDate by remember { mutableStateOf<Long?>(null) }
+    var searchDateRange by remember { mutableStateOf<androidx.compose.material3.DateRangePickerState?>(null) }
+    var searchStartTime by remember { mutableStateOf<Pair<Int, Int>?>(null) }
+    var searchEndTime by remember { mutableStateOf<Pair<Int, Int>?>(null) }
     var showDatePicker by remember { mutableStateOf(false) }
     var showClearDialog by remember { mutableStateOf(false) }
     var activeFilter by remember(initialFilter) { mutableStateOf(initialFilter ?: "All") }
+    var activeTag by remember { mutableStateOf<String?>(null) }
     var sortOption by remember { mutableStateOf("Newest") } // Newest, Oldest, Highest Risk
-    var activeTab by remember { mutableStateOf(0) }
+    val context = LocalContext.current
 
-    val filteredHistory = scanHistory.filter { scan ->
-        val matchesSearch = scan.domain?.contains(searchQuery, ignoreCase = true) == true ||
-                scan.rawContent.contains(searchQuery, ignoreCase = true)
-        val matchesFilter = when (activeFilter) {
-            "Safe" -> scan.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.SAFE
-            "Caution" -> scan.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.CAUTION
-            "Malicious" -> scan.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.MALICIOUS
-            "Adult" -> scan.isAdultContent
-            "Payment" -> scan.isTransaction
-            else -> true
-        }
-        val matchesDate = if (searchDate != null) {
-            val scanCalendar = java.util.Calendar.getInstance().apply { timeInMillis = scan.timestamp }
-            val searchCalendar = java.util.Calendar.getInstance().apply { timeInMillis = searchDate!! }
-            scanCalendar.get(java.util.Calendar.YEAR) == searchCalendar.get(java.util.Calendar.YEAR) &&
-            scanCalendar.get(java.util.Calendar.DAY_OF_YEAR) == searchCalendar.get(java.util.Calendar.DAY_OF_YEAR)
-        } else {
-            true
-        }
-        matchesSearch && matchesFilter && matchesDate
-    }.let { list ->
-        when (sortOption) {
-            "Newest" -> list.sortedByDescending { it.timestamp }
-            "Oldest" -> list.sortedBy { it.timestamp }
-            "Highest Risk" -> list.sortedBy { it.overallScore }
-            else -> list
+    val allTags = remember(scanHistory) {
+        scanHistory.flatMap { it.tags }.toSet().sorted()
+    }
+
+    val filteredHistory = remember(scanHistory, searchQuery, activeFilter, activeTag, searchDateRange, searchStartTime, searchEndTime, sortOption) {
+        val hasDateFilter = searchDateRange?.selectedStartDateMillis != null
+        val startLocal = if (hasDateFilter) {
+            val startUtc = searchDateRange!!.selectedStartDateMillis!!
+            val offset = java.util.TimeZone.getDefault().getOffset(startUtc).toLong()
+            var s = startUtc - offset
+            if (searchStartTime != null) {
+                s += (searchStartTime!!.first * 3600000L) + (searchStartTime!!.second * 60000L)
+            }
+            s
+        } else 0L
+
+        val endLocal = if (hasDateFilter) {
+            val startUtc = searchDateRange!!.selectedStartDateMillis!!
+            val endUtc = searchDateRange!!.selectedEndDateMillis ?: startUtc
+            val offset = java.util.TimeZone.getDefault().getOffset(startUtc).toLong()
+            var e = endUtc - offset + 86400000L - 1L
+            if (searchEndTime != null) {
+                e = (endUtc - offset) + (searchEndTime!!.first * 3600000L) + (searchEndTime!!.second * 60000L)
+            }
+            e
+        } else Long.MAX_VALUE
+
+        scanHistory.filter { scan ->
+            val matchesSearch = scan.domain?.contains(searchQuery, ignoreCase = true) == true ||
+                    scan.rawContent.contains(searchQuery, ignoreCase = true)
+            val matchesFilter = when (activeFilter) {
+                "Favorites" -> scan.isFavorite
+                "Safe" -> scan.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.SAFE
+                "Caution" -> scan.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.CAUTION
+                "Malicious" -> scan.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.MALICIOUS
+                "Adult" -> scan.isAdultContent
+                "Payment" -> scan.isTransaction
+                "All" -> true
+                else -> scan.tags.contains(activeFilter)
+            }
+            val matchesTag = activeTag == null || scan.tags.contains(activeTag)
+            val matchesDate = if (hasDateFilter) scan.timestamp in startLocal..endLocal else true
+            matchesSearch && matchesFilter && matchesTag && matchesDate
+        }.let { list ->
+            when (sortOption) {
+                "Newest" -> list.sortedByDescending { it.timestamp }
+                "Oldest" -> list.sortedBy { it.timestamp }
+                "Highest Risk" -> list.sortedBy { it.overallScore }
+                else -> list
+            }
         }
     }
 
@@ -95,8 +126,6 @@ fun HistoryScreen(
     val totalScans = scanHistory.size
     val safeScans = scanHistory.count { it.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.SAFE }
     val maliciousScans = scanHistory.count { it.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.MALICIOUS || it.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.CAUTION }
-
-    val context = LocalContext.current
 
     // Animated underline for header
     val underlineWidth by animateFloatAsState(
@@ -111,28 +140,7 @@ fun HistoryScreen(
             .background(DarkBackground)
             .statusBarsPadding()
     ) {
-        TabRow(
-            selectedTabIndex = activeTab,
-            containerColor = DarkBackground,
-            contentColor = NeonCyan,
-            indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
-                    Modifier.tabIndicatorOffset(tabPositions[activeTab]),
-                    color = NeonCyan
-                )
-            }
-        ) {
-            Tab(selected = activeTab == 0, onClick = { activeTab = 0 }) {
-                Text("My Scans", modifier = Modifier.padding(16.dp), color = if (activeTab == 0) NeonCyan else TextSecondary, fontWeight = FontWeight.Bold)
-            }
-            Tab(selected = activeTab == 1, onClick = { activeTab = 1 }) {
-                Text("AI Neural Core", modifier = Modifier.padding(16.dp), color = if (activeTab == 1) NeonCyan else TextSecondary, fontWeight = FontWeight.Bold)
-            }
-        }
-        
-        if (activeTab == 1) {
-            NeuralCoreScreen()
-        } else {
+
         Spacer(modifier = Modifier.height(8.dp))
         // ── Header Row with animated underline ──
         Column(
@@ -165,6 +173,60 @@ fun HistoryScreen(
                 // Scan count badge
                 if (scanHistory.isNotEmpty()) {
                     var sortExpanded by remember { mutableStateOf(false) }
+                    var filterExpanded by remember { mutableStateOf(false) }
+                    val baseFilters = listOf("All", "Favorites", "Safe", "Caution", "Malicious", "Adult", "Payment")
+                    val filtersList = (baseFilters + allTags).distinct()
+                    
+                    if (activeFilter != "All") {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(NeonCyan.copy(alpha = 0.15f))
+                                .clickable { activeFilter = "All" }
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(text = "$activeFilter ✕", color = NeonCyan, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                        }
+                        Spacer(modifier = Modifier.width(4.dp))
+                    }
+
+                    Box {
+                        IconButton(onClick = { filterExpanded = true }) {
+                            Icon(
+                                imageVector = Icons.Default.FilterList,
+                                contentDescription = "Filter",
+                                tint = if (activeFilter != "All") NeonCyan else TextSecondary
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = filterExpanded,
+                            onDismissRequest = { filterExpanded = false },
+                            modifier = Modifier.background(DarkSurface)
+                        ) {
+                            filtersList.forEach { filter ->
+                                val color = when (filter) {
+                                    "Favorites" -> NeonCyan
+                                    "Safe" -> SafeGreen
+                                    "Caution" -> CautionAmber
+                                    "Malicious", "Adult" -> MaliciousRed
+                                    "Payment" -> CautionAmber
+                                    "All" -> TextPrimary
+                                    else -> PrimaryPurple
+                                }
+                                DropdownMenuItem(
+                                    text = { 
+                                        Text(
+                                            filter, 
+                                            color = color,
+                                            fontWeight = if (activeFilter == filter) FontWeight.Bold else FontWeight.Medium
+                                        ) 
+                                    },
+                                    onClick = { activeFilter = filter; filterExpanded = false }
+                                )
+                            }
+                        }
+                    }
+
                     Box {
                         IconButton(onClick = { sortExpanded = true }) {
                             @Suppress("DEPRECATION")
@@ -229,7 +291,7 @@ fun HistoryScreen(
                     Icon(
                         imageVector = Icons.Default.DateRange,
                         contentDescription = "Filter by Date",
-                        tint = if (searchDate != null) NeonCyan else TextSecondary
+                        tint = if (searchDateRange?.selectedStartDateMillis != null) NeonCyan else TextSecondary
                     )
                 }
             },
@@ -254,81 +316,246 @@ fun HistoryScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         // Show a little chip to clear the date filter if active
-        if (searchDate != null) {
-            val df = java.text.SimpleDateFormat("MMM dd, yyyy", java.util.Locale.getDefault())
+        if (searchDateRange?.selectedStartDateMillis != null) {
+            val df = java.text.SimpleDateFormat("MMM dd, yyyy", java.util.Locale.getDefault()).apply {
+                timeZone = java.util.TimeZone.getTimeZone("UTC")
+            }
+            val start = df.format(java.util.Date(searchDateRange!!.selectedStartDateMillis!!))
+            val end = searchDateRange!!.selectedEndDateMillis?.let { df.format(java.util.Date(it)) } ?: start
+            var dateLabel = if (start == end) start else "$start - $end"
+            
+            if (searchStartTime != null || searchEndTime != null) {
+                val st = searchStartTime?.let { String.format("%02d:%02d", it.first, it.second) } ?: "00:00"
+                val et = searchEndTime?.let { String.format("%02d:%02d", it.first, it.second) } ?: "23:59"
+                dateLabel += " ($st - $et)"
+            }
+            
             Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 4.dp)) {
+                if (activeTag != null) {
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(PrimaryPurple.copy(alpha = 0.15f))
+                            .clickable { activeTag = null }
+                            .padding(horizontal = 12.dp, vertical = 4.dp)
+                    ) {
+                        Text(text = "#$activeTag ✕", color = PrimaryPurple, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
                         .background(NeonCyan.copy(alpha = 0.15f))
-                        .clickable { searchDate = null }
+                        .clickable { 
+                            searchDateRange = null
+                            searchStartTime = null
+                            searchEndTime = null
+                        }
                         .padding(horizontal = 12.dp, vertical = 4.dp)
                 ) {
-                    Text(text = "Date: ${df.format(java.util.Date(searchDate!!))} ✕", color = NeonCyan, fontSize = 12.sp)
+                    Text(text = "Date: $dateLabel ✕", color = NeonCyan, fontSize = 12.sp)
+                }
+            }
+        } else if (activeTag != null) {
+            // If date isn't set but we have an active tag, we still need a Row for it
+            Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 4.dp)) {
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(PrimaryPurple.copy(alpha = 0.15f))
+                        .clickable { activeTag = null }
+                        .padding(horizontal = 12.dp, vertical = 4.dp)
+                ) {
+                    Text(text = "#$activeTag ✕", color = PrimaryPurple, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
 
         if (showDatePicker) {
-            val datePickerState = rememberDatePickerState(initialSelectedDateMillis = searchDate ?: System.currentTimeMillis())
-            DatePickerDialog(
+            val dateRangeState = rememberDateRangePickerState(
+                initialSelectedStartDateMillis = searchDateRange?.selectedStartDateMillis,
+                initialSelectedEndDateMillis = searchDateRange?.selectedEndDateMillis
+            )
+            var showTimePickers by remember { mutableStateOf(searchStartTime != null) }
+            var startHour by remember { mutableIntStateOf(searchStartTime?.first ?: 0) }
+            var startMinute by remember { mutableIntStateOf(searchStartTime?.second ?: 0) }
+            var endHour by remember { mutableIntStateOf(searchEndTime?.first ?: 23) }
+            var endMinute by remember { mutableIntStateOf(searchEndTime?.second ?: 59) }
+
+            androidx.compose.ui.window.Dialog(
                 onDismissRequest = { showDatePicker = false },
-                confirmButton = {
-                    TextButton(onClick = {
-                        searchDate = datePickerState.selectedDateMillis
-                        showDatePicker = false
-                    }) { Text("OK", color = NeonCyan) }
-                },
-                dismissButton = {
-                    TextButton(onClick = { showDatePicker = false }) { Text("Cancel", color = TextSecondary) }
-                },
-                colors = DatePickerDefaults.colors(containerColor = DarkSurface)
+                properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false)
             ) {
-                DatePicker(state = datePickerState, colors = DatePickerDefaults.colors(titleContentColor = NeonCyan, headlineContentColor = TextPrimary, selectedDayContainerColor = NeonCyan))
-            }
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // ── Filter Chips ──
-        val filters = listOf("All", "Safe", "Caution", "Malicious", "Adult", "Payment")
-        androidx.compose.foundation.lazy.LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(filters.size) { index ->
-                val filter = filters[index]
-                val isSelected = activeFilter == filter
-                val chipColor = when (filter) {
-                    "Safe" -> SafeGreen
-                    "Caution" -> CautionAmber
-                    "Malicious" -> MaliciousRed
-                    "Adult" -> MaliciousRed
-                    "Payment" -> CautionAmber
-                    else -> NeonCyan
-                }
-                val bgColor = if (isSelected) chipColor.copy(alpha = 0.15f) else Color.Transparent
-                val borderColor = if (isSelected) chipColor.copy(alpha = 0.5f) else GlassBorder
-                val textColor = if (isSelected) chipColor else TextSecondary
-
-                Box(
+                Surface(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(bgColor)
-                        .border(1.dp, borderColor, RoundedCornerShape(20.dp))
-                        .clickable { activeFilter = filter }
-                        .padding(horizontal = 14.dp, vertical = 6.dp)
+                        .fillMaxWidth(0.95f)
+                        .fillMaxHeight(0.85f)
+                        .padding(vertical = 16.dp),
+                    shape = RoundedCornerShape(28.dp),
+                    color = DarkSurface,
+                    tonalElevation = 6.dp,
+                    shadowElevation = 12.dp
                 ) {
-                    Text(
-                        text = filter,
-                        color = textColor,
-                        fontSize = 12.sp,
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
-                    )
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        DateRangePicker(
+                            state = dateRangeState,
+                            modifier = Modifier.weight(1f),
+                            title = {
+                                Text(
+                                    "Select Date Range",
+                                    modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 8.dp),
+                                    color = NeonCyan,
+                                    fontWeight = FontWeight.SemiBold,
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            },
+                            showModeToggle = false,
+                            colors = DatePickerDefaults.colors(
+                                containerColor = DarkSurface,
+                                titleContentColor = NeonCyan,
+                                headlineContentColor = TextPrimary,
+                                selectedDayContainerColor = NeonCyan,
+                                selectedDayContentColor = Color.Black,
+                                dayContentColor = TextPrimary,
+                                todayContentColor = NeonCyan,
+                                todayDateBorderColor = NeonCyan,
+                                dayInSelectionRangeContainerColor = NeonCyan.copy(alpha = 0.2f),
+                                dayInSelectionRangeContentColor = TextPrimary,
+                                selectedYearContainerColor = NeonCyan,
+                                selectedYearContentColor = Color.Black,
+                                yearContentColor = TextPrimary,
+                                currentYearContentColor = NeonCyan
+                            )
+                        )
+                        // Toggle Time Selection
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { showTimePickers = !showTimePickers }
+                                .padding(horizontal = 24.dp, vertical = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = if (showTimePickers) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                                contentDescription = "Toggle Time",
+                                tint = NeonCyan
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                "Specify Time Range (Optional)", 
+                                color = TextPrimary, 
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+
+                        // Time Selectors
+                        AnimatedVisibility(visible = showTimePickers) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 24.dp, vertical = 8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                // Start Time
+                                Column {
+                                    Text("Start Time", color = TextSecondary, fontSize = 12.sp, modifier = Modifier.padding(bottom = 4.dp))
+                                    TimeSelector(
+                                        hour = startHour, 
+                                        minute = startMinute, 
+                                        onHourChange = { startHour = it }, 
+                                        onMinuteChange = { startMinute = it }
+                                    )
+                                }
+                                // End Time
+                                Column {
+                                    Text("End Time", color = TextSecondary, fontSize = 12.sp, modifier = Modifier.padding(bottom = 4.dp))
+                                    TimeSelector(
+                                        hour = endHour, 
+                                        minute = endMinute, 
+                                        onHourChange = { endHour = it }, 
+                                        onMinuteChange = { endMinute = it }
+                                    )
+                                }
+                            }
+                        }
+
+                        // Footer with actions
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(DarkSurface)
+                                .padding(horizontal = 24.dp, vertical = 16.dp),
+                            horizontalArrangement = Arrangement.End,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            TextButton(
+                                onClick = { showDatePicker = false },
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Text("Cancel", color = TextSecondary, fontWeight = FontWeight.SemiBold)
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Button(
+                                onClick = {
+                                    searchDateRange = dateRangeState
+                                    if (showTimePickers) {
+                                        searchStartTime = Pair(startHour, startMinute)
+                                        searchEndTime = Pair(endHour, endMinute)
+                                    } else {
+                                        searchStartTime = null
+                                        searchEndTime = null
+                                    }
+                                    showDatePicker = false
+                                },
+                                colors = ButtonDefaults.buttonColors(containerColor = NeonCyan, contentColor = Color.Black),
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Text("Apply Filter", fontWeight = FontWeight.Bold)
+                            }
+                        }
+                    }
                 }
             }
         }
+
+
+
+        val availableTags = allTags.filter { it != activeTag }
+        if (availableTags.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            androidx.compose.foundation.lazy.LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 24.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(availableTags.size) { index ->
+                    val tag = availableTags[index]
+                    val bgColor = Color.Transparent
+                    val borderColor = GlassBorder
+                    val textColor = TextSecondary
+
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(bgColor)
+                            .border(1.dp, borderColor, RoundedCornerShape(20.dp))
+                            .clickable {
+                                activeTag = tag
+                            }
+                            .padding(horizontal = 14.dp, vertical = 6.dp)
+                    ) {
+                        Text(
+                            text = "#$tag",
+                            color = textColor,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
+            }
+        }
+
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -353,7 +580,7 @@ fun HistoryScreen(
                 ) {
                     itemsIndexed(
                         items = filteredHistory,
-                        key = { _, item -> item.timestamp }
+                        key = { _, item -> item.rawContent }
                     ) { _, scanResult ->
                         val dismissState = rememberDismissState(
                             confirmValueChange = { dismissValue ->
@@ -367,7 +594,6 @@ fun HistoryScreen(
                         )
                         SwipeToDismiss(
                             state = dismissState,
-                            modifier = Modifier.animateItemPlacement(),
                             background = {
                                 Box(
                                     modifier = Modifier
@@ -451,8 +677,7 @@ fun HistoryScreen(
             scanResult = selectedScan!!,
             onDismiss = { viewModel.dismissSelected() },
             onOpenUrl = { url ->
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                context.startActivity(intent)
+                com.safeqr.scanner.utils.SmartRouter.openUrlSmartly(context, url)
             },
             onOpenInSandbox = { url ->
                 viewModel.dismissSelected()
@@ -460,7 +685,6 @@ fun HistoryScreen(
             }
         )
     }
-    } // End of else block for activeTab == 0
 }
 
 
@@ -577,5 +801,73 @@ fun StatItem(label: String, value: String, color: Color) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = color)
         Text(text = label, style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+    }
+}
+
+@Composable
+fun TimeSelector(
+    hour: Int,
+    minute: Int,
+    onHourChange: (Int) -> Unit,
+    onMinuteChange: (Int) -> Unit
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        // Hour Dropdown
+        var hourExpanded by remember { mutableStateOf(false) }
+        Box {
+            Text(
+                text = String.format("%02d", hour),
+                color = NeonCyan,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(DarkSurface)
+                    .border(1.dp, GlassBorder, RoundedCornerShape(8.dp))
+                    .clickable { hourExpanded = true }
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            )
+            DropdownMenu(
+                expanded = hourExpanded,
+                onDismissRequest = { hourExpanded = false },
+                modifier = Modifier.background(DarkSurface).heightIn(max = 200.dp)
+            ) {
+                (0..23).forEach { h ->
+                    DropdownMenuItem(
+                        text = { Text(String.format("%02d", h), color = TextPrimary) },
+                        onClick = { onHourChange(h); hourExpanded = false }
+                    )
+                }
+            }
+        }
+        
+        Text(" : ", color = TextPrimary, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 4.dp))
+        
+        // Minute Dropdown
+        var minuteExpanded by remember { mutableStateOf(false) }
+        Box {
+            Text(
+                text = String.format("%02d", minute),
+                color = NeonCyan,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(DarkSurface)
+                    .border(1.dp, GlassBorder, RoundedCornerShape(8.dp))
+                    .clickable { minuteExpanded = true }
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
+            )
+            DropdownMenu(
+                expanded = minuteExpanded,
+                onDismissRequest = { minuteExpanded = false },
+                modifier = Modifier.background(DarkSurface).heightIn(max = 200.dp)
+            ) {
+                (0..59 step 5).forEach { m ->
+                    DropdownMenuItem(
+                        text = { Text(String.format("%02d", m), color = TextPrimary) },
+                        onClick = { onMinuteChange(m); minuteExpanded = false }
+                    )
+                }
+            }
+        }
     }
 }

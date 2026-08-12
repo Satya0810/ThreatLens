@@ -60,6 +60,7 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
         fun createRoute(filter: String? = null) = if (filter != null) "history?filter=$filter" else "history"
     }
     object Settings : Screen("settings", "Settings", Icons.Default.Settings)
+    object UpiSettings : Screen("upi_settings", "UPI Protection", Icons.Default.Settings)
     object Generate : Screen("generate", "Generate", Icons.Outlined.QrCode)
     object Vault : Screen("vault", "Vault", Icons.Default.Lock)
 }
@@ -73,7 +74,9 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
 @Composable
 fun SafeQRNavigation(
     externalUrl: String? = null,
+    externalImageUri: android.net.Uri? = null,
     forceScanRoute: Boolean = false,
+    onIntentProcessed: () -> Unit = {},
     viewModel: ScannerViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     qrViewModel: com.safeqr.scanner.viewmodel.QrViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
@@ -92,6 +95,24 @@ fun SafeQRNavigation(
     }
 
     var showSplashOverlay by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(true) }
+
+    // Ensure we navigate to the Scan route if forced by an external intent
+    androidx.compose.runtime.LaunchedEffect(forceScanRoute) {
+        if (forceScanRoute) {
+            if (currentRoute != Screen.Scan.route) {
+                navController.navigate(Screen.Scan.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
+            // Small delay to allow ScannerScreen to enter composition and consume the URL
+            kotlinx.coroutines.delay(200)
+            onIntentProcessed()
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -207,9 +228,10 @@ fun SafeQRNavigation(
             } // end if !isSandboxRoute
         }
     ) { innerPadding ->
+        val startDest = remember { if (forceScanRoute) Screen.Scan.route else initialRoute }
         NavHost(
             navController = navController,
-            startDestination = if (forceScanRoute) Screen.Scan.route else initialRoute,
+            startDestination = startDest,
             modifier = Modifier.padding(innerPadding),
             enterTransition = {
                 fadeIn(animationSpec = tween(400)) + slideInHorizontally { it / 5 }
@@ -251,6 +273,7 @@ fun SafeQRNavigation(
             composable(Screen.Scan.route) {
                 ScannerScreen(
                     externalUrl = externalUrl,
+                    externalImageUri = externalImageUri,
                     onNavigateToSandbox = { url ->
                         val encoded = java.net.URLEncoder.encode(url, "UTF-8")
                         navController.navigate("sandbox/$encoded")
@@ -307,6 +330,9 @@ fun SafeQRNavigation(
                         val encoded = java.net.URLEncoder.encode("https://google.com", "UTF-8")
                         navController.navigate("sandbox/$encoded")
                     },
+                    onNavigateToUpiSettings = {
+                        navController.navigate(Screen.UpiSettings.route)
+                    },
                     onBack = {
                         navController.navigate(Screen.Scan.route) {
                             popUpTo(navController.graph.findStartDestination().id) { saveState = true }
@@ -318,6 +344,9 @@ fun SafeQRNavigation(
             }
             composable(Screen.Vault.route) {
                 VaultScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(Screen.UpiSettings.route) {
+                com.safeqr.scanner.ui.screens.UpiSettingsScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(
                 route = "sandbox/{url}",

@@ -1,7 +1,7 @@
 package com.safeqr.scanner.analysis
 
 enum class QrDataType {
-    URL, WIFI, VCARD, EMAIL, SMS, PHONE, TEXT, EVENT, LOCATION, CRYPTO, TICKET, PAYMENT, APP_STORE, AUTHENTICATOR
+    URL, WIFI, VCARD, EMAIL, SMS, PHONE, TEXT, EVENT, LOCATION, CRYPTO, TICKET, PAYMENT, APP_STORE, AUTHENTICATOR, ESIM, PROVISIONING, LOCKED, VERIFIABLE_CREDENTIAL
 }
 
 data class ParsedQrData(
@@ -47,6 +47,73 @@ object QrDataParser {
             // If verification completely failed (corrupt data), fall through to plain text
         }
 
+        // Check for Password-Protected (Locked) QR
+        if (com.safeqr.scanner.security.QrEncryptionEngine.isLockedQr(content)) {
+            return ParsedQrData(
+                type = QrDataType.LOCKED,
+                title = "🔒 Password-Protected QR",
+                primaryText = "This QR code is encrypted",
+                secondaryText = "Enter password to unlock and view contents",
+                rawData = content,
+                actionData = mapOf("locked" to "true")
+            )
+        }
+
+        // Check for Verifiable Credential
+        if (com.safeqr.scanner.security.VerifiableCredentialEngine.isVerifiableCredential(content)) {
+            val vcResult = com.safeqr.scanner.security.VerifiableCredentialEngine.verify(content)
+            val vc = vcResult.credential
+            if (vc != null) {
+                val typeIcon = when (vc.credentialType) {
+                    "IDENTITY" -> "🆔"
+                    "DIPLOMA" -> "🎓"
+                    "MEMBERSHIP" -> "🏅"
+                    "HEALTH" -> "🏥"
+                    "EMPLOYMENT" -> "💼"
+                    "LICENSE" -> "📜"
+                    else -> "📋"
+                }
+                val statusText = when {
+                    vcResult.isTampered -> "❌ TAMPERED"
+                    vcResult.isExpired -> "⏰ EXPIRED"
+                    vcResult.isValid -> "✅ VERIFIED"
+                    else -> "❓ UNKNOWN"
+                }
+                val subjectName = vc.credentialSubject["name"] ?: vc.credentialSubject.values.firstOrNull() ?: "Unknown"
+                val actionData = mutableMapOf(
+                    "vcId" to vc.vcId,
+                    "credentialType" to vc.credentialType,
+                    "issuerName" to vc.issuer.name,
+                    "issuerId" to vc.issuer.id,
+                    "subjectName" to subjectName,
+                    "isValid" to vcResult.isValid.toString(),
+                    "isTampered" to vcResult.isTampered.toString(),
+                    "isExpired" to vcResult.isExpired.toString(),
+                    "issuanceDate" to vc.issuanceDate.toString()
+                )
+                vc.expirationDate?.let { actionData["expirationDate"] = it.toString() }
+                vc.credentialSubject.forEach { (k, v) -> actionData["claim_$k"] = v }
+
+                return ParsedQrData(
+                    type = QrDataType.VERIFIABLE_CREDENTIAL,
+                    title = "$typeIcon Verifiable Credential",
+                    primaryText = "${vc.credentialType.replace("_", " ")} — $subjectName",
+                    secondaryText = "Issued by ${vc.issuer.name} • $statusText",
+                    rawData = content,
+                    actionData = actionData
+                )
+            } else {
+                return ParsedQrData(
+                    type = QrDataType.VERIFIABLE_CREDENTIAL,
+                    title = "📋 Verifiable Credential",
+                    primaryText = "Invalid or corrupt credential",
+                    secondaryText = "Could not decode credential data",
+                    rawData = content,
+                    actionData = mapOf("isValid" to "false", "isTampered" to "false")
+                )
+            }
+        }
+
         // Check for Event Ticket
         if (content.startsWith("threatlens://ticket", ignoreCase = true)) {
             val uri = android.net.Uri.parse(content)
@@ -57,7 +124,7 @@ object QrDataParser {
         }
 
         // Check for UPI Payment
-        if (content.startsWith("upi://pay", ignoreCase = true)) {
+        if (content.startsWith("upi://", ignoreCase = true)) {
             val uri = try { android.net.Uri.parse(content) } catch(e:Exception) { null }
             val map = mutableMapOf<String, String>()
             var payee = "Unknown Payee"
@@ -66,6 +133,12 @@ object QrDataParser {
                 uri.getQueryParameter("pa")?.let { map["payeeAddress"] = it }
                 uri.getQueryParameter("am")?.let { map["amount"] = it }
                 uri.getQueryParameter("tn")?.let { map["note"] = it }
+                // ── Additional UPI fields for fraud analysis ──
+                uri.getQueryParameter("mc")?.let { map["merchantCode"] = it }
+                uri.getQueryParameter("cu")?.let { map["currency"] = it }
+                uri.getQueryParameter("tr")?.let { map["transactionRef"] = it }
+                uri.getQueryParameter("mode")?.let { map["mode"] = it }
+                uri.getQueryParameter("orgid")?.let { map["orgId"] = it }
             }
             return ParsedQrData(
                 type = QrDataType.PAYMENT,
@@ -76,7 +149,6 @@ object QrDataParser {
                 actionData = map
             )
         }
-
 
         // Check for WiFi
         if (content.startsWith("WIFI:", ignoreCase = true)) {
@@ -95,7 +167,7 @@ object QrDataParser {
                 type = QrDataType.WIFI,
                 title = "Wi-Fi Network",
                 primaryText = ssid ?: "Unknown Network",
-                secondaryText = "Security: $type",
+                secondaryText = "Security: $type" + (password?.let { "\nPassword: $it" } ?: ""),
                 rawData = content,
                 actionData = map
             )
@@ -356,6 +428,28 @@ object QrDataParser {
             content.startsWith("https://", ignoreCase = true) ||
             (content.contains(".") && !content.contains(" ") && !content.contains("\n") && content.length < 255)) {
             return ParsedQrData(QrDataType.URL, "Website Link", content, null, content)
+        }
+        
+        // Check for eSIM
+        if (content.startsWith("LPA:1$", ignoreCase = true)) {
+            return ParsedQrData(
+                type = QrDataType.ESIM,
+                title = "eSIM Activation",
+                primaryText = "Mobile Network Profile",
+                secondaryText = "Open in System Settings",
+                rawData = content
+            )
+        }
+
+        // Check for Android Device Provisioning
+        if (content.contains("\"android.app.extra.PROVISIONING_DEVICE_ADMIN_COMPONENT_NAME\"")) {
+            return ParsedQrData(
+                type = QrDataType.PROVISIONING,
+                title = "Device Provisioning",
+                primaryText = "System Configuration",
+                secondaryText = "Requires System QR Scanner",
+                rawData = content
+            )
         }
         
         // Default to Plain Text

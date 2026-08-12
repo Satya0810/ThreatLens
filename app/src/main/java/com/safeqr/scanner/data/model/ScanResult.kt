@@ -20,17 +20,24 @@ data class ScanResult(
     val timestamp: Long = System.currentTimeMillis(),
     val isAdultContent: Boolean = false,
     val isTransaction: Boolean = false,
+    val isLocked: Boolean = false,
     // ── Certificate fields ─────────────────────────────────────────────────────
     /** Non-null when this result was produced by scanning a ThreatLens-certified QR. */
     val certVerifyResult: CertificateEngine.VerifyResult? = null,
     // ── History Grouping Fields ─────────────────────────────────────────────────────
     val visitCount: Int = 1,
     val visitHistory: List<Long> = emptyList(),
+    val isFavorite: Boolean = false,
+    val tags: List<String> = emptyList(),
     // "?"?"? Community & Positive Features "?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?"?
     val positiveDetails: List<String> = emptyList(),
     val communityReportsCount: Int = 0,
     val communityReportReasons: List<String> = emptyList(),
     // ── Categorization ──
     val siteCategory: String = "General / Unknown",
-    val siteSummary: String? = null
+    val siteSummary: String? = null,
+    // ── UPI Fraud Analysis ──
+    val upiAnalysis: com.safeqr.scanner.analysis.UpiPaymentAnalyzer.UpiAnalysisResult? = null,
+    // ── WiFi Threat Analysis ──
+    val wifiAnalysis: com.safeqr.scanner.analysis.WifiThreatAnalyzer.WifiAnalysisResult? = null
 )

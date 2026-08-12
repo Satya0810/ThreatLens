@@ -20,7 +20,7 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
 
     init {
         val dao = ScanDatabase.getInstance(application).scanDao()
-        val analyzer = ThreatAnalyzer()
+        val analyzer = ThreatAnalyzer(getApplication<Application>().applicationContext)
         repository = ScanRepository(dao, analyzer)
     }
 
@@ -59,6 +59,29 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     fun deleteScan(result: ScanResult) {
         viewModelScope.launch {
             repository.deleteScan(result.rawContent)
+        }
+    }
+
+    fun toggleFavorite(result: ScanResult) {
+        viewModelScope.launch {
+            repository.updateFavorite(result.rawContent, !result.isFavorite)
+            // The flow will automatically emit the updated data
+        }
+    }
+
+    fun addTag(result: ScanResult, tag: String) {
+        if (result.tags.contains(tag)) return
+        val newTags = result.tags + tag
+        viewModelScope.launch {
+            repository.updateTags(result.rawContent, newTags)
+        }
+    }
+
+    fun removeTag(result: ScanResult, tag: String) {
+        if (!result.tags.contains(tag)) return
+        val newTags = result.tags - tag
+        viewModelScope.launch {
+            repository.updateTags(result.rawContent, newTags)
         }
     }
 }

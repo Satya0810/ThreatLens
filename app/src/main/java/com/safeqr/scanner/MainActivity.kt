@@ -2,7 +2,7 @@ package com.safeqr.scanner
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +17,12 @@ import com.safeqr.scanner.navigation.SafeQRNavigation
 import com.safeqr.scanner.ui.theme.SafeQRScannerTheme
 import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
+    // Mutable states to hold incoming deep link data
+    private var externalUrlState = androidx.compose.runtime.mutableStateOf<String?>(null)
+    private var externalImageUriState = androidx.compose.runtime.mutableStateOf<android.net.Uri?>(null)
+    private var forceScanRouteState = androidx.compose.runtime.mutableStateOf(false)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -41,13 +46,22 @@ class MainActivity : ComponentActivity() {
             syncWorkRequest
         )
 
-        val externalUrl = extractUrlFromIntent(intent)
-        val openScanner = intent.getBooleanExtra("open_scanner", false)
-        val shouldForceScan = openScanner || externalUrl != null
+        handleIntent(intent)
 
         setContent {
             SafeQRScannerTheme {
-                SafeQRNavigation(externalUrl = externalUrl, forceScanRoute = shouldForceScan)
+                SafeQRNavigation(
+                    externalUrl = externalUrlState.value,
+                    externalImageUri = externalImageUriState.value,
+                    forceScanRoute = forceScanRouteState.value,
+                    onIntentProcessed = {
+                        externalUrlState.value = null
+                        externalImageUriState.value = null
+                        forceScanRouteState.value = false
+                        intent.action = null
+                        intent.data = null
+                    }
+                )
             }
         }
     }
@@ -59,15 +73,20 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        if (intent == null) return
         val externalUrl = extractUrlFromIntent(intent)
+        val externalImageUri = extractImageUriFromIntent(intent)
         val openScanner = intent.getBooleanExtra("open_scanner", false)
-        val shouldForceScan = openScanner || externalUrl != null
+        val shouldForceScan = openScanner || externalUrl != null || externalImageUri != null
+
         if (shouldForceScan) {
-            setContent {
-                SafeQRScannerTheme {
-                    SafeQRNavigation(externalUrl = externalUrl, forceScanRoute = shouldForceScan)
-                }
-            }
+            externalUrlState.value = externalUrl
+            externalImageUriState.value = externalImageUri
+            forceScanRouteState.value = true
         }
     }
 
@@ -97,5 +116,16 @@ class MainActivity : ComponentActivity() {
 
             else -> null
         }
+    }
+
+    /**
+     * Extracts an image URI from the incoming intent if it's an ACTION_SEND with an image.
+     */
+    private fun extractImageUriFromIntent(intent: Intent?): android.net.Uri? {
+        if (intent == null) return null
+        if (intent.action == Intent.ACTION_SEND && intent.type?.startsWith("image/") == true) {
+            return intent.getParcelableExtra(Intent.EXTRA_STREAM)
+        }
+        return null
     }
 }

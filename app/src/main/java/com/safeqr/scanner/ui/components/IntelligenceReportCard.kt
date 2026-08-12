@@ -46,6 +46,14 @@ fun IntelligenceReportCard(scanResult: ScanResult, baseColor: Color) {
         )
     )
 
+    val combinedThreats = remember(scanResult) {
+        val list = mutableListOf<String>()
+        list.addAll(scanResult.threatDetails)
+        scanResult.wifiAnalysis?.flags?.forEach { list.add("${it.emoji} ${it.title}") }
+        scanResult.upiAnalysis?.flags?.forEach { list.add("${it.emoji} ${it.title}") }
+        list
+    }
+
     // Animated Score
     var scoreAnim by remember { mutableStateOf(0f) }
     LaunchedEffect(scanResult.overallScore) {
@@ -83,35 +91,37 @@ fun IntelligenceReportCard(scanResult: ScanResult, baseColor: Color) {
             .padding(20.dp)
     ) {
         // ── 1. TELEMETRY & CATEGORY GRID ──
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "TELEMETRY",
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                fontSize = 10.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 1.2.sp,
-            )
-            
-            // Category Pill moved here to save space
-            if (!scanResult.siteCategory.contains("Unknown", ignoreCase = true) && !scanResult.siteCategory.contains("General", ignoreCase = true)) {
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(baseColor.copy(alpha = 0.15f))
-                        .border(1.dp, baseColor.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
-                        .padding(horizontal = 10.dp, vertical = 4.dp)
-                ) {
-                    Text(
-                        text = scanResult.siteCategory.uppercase(),
-                        color = baseColor,
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.5.sp
-                    )
+        if (scanResult.isUrl || scanResult.wifiAnalysis != null || scanResult.upiAnalysis != null) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "TELEMETRY",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 1.2.sp,
+                )
+                
+                // Category Pill moved here to save space
+                if (scanResult.isUrl && !scanResult.siteCategory.contains("Unknown", ignoreCase = true) && !scanResult.siteCategory.contains("General", ignoreCase = true)) {
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(baseColor.copy(alpha = 0.15f))
+                            .border(1.dp, baseColor.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
+                            .padding(horizontal = 10.dp, vertical = 4.dp)
+                    ) {
+                        Text(
+                            text = scanResult.siteCategory.uppercase(),
+                            color = baseColor,
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.5.sp
+                        )
+                    }
                 }
             }
         }
@@ -189,24 +199,62 @@ fun IntelligenceReportCard(scanResult: ScanResult, baseColor: Color) {
 
         Spacer(modifier = Modifier.height(12.dp))
         
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            val redirects = scanResult.redirectChain.size.coerceAtLeast(1)
-            TelemetryCard(
-                modifier = Modifier.weight(1f),
-                title = "Redirects",
-                value = if (redirects > 1) "$redirects Hops" else "Direct",
-                icon = Icons.Outlined.Route,
-                color = if (redirects > 2) CautionAmber else NeonCyan
-            )
+        if (scanResult.isUrl) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                val redirects = scanResult.redirectChain.size.coerceAtLeast(1)
+                TelemetryCard(
+                    modifier = Modifier.weight(1f),
+                    title = "Redirects",
+                    value = if (redirects > 1) "$redirects Hops" else "Direct",
+                    icon = Icons.Outlined.Route,
+                    color = if (redirects > 2) CautionAmber else NeonCyan
+                )
 
-            val flags = scanResult.threatDetails.size
-            TelemetryCard(
-                modifier = Modifier.weight(1f),
-                title = "Engine Flags",
-                value = "$flags Found",
-                icon = Icons.Outlined.Flag,
-                color = if (flags > 0) CautionAmber else SafeGreen
-            )
+                val flags = combinedThreats.size
+                TelemetryCard(
+                    modifier = Modifier.weight(1f),
+                    title = "Engine Flags",
+                    value = "$flags Found",
+                    icon = Icons.Outlined.Flag,
+                    color = if (flags > 0) CautionAmber else SafeGreen
+                )
+            }
+        } else if (scanResult.wifiAnalysis != null) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                TelemetryCard(
+                    modifier = Modifier.weight(1f),
+                    title = "Encryption",
+                    value = scanResult.wifiAnalysis.encryptionName,
+                    icon = Icons.Outlined.Lock,
+                    color = if (scanResult.wifiAnalysis.encryptionGrade == "F") MaliciousRed else NeonCyan
+                )
+                val flags = combinedThreats.size
+                TelemetryCard(
+                    modifier = Modifier.weight(1f),
+                    title = "Engine Flags",
+                    value = "$flags Found",
+                    icon = Icons.Outlined.Flag,
+                    color = if (flags > 0) CautionAmber else SafeGreen
+                )
+            }
+        } else if (scanResult.upiAnalysis != null) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                TelemetryCard(
+                    modifier = Modifier.weight(1f),
+                    title = "VPA Check",
+                    value = if (combinedThreats.any { it.contains("VPA") }) "Flagged" else "Unknown",
+                    icon = Icons.Outlined.AccountBalance,
+                    color = if (combinedThreats.any { it.contains("VPA") }) CautionAmber else NeonCyan
+                )
+                val flags = combinedThreats.size
+                TelemetryCard(
+                    modifier = Modifier.weight(1f),
+                    title = "Engine Flags",
+                    value = "$flags Found",
+                    icon = Icons.Outlined.Flag,
+                    color = if (flags > 0) CautionAmber else SafeGreen
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -338,7 +386,7 @@ fun IntelligenceReportCard(scanResult: ScanResult, baseColor: Color) {
         }
 
         // ── 4. ENGINE LOGS TIMELINE ──
-        val filteredLogs = scanResult.threatDetails.filter { 
+        val filteredLogs = combinedThreats.filter { 
             !it.startsWith("VirusTotal:") && !it.startsWith("Category:") && !it.startsWith("Heuristic:")
         }
         if (filteredLogs.isNotEmpty()) {

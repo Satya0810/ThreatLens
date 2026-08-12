@@ -32,32 +32,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.outlined.ContentCopy
-import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.OpenInBrowser
-import androidx.compose.material.icons.outlined.Star
-import androidx.compose.material.icons.outlined.Shield
-import androidx.compose.material.icons.outlined.Security
-import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Phone
-import androidx.compose.material.icons.outlined.AccountBalanceWallet
-import androidx.compose.material.icons.outlined.Sms
-import androidx.compose.material.icons.outlined.Place
-import androidx.compose.material.icons.outlined.CreditCard
-import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.draw.clip
-import androidx.compose.material.icons.outlined.Group
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import com.safeqr.scanner.data.local.ScanDatabase
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -93,6 +80,9 @@ import com.safeqr.scanner.ui.theme.MaliciousRed
 import com.safeqr.scanner.ui.theme.NeonCyan
 import com.safeqr.scanner.ui.theme.PrimaryBlue
 import com.safeqr.scanner.ui.theme.SafeGreen
+import com.safeqr.scanner.ui.theme.TextPrimary
+import com.safeqr.scanner.ui.theme.TextSecondary
+import com.safeqr.scanner.ui.theme.DarkSurface
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,7 +93,10 @@ fun ResultBottomSheet(
     onOpenUrl: (String) -> Unit,
     onOpenInSandbox: (String) -> Unit = {},
     onReport: (String, String) -> Unit = {_,_ ->},
-    autoConnectWifi: Boolean = false
+    onToggleFavorite: (Boolean) -> Unit = {},
+    onAddTag: (String) -> Unit = {},
+    autoConnectWifi: Boolean = false,
+    onUnlockQR: (String) -> Unit = {}
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val context = LocalContext.current
@@ -126,6 +119,15 @@ fun ResultBottomSheet(
     var showApiResults by remember { mutableStateOf(false) }
     var showActions by remember { mutableStateOf(false) }
 
+    // Threat Intel State
+    var communityIntel by remember { mutableStateOf<com.safeqr.scanner.data.remote.CloudSyncManager.ThreatIntelReport?>(null) }
+    
+    LaunchedEffect(scanResult.rawContent) {
+        if (!isCertified && scanResult.rawContent.isNotBlank()) {
+            communityIntel = com.safeqr.scanner.data.remote.CloudSyncManager.getThreatIntel(scanResult.rawContent)
+        }
+    }
+
     // Malicious URL confirmation dialog
     var showMaliciousDialog by remember { mutableStateOf(false) }
 
@@ -134,6 +136,25 @@ fun ResultBottomSheet(
     var showTransactionWarningDialog by remember { mutableStateOf(false) }
     var showReportDialog by remember { mutableStateOf(false) }
     var isPositiveReport by remember { mutableStateOf(false) }
+
+    val upiPaymentLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        contract = androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == android.app.Activity.RESULT_OK || result.resultCode == android.app.Activity.RESULT_CANCELED) {
+            val data = result.data?.getStringExtra("response")
+            if (data != null) {
+                if (data.contains("Status=SUCCESS", ignoreCase = true)) {
+                    onAddTag("Paid: Success")
+                } else if (data.contains("Status=SUBMITTED", ignoreCase = true)) {
+                    onAddTag("Paid: Pending")
+                } else {
+                    onAddTag("Payment Failed")
+                }
+            } else if (result.resultCode == android.app.Activity.RESULT_CANCELED) {
+                onAddTag("Payment Cancelled")
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         showIndicator = true
@@ -160,6 +181,20 @@ fun ResultBottomSheet(
     }
 
     val parsedData = remember(scanResult.rawContent) { com.safeqr.scanner.analysis.QrDataParser.parse(scanResult.rawContent) }
+
+    // Derive UPI/WiFi analysis directly from the ScanResult that ThreatAnalyzer already populated.
+    // No re-execution of analyzers — just a synchronous type check as a fallback.
+    val isUpiScan = remember(scanResult, parsedData) {
+        scanResult.upiAnalysis != null ||
+        scanResult.isTransaction ||
+        parsedData.type == com.safeqr.scanner.analysis.QrDataType.PAYMENT
+    }
+    val isWifiScan = remember(scanResult, parsedData) {
+        scanResult.wifiAnalysis != null ||
+        parsedData.type == com.safeqr.scanner.analysis.QrDataType.WIFI
+    }
+    val activeUpiAnalysis = scanResult.upiAnalysis
+    val activeWifiAnalysis = scanResult.wifiAnalysis
 
     LaunchedEffect(parsedData, autoConnectWifi) {
         if (autoConnectWifi && parsedData.type == com.safeqr.scanner.analysis.QrDataType.WIFI) {
@@ -191,6 +226,14 @@ fun ResultBottomSheet(
                     )
                 )
         ) {
+            if (scanResult.isLocked) {
+                PasswordUnlockView(
+                    scanResult = scanResult,
+                    onUnlock = onUnlockQR
+                )
+                return@ModalBottomSheet
+            }
+
             // SCROLLABLE AREA
             Column(
                 modifier = Modifier
@@ -215,15 +258,84 @@ fun ResultBottomSheet(
                 visible = showDomain,
                 enter = fadeIn() + slideInVertically { it / 2 }
             ) {
-                Text(
-                    text = scanResult.domain ?: if (scanResult.isUrl) scanResult.rawContent else "Scanned Data",
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Center,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                )
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = scanResult.domain ?: if (scanResult.isUrl) scanResult.rawContent else "Scanned Data",
+                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        textAlign = TextAlign.Center,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
+                    
+                    Spacer(modifier = Modifier.height(8.dp))
+                    
+                    // Independent Actions Row (Favorite & Tag)
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // Favorite Toggle
+                        IconButton(
+                            onClick = { onToggleFavorite(!scanResult.isFavorite) },
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Icon(
+                                imageVector = if (scanResult.isFavorite) Icons.Filled.Star else Icons.Outlined.Star,
+                                contentDescription = "Favorite",
+                                tint = if (scanResult.isFavorite) com.safeqr.scanner.ui.theme.NeonCyan else com.safeqr.scanner.ui.theme.TextSecondary,
+                                modifier = Modifier.size(22.dp)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        // Add Tag Button
+                        var showTagDialog by remember { mutableStateOf(false) }
+                        IconButton(
+                            onClick = { showTagDialog = true },
+                            modifier = Modifier.size(36.dp)
+                        ) {
+                            Icon(
+                                imageVector = androidx.compose.material.icons.Icons.Outlined.Label,
+                                contentDescription = "Add Tag",
+                                tint = com.safeqr.scanner.ui.theme.TextSecondary,
+                                modifier = Modifier.size(22.dp)
+                            )
+                        }
+                        
+                        if (showTagDialog) {
+                            var tagText by remember { mutableStateOf("") }
+                            AlertDialog(
+                                onDismissRequest = { showTagDialog = false },
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                                title = { Text("Add Tag", color = com.safeqr.scanner.ui.theme.TextPrimary) },
+                                text = {
+                                    OutlinedTextField(
+                                        value = tagText,
+                                        onValueChange = { tagText = it },
+                                        placeholder = { Text("e.g. Work, Receipt") },
+                                        singleLine = true,
+                                        colors = OutlinedTextFieldDefaults.colors(
+                                            focusedTextColor = com.safeqr.scanner.ui.theme.TextPrimary,
+                                            unfocusedTextColor = com.safeqr.scanner.ui.theme.TextPrimary
+                                        )
+                                    )
+                                },
+                                confirmButton = {
+                                    TextButton(onClick = {
+                                        if (tagText.isNotBlank()) onAddTag(tagText.trim())
+                                        showTagDialog = false
+                                    }) { Text("Add", color = com.safeqr.scanner.ui.theme.NeonCyan) }
+                                },
+                                dismissButton = {
+                                    TextButton(onClick = { showTagDialog = false }) { Text("Cancel", color = com.safeqr.scanner.ui.theme.TextSecondary) }
+                                }
+                            )
+                        }
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -245,6 +357,8 @@ fun ResultBottomSheet(
                 parsedData.type == com.safeqr.scanner.analysis.QrDataType.PAYMENT -> "Payment Request" to Icons.Outlined.CreditCard
                 parsedData.type == com.safeqr.scanner.analysis.QrDataType.APP_STORE -> "App Store Link" to Icons.Outlined.Star
                 parsedData.type == com.safeqr.scanner.analysis.QrDataType.AUTHENTICATOR -> "Authenticator 2FA" to Icons.Default.Lock
+                parsedData.type == com.safeqr.scanner.analysis.QrDataType.ESIM -> "eSIM Activation" to Icons.Default.SimCard
+                parsedData.type == com.safeqr.scanner.analysis.QrDataType.PROVISIONING -> "System Provisioning" to Icons.Default.SettingsApplications
                 scanResult.isUrl -> "" to Icons.Outlined.OpenInBrowser // Hide if we can't decide
                 else -> "Plain Text / Data" to Icons.Outlined.ContentCopy
             }
@@ -253,52 +367,99 @@ fun ResultBottomSheet(
                 visible = showClassification && contentTypeLabel.isNotEmpty(),
                 enter = fadeIn() + slideInVertically { it / 2 }
             ) {
-                val contentTypeColor = when {
-                    scanResult.isBrandImpersonation -> MaliciousRed
-                    scanResult.isAdultContent -> MaliciousRed
-                    scanResult.isTransaction -> CautionAmber
-                    else -> PrimaryBlue
-                }
                 Row(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(contentTypeColor.copy(alpha = 0.12f))
-                        .border(1.dp, contentTypeColor.copy(alpha = 0.3f), RoundedCornerShape(20.dp))
-                        .padding(horizontal = 16.dp, vertical = 6.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = contentTypeIcon,
-                        contentDescription = null,
-                        tint = contentTypeColor,
-                        modifier = Modifier.size(14.dp)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = contentTypeLabel,
-                        color = contentTypeColor,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.3.sp
-                    )
+                    val contentTypeColor = when {
+                        scanResult.isBrandImpersonation -> MaliciousRed
+                        scanResult.isAdultContent -> MaliciousRed
+                        scanResult.isTransaction -> CautionAmber
+                        else -> PrimaryBlue
+                    }
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(contentTypeColor.copy(alpha = 0.12f))
+                            .border(1.dp, contentTypeColor.copy(alpha = 0.3f), RoundedCornerShape(20.dp))
+                            .padding(horizontal = 16.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = contentTypeIcon,
+                            contentDescription = null,
+                            tint = contentTypeColor,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = contentTypeLabel,
+                            color = contentTypeColor,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.3.sp
+                        )
+                    }
+                    
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             if (!isCertified) {
-                // Premium Intelligence Report Card
                 AnimatedVisibility(
-                    visible = showIndicator,
-                    enter = fadeIn() + slideInVertically { -it / 2 }
+                    visible = showClassification,
+                    enter = fadeIn() + slideInVertically { it / 2 }
                 ) {
-                    com.safeqr.scanner.ui.components.IntelligenceReportCard(scanResult, statusColor)
+                    Column {
+                        // Premium Intelligence Report Card
+                        val statusColor = when (scanResult.safetyStatus) {
+                            com.safeqr.scanner.data.model.SafetyStatus.MALICIOUS -> MaliciousRed
+                            com.safeqr.scanner.data.model.SafetyStatus.CAUTION -> CautionAmber
+                            else -> SafeGreen
+                        }
+
+                        val isWebOrDomain = scanResult.isUrl || parsedData.type == com.safeqr.scanner.analysis.QrDataType.URL || scanResult.domain != null
+                        val isLinkGuardSafe = scanResult.tags.contains("LinkGuard") && scanResult.safetyStatus == com.safeqr.scanner.data.model.SafetyStatus.SAFE
+
+                        if (isWebOrDomain && !isUpiScan && !isWifiScan && !isLinkGuardSafe) {
+                            com.safeqr.scanner.ui.components.IntelligenceReportCard(
+                                scanResult = scanResult,
+                                baseColor = statusColor
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+
+                        // Community Intel Card
+                        val intel = communityIntel
+                        if (intel != null && intel.totalReports > 0) {
+                            com.safeqr.scanner.ui.components.CommunityIntelCard(threatIntel = intel)
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+                    }
                 }
+            }
+
+            // ── Top-Level Smart Cards (UPI / WiFi) ──
+            if (activeUpiAnalysis != null) {
+                com.safeqr.scanner.ui.components.UpiPaymentFraudCard(
+                    analysis = activeUpiAnalysis
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                com.safeqr.scanner.ui.components.UpiGuardStatusCard(
+                    analysis = activeUpiAnalysis
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            } else if (activeWifiAnalysis != null) {
+                com.safeqr.scanner.ui.components.WifiThreatCard(
+                    analysis = activeWifiAnalysis
+                )
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
             // Attractive Box for Structured Data
-            if (!scanResult.isUrl) {
+            if (!scanResult.isUrl && !isUpiScan && !isWifiScan) {
                 AnimatedVisibility(
                     visible = showDomain,
                     enter = fadeIn() + slideInVertically { it / 2 }
@@ -325,6 +486,7 @@ fun ResultBottomSheet(
                                 com.safeqr.scanner.analysis.QrDataType.LOCATION -> Icons.Outlined.Place
                                 com.safeqr.scanner.analysis.QrDataType.APP_STORE -> Icons.Outlined.Star
                                 com.safeqr.scanner.analysis.QrDataType.AUTHENTICATOR -> Icons.Default.Lock
+                                com.safeqr.scanner.analysis.QrDataType.TICKET -> Icons.Outlined.Event
                                 else -> Icons.Outlined.Info
                             }
                             Icon(imageVector = icon, contentDescription = null, tint = NeonCyan, modifier = Modifier.size(20.dp))
@@ -380,29 +542,31 @@ fun ResultBottomSheet(
                             }
                         }
 
-                        androidx.compose.foundation.text.selection.SelectionContainer {
-                            Column {
-                                Text(
-                                    text = parsedData.primaryText,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    lineHeight = 24.sp
-                                )
-                                val displayText = if (parsedData.type == com.safeqr.scanner.analysis.QrDataType.LOCATION && humanAddress != null) humanAddress!! else parsedData.secondaryText
-                                if (displayText != null) {
-                                    Spacer(modifier = Modifier.height(4.dp))
+                        if (activeUpiAnalysis == null && activeWifiAnalysis == null) {
+                            androidx.compose.foundation.text.selection.SelectionContainer {
+                                Column {
                                     Text(
-                                        text = displayText,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        fontSize = 14.sp,
-                                        lineHeight = 20.sp
+                                        text = parsedData.primaryText,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        lineHeight = 24.sp
                                     )
-                                }
-                                
-                                if (parsedData.type == com.safeqr.scanner.analysis.QrDataType.TEXT) {
-                                    Box(modifier = Modifier.heightIn(max = 150.dp).verticalScroll(rememberScrollState())) {
-                                        Text(text = parsedData.rawData, color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp)
+                                    val displayText = if (parsedData.type == com.safeqr.scanner.analysis.QrDataType.LOCATION && humanAddress != null) humanAddress!! else parsedData.secondaryText
+                                    if (displayText != null) {
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            text = displayText,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            fontSize = 14.sp,
+                                            lineHeight = 20.sp
+                                        )
+                                    }
+                                    
+                                    if (parsedData.type == com.safeqr.scanner.analysis.QrDataType.TEXT) {
+                                        Box(modifier = Modifier.heightIn(max = 150.dp).verticalScroll(rememberScrollState())) {
+                                            Text(text = parsedData.rawData, color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp)
+                                        }
                                     }
                                 }
                             }
@@ -410,7 +574,6 @@ fun ResultBottomSheet(
                         
                         Spacer(modifier = Modifier.height(16.dp))
                         
-                        // Smart Cards
                         if (parsedData.type == com.safeqr.scanner.analysis.QrDataType.EVENT) {
                             com.safeqr.scanner.ui.components.EventCountdownCard(
                                 startTimeStr = parsedData.actionData["start"],
@@ -422,15 +585,312 @@ fun ResultBottomSheet(
                                 coin = parsedData.actionData["coin"],
                                 amountRequested = parsedData.actionData["amount"]
                             )
+                        } else if (parsedData.type == com.safeqr.scanner.analysis.QrDataType.VERIFIABLE_CREDENTIAL) {
+                            val context = LocalContext.current
+                            com.safeqr.scanner.ui.components.VerifiableCredentialCard(
+                                parsedData = parsedData,
+                                onSaveToVault = {
+                                    val vcId = parsedData.actionData["vcId"] ?: ""
+                                    val type = parsedData.actionData["credentialType"] ?: "CUSTOM"
+                                    val issuerName = parsedData.actionData["issuerName"] ?: "Unknown Issuer"
+                                    val issuerId = parsedData.actionData["issuerId"] ?: "Unknown"
+                                    val subjectName = parsedData.actionData["subjectName"] ?: "Unknown"
+                                    val claims = parsedData.actionData["claims"] ?: "{}"
+                                    val issuedAt = parsedData.actionData["issuanceDate"]?.toLongOrNull() ?: System.currentTimeMillis()
+                                    val expiresAt = parsedData.actionData["expirationDate"]?.toLongOrNull()
+                                    
+                                    val vcEntity = com.safeqr.scanner.data.model.VerifiableCredentialEntity(
+                                        vcId = vcId,
+                                        type = type,
+                                        issuerName = issuerName,
+                                        issuerId = issuerId,
+                                        subjectName = subjectName,
+                                        claims = claims,
+                                        issuedAt = issuedAt,
+                                        expiresAt = expiresAt,
+                                        qrPayload = scanResult.rawContent,
+                                        createdByUserId = "local_vault"
+                                    )
+                                    kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                                        val db = com.safeqr.scanner.data.local.ScanDatabase.getInstance(context)
+                                        db.verifiableCredentialDao().insert(vcEntity)
+                                        kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) {
+                                            Toast.makeText(context, "Credential saved to Secure Vault", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                }
+                            )
                         }
                         // Action Button based on Type
                         val actionContext = LocalContext.current
+                        var showUpiWarningDialog by remember { mutableStateOf(false) }
+                        
+                        // UPI fraud warning dialog
+                        if (showUpiWarningDialog && scanResult.upiAnalysis != null) {
+                            val upiRisk = scanResult.upiAnalysis
+                            AlertDialog(
+                                onDismissRequest = { showUpiWarningDialog = false },
+                                containerColor = DarkSurface,
+                                icon = {
+                                    Icon(
+                                        Icons.Filled.Warning,
+                                        contentDescription = null,
+                                        tint = if (upiRisk.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.CRITICAL) MaliciousRed else CautionAmber,
+                                        modifier = Modifier.size(48.dp)
+                                    )
+                                },
+                                title = {
+                                    Text(
+                                        "⚠️ Fraud Risk Detected",
+                                        color = TextPrimary,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                },
+                                text = {
+                                    Column {
+                                        Text(
+                                            "ThreatLens detected ${upiRisk.flags.size} fraud indicator(s) with ${upiRisk.riskLevel.name} risk level.",
+                                            color = TextSecondary,
+                                            fontSize = 14.sp,
+                                            lineHeight = 20.sp
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        upiRisk.flags.take(3).forEach { flag ->
+                                            Text(
+                                                "${flag.emoji} ${flag.title}",
+                                                color = TextPrimary,
+                                                fontSize = 13.sp,
+                                                fontWeight = FontWeight.Medium
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            "Are you SURE you want to proceed with this payment?",
+                                            color = MaliciousRed,
+                                            fontSize = 13.sp,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                    }
+                                },
+                                confirmButton = {
+                                    Button(
+                                        onClick = {
+                                            showUpiWarningDialog = false
+                                            try {
+                                                // Record VPA interaction + daily spending even for risky payments
+                                                val vpa = parsedData.actionData["payeeAddress"]
+                                                if (!vpa.isNullOrBlank()) {
+                                                    com.safeqr.scanner.data.UpiGuardPreferences.recordVpaInteraction(
+                                                        actionContext, vpa, com.safeqr.scanner.data.UpiGuardPreferences.VpaAction.PAID
+                                                    )
+                                                }
+                                                val amt = parsedData.actionData["amount"]?.toDoubleOrNull()
+                                                if (amt != null) {
+                                                    com.safeqr.scanner.data.UpiGuardPreferences.addTransaction(actionContext, amt)
+                                                }
+                                                
+                                                val upiIntent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(parsedData.rawData))
+                                                val chooser = android.content.Intent.createChooser(upiIntent, "Pay with")
+                                                upiPaymentLauncher.launch(chooser)
+                                            } catch (e: Exception) {
+                                                Toast.makeText(actionContext, "No UPI app found", Toast.LENGTH_SHORT).show()
+                                            }
+                                        },
+                                        colors = ButtonDefaults.buttonColors(containerColor = MaliciousRed)
+                                    ) {
+                                        Text("Pay Anyway", color = Color.White, fontWeight = FontWeight.Bold)
+                                    }
+                                },
+                                dismissButton = {
+                                    OutlinedButton(onClick = { showUpiWarningDialog = false }) {
+                                        Text("Cancel", color = SafeGreen, fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                            )
+                        }
+                        
+                        // WiFi threat warning dialog
+                        var showWifiWarningDialog by remember { mutableStateOf(false) }
+                        
+                        if (showWifiWarningDialog && scanResult.wifiAnalysis != null) {
+                            val wifiRisk = scanResult.wifiAnalysis
+                            AlertDialog(
+                                onDismissRequest = { showWifiWarningDialog = false },
+                                containerColor = DarkSurface,
+                                icon = {
+                                    Icon(
+                                        Icons.Filled.WifiOff,
+                                        contentDescription = null,
+                                        tint = if (wifiRisk.riskLevel == com.safeqr.scanner.analysis.WifiThreatAnalyzer.RiskLevel.CRITICAL) MaliciousRed else CautionAmber,
+                                        modifier = Modifier.size(48.dp)
+                                    )
+                                },
+                                title = {
+                                    Text(
+                                        "⚠️ Insecure Network",
+                                        color = TextPrimary,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                },
+                                text = {
+                                    Column {
+                                        Text(
+                                            "ThreatLens detected ${wifiRisk.flags.size} security issue(s). Encryption: ${wifiRisk.encryptionName} (Grade ${wifiRisk.encryptionGrade}).",
+                                            color = TextSecondary,
+                                            fontSize = 14.sp,
+                                            lineHeight = 20.sp
+                                        )
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        wifiRisk.flags.take(3).forEach { flag ->
+                                            Text(
+                                                "${flag.emoji} ${flag.title}",
+                                                color = TextPrimary,
+                                                fontSize = 13.sp,
+                                                fontWeight = FontWeight.Medium
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        Text(
+                                            "Your data may be intercepted on this network. Continue?",
+                                            color = MaliciousRed,
+                                            fontSize = 13.sp,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                    }
+                                },
+                                confirmButton = {
+                                    Button(
+                                        onClick = {
+                                            showWifiWarningDialog = false
+                                            // Copy password if available, then open WiFi Settings
+                                            val wifiPassword = parsedData.actionData["password"]?.removeSurrounding("\"")
+                                            val wifiSsid = (parsedData.actionData["ssid"] ?: parsedData.primaryText).removeSurrounding("\"")
+                                            if (!wifiPassword.isNullOrBlank()) {
+                                                val clipboard = actionContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                                clipboard.setPrimaryClip(ClipData.newPlainText("Wi-Fi Password", wifiPassword))
+                                                Toast.makeText(actionContext, "Password copied! Select '$wifiSsid' to connect.", Toast.LENGTH_LONG).show()
+                                            } else {
+                                                Toast.makeText(actionContext, "Select '$wifiSsid' to connect.", Toast.LENGTH_LONG).show()
+                                            }
+                                            val wifiSettingsIntent = android.content.Intent(android.provider.Settings.ACTION_WIFI_SETTINGS)
+                                            wifiSettingsIntent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                                            actionContext.startActivity(wifiSettingsIntent)
+                                        },
+                                        colors = ButtonDefaults.buttonColors(containerColor = CautionAmber)
+                                    ) {
+                                        Text("Connect Anyway", color = Color.White, fontWeight = FontWeight.Bold)
+                                    }
+                                },
+                                dismissButton = {
+                                    OutlinedButton(onClick = { showWifiWarningDialog = false }) {
+                                        Text("Cancel", color = SafeGreen, fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                            )
+                        }
+                        
+                        // ── Parental Control Check for Primary Actions ──
+                        val parentalContext = LocalContext.current
+                        val isChildLocked = com.safeqr.scanner.data.PreferencesManager.isChildLockEnabled(parentalContext)
+                        val parentalConfig = if (isChildLocked) com.safeqr.scanner.data.PreferencesManager.getParentalConfig(parentalContext) else null
+
+                        val isParentalBlocked = if (isChildLocked && parentalConfig != null) {
+                            when {
+                                // Block payments if blockPayment is on
+                                parentalConfig.blockPayment && parsedData.type == com.safeqr.scanner.analysis.QrDataType.PAYMENT -> true
+                                // Block malicious/caution content always under child lock
+                                scanResult.safetyStatus == SafetyStatus.MALICIOUS -> true
+                                // Block adult content
+                                parentalConfig.blockAdult && scanResult.isAdultContent -> true
+                                // Block gaming URLs
+                                parentalConfig.blockGaming && scanResult.isUrl && run {
+                                    val lUrl = (scanResult.expandedUrl ?: scanResult.rawContent).lowercase()
+                                    lUrl.contains("roblox.com") || lUrl.contains("minecraft.net") || lUrl.contains("epicgames.com") || lUrl.contains("steampowered.com") || lUrl.contains("play.google.com/store/apps/category/GAME") || lUrl.contains("fortnite.com") || lUrl.contains("valorant.com") || lUrl.contains("twitch.tv")
+                                } -> true
+                                // Block social media URLs
+                                parentalConfig.blockSocial && scanResult.isUrl && run {
+                                    val lUrl = (scanResult.expandedUrl ?: scanResult.rawContent).lowercase()
+                                    lUrl.contains("instagram.com") || lUrl.contains("facebook.com") || lUrl.contains("tiktok.com") || lUrl.contains("twitter.com") || lUrl.contains("x.com") || lUrl.contains("snapchat.com") || lUrl.contains("reddit.com") || lUrl.contains("discord.com")
+                                } -> true
+                                // Block blacklisted domains
+                                scanResult.isUrl && parentalConfig.blacklistDomains.any { (scanResult.expandedUrl ?: scanResult.rawContent).lowercase().contains(it.lowercase()) } -> true
+                                else -> false
+                            }
+                        } else false
+
+                        if (isParentalBlocked) {
+                            // Show blocked banner instead of action button
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(52.dp)
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(MaliciousRed.copy(alpha = 0.12f))
+                                    .border(1.dp, MaliciousRed.copy(alpha = 0.3f), RoundedCornerShape(12.dp)),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Icon(Icons.Default.Lock, contentDescription = null, tint = MaliciousRed, modifier = Modifier.size(20.dp))
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("🔒 Blocked by Parental Controls", color = MaliciousRed, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                            }
+                            // Log the block
+                            LaunchedEffect(Unit) {
+                                val blockReason = when {
+                                    parentalConfig?.blockPayment == true && parsedData.type == com.safeqr.scanner.analysis.QrDataType.PAYMENT -> "Payment Blocked"
+                                    scanResult.safetyStatus == SafetyStatus.MALICIOUS -> "Malicious Content Blocked"
+                                    scanResult.isAdultContent -> "Adult Content Blocked"
+                                    else -> "Parental Rule"
+                                }
+                                com.safeqr.scanner.data.PreferencesManager.addParentalLog(parentalContext, scanResult.rawContent, "Blocked", blockReason)
+                            }
+                        } else {
+                        // Determine UPI button color based on risk
+                        val isUpiDangerous = parsedData.type == com.safeqr.scanner.analysis.QrDataType.PAYMENT &&
+                            scanResult.upiAnalysis != null &&
+                            (scanResult.upiAnalysis.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.HIGH ||
+                             scanResult.upiAnalysis.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.CRITICAL)
+                        val isUpiCaution = parsedData.type == com.safeqr.scanner.analysis.QrDataType.PAYMENT &&
+                            scanResult.upiAnalysis != null &&
+                            scanResult.upiAnalysis.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.MEDIUM
+                        
+                        // Determine WiFi button color based on risk
+                        val isWifiDangerous = parsedData.type == com.safeqr.scanner.analysis.QrDataType.WIFI &&
+                            scanResult.wifiAnalysis != null &&
+                            (scanResult.wifiAnalysis.riskLevel == com.safeqr.scanner.analysis.WifiThreatAnalyzer.RiskLevel.HIGH ||
+                             scanResult.wifiAnalysis.riskLevel == com.safeqr.scanner.analysis.WifiThreatAnalyzer.RiskLevel.CRITICAL)
+                        val isWifiCaution = parsedData.type == com.safeqr.scanner.analysis.QrDataType.WIFI &&
+                            scanResult.wifiAnalysis != null &&
+                            scanResult.wifiAnalysis.riskLevel == com.safeqr.scanner.analysis.WifiThreatAnalyzer.RiskLevel.MEDIUM
+                        
+                        val buttonColor = when {
+                            isUpiDangerous || isWifiDangerous -> MaliciousRed
+                            isUpiCaution || isWifiCaution -> CautionAmber
+                            else -> PrimaryBlue
+                        }
+                        
                         Button(
                             onClick = {
                                 try {
                                     when(parsedData.type) {
                                         com.safeqr.scanner.analysis.QrDataType.WIFI -> {
-                                            connectToWifi(actionContext, parsedData)
+                                            if (isWifiDangerous) {
+                                                showWifiWarningDialog = true
+                                            } else {
+                                                // Copy password if available, then open WiFi Settings
+                                                val wifiPassword = parsedData.actionData["password"]?.removeSurrounding("\"")
+                                                val wifiSsid = (parsedData.actionData["ssid"] ?: parsedData.primaryText).removeSurrounding("\"")
+                                                if (!wifiPassword.isNullOrBlank()) {
+                                                    val clipboard = actionContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                                    clipboard.setPrimaryClip(ClipData.newPlainText("Wi-Fi Password", wifiPassword))
+                                                    Toast.makeText(actionContext, "Password copied! Select '$wifiSsid' to connect.", Toast.LENGTH_LONG).show()
+                                                } else {
+                                                    Toast.makeText(actionContext, "Select '$wifiSsid' to connect.", Toast.LENGTH_LONG).show()
+                                                }
+                                                val wifiSettingsIntent = android.content.Intent(android.provider.Settings.ACTION_WIFI_SETTINGS)
+                                                wifiSettingsIntent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                                                actionContext.startActivity(wifiSettingsIntent)
+                                            }
                                         }
                                         com.safeqr.scanner.analysis.QrDataType.VCARD -> {
                                             val intent = android.content.Intent(android.content.Intent.ACTION_INSERT).apply {
@@ -455,8 +915,26 @@ fun ResultBottomSheet(
                                             }
                                         }
                                         com.safeqr.scanner.analysis.QrDataType.PAYMENT -> {
-                                            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(parsedData.rawData))
-                                            actionContext.startActivity(intent)
+                                            if (isUpiDangerous) {
+                                                // Show warning dialog before allowing payment
+                                                showUpiWarningDialog = true
+                                            } else {
+                                                // Record VPA interaction + daily spending
+                                                val vpa = parsedData.actionData["payeeAddress"]
+                                                if (!vpa.isNullOrBlank()) {
+                                                    com.safeqr.scanner.data.UpiGuardPreferences.recordVpaInteraction(
+                                                        actionContext, vpa, com.safeqr.scanner.data.UpiGuardPreferences.VpaAction.PAID
+                                                    )
+                                                }
+                                                val amt = parsedData.actionData["amount"]?.toDoubleOrNull()
+                                                if (amt != null) {
+                                                    com.safeqr.scanner.data.UpiGuardPreferences.addTransaction(actionContext, amt)
+                                                }
+                                                
+                                                val upiIntent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(parsedData.rawData))
+                                                val chooser = android.content.Intent.createChooser(upiIntent, "Pay with")
+                                                upiPaymentLauncher.launch(chooser)
+                                            }
                                         }
                                         com.safeqr.scanner.analysis.QrDataType.EMAIL -> {
                                             val intent = android.content.Intent(android.content.Intent.ACTION_SENDTO, android.net.Uri.parse("mailto:${parsedData.actionData["email"]}"))
@@ -495,6 +973,29 @@ fun ResultBottomSheet(
                                             clipboard.setPrimaryClip(ClipData.newPlainText("Authenticator Secret", secret))
                                             Toast.makeText(actionContext, "Secret Copied to Clipboard", Toast.LENGTH_SHORT).show()
                                         }
+                                        com.safeqr.scanner.analysis.QrDataType.ESIM -> {
+                                            try {
+                                                val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(parsedData.rawData))
+                                                actionContext.startActivity(intent)
+                                            } catch (e: Exception) {
+                                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                                                    val fallbackIntent = android.content.Intent("android.settings.QR_CODE_SCANNER")
+                                                    actionContext.startActivity(fallbackIntent)
+                                                    Toast.makeText(actionContext, "Please scan the code again with the System Scanner", Toast.LENGTH_LONG).show()
+                                                } else {
+                                                    Toast.makeText(actionContext, "Action not supported on this device", Toast.LENGTH_SHORT).show()
+                                                }
+                                            }
+                                        }
+                                        com.safeqr.scanner.analysis.QrDataType.PROVISIONING -> {
+                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                                                val fallbackIntent = android.content.Intent("android.settings.QR_CODE_SCANNER")
+                                                actionContext.startActivity(fallbackIntent)
+                                                Toast.makeText(actionContext, "Please scan the code again with the System Scanner", Toast.LENGTH_LONG).show()
+                                            } else {
+                                                Toast.makeText(actionContext, "Action not supported on this device", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
                                         com.safeqr.scanner.analysis.QrDataType.TEXT -> {
                                             val clipboard = actionContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                             clipboard.setPrimaryClip(ClipData.newPlainText("QR Content", parsedData.rawData))
@@ -506,12 +1007,16 @@ fun ResultBottomSheet(
                                     Toast.makeText(actionContext, "Action not supported on this device", Toast.LENGTH_SHORT).show()
                                 }
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = PrimaryBlue),
+                            colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             val btnText = when(parsedData.type) {
-                                com.safeqr.scanner.analysis.QrDataType.WIFI -> "Open Wi-Fi Settings"
+                                com.safeqr.scanner.analysis.QrDataType.WIFI -> {
+                                    if (isWifiDangerous) "⚠️ Connect (Insecure)"
+                                    else if (isWifiCaution) "⚡ Connect (Caution)"
+                                    else "Open Wi-Fi Settings"
+                                }
                                 com.safeqr.scanner.analysis.QrDataType.VCARD -> "Add to Contacts"
                                 com.safeqr.scanner.analysis.QrDataType.EMAIL -> "Send Email"
                                 com.safeqr.scanner.analysis.QrDataType.SMS -> "Send SMS"
@@ -519,13 +1024,20 @@ fun ResultBottomSheet(
                                 com.safeqr.scanner.analysis.QrDataType.LOCATION -> "Open Map"
                                 com.safeqr.scanner.analysis.QrDataType.EVENT -> "Add to Calendar"
                                 com.safeqr.scanner.analysis.QrDataType.CRYPTO -> "Send / Pay Crypto"
-                                com.safeqr.scanner.analysis.QrDataType.PAYMENT -> "Pay via UPI"
+                                com.safeqr.scanner.analysis.QrDataType.PAYMENT -> {
+                                    if (isUpiDangerous) "⚠️ Pay via UPI (Risky)"
+                                    else if (isUpiCaution) "⚡ Pay via UPI (Caution)"
+                                    else "Pay via UPI"
+                                }
                                 com.safeqr.scanner.analysis.QrDataType.APP_STORE -> "Open App Store"
                                 com.safeqr.scanner.analysis.QrDataType.AUTHENTICATOR -> "Copy Secret Key"
+                                com.safeqr.scanner.analysis.QrDataType.ESIM -> "Setup eSIM"
+                                com.safeqr.scanner.analysis.QrDataType.PROVISIONING -> "Open System Scanner"
                                 else -> "Copy Text"
                             }
                             Text(btnText, color = MaterialTheme.colorScheme.surface, fontWeight = FontWeight.Bold)
                         }
+                        } // end of !isParentalBlocked else
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -598,13 +1110,13 @@ fun ResultBottomSheet(
                         enter = fadeIn() + slideInVertically { it / 2 }
                     ) {
                         SectionCard(
-                            title = "\u2705 Positive Signals",
+                            title = "\uD83D\uDD0D Domain Intelligence",
                             items = positiveItems.distinct(),
                             icon = {
                                 Icon(
-                                    imageVector = Icons.Outlined.CheckCircle,
-                                    contentDescription = "Positive",
-                                    tint = SafeGreen,
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = "Domain Info",
+                                    tint = NeonCyan,
                                     modifier = Modifier.size(18.dp)
                                 )
                             }
@@ -622,6 +1134,7 @@ fun ResultBottomSheet(
                     enter = fadeIn() + slideInVertically { it / 2 }
                 ) {
                     CertificateVerificationBanner(
+                        scanResult = scanResult,
                         verifyResult = certResult,
                         statusColor = statusColor
                     )
@@ -788,6 +1301,77 @@ fun ResultBottomSheet(
                     }
                 } // end if scanResult.isUrl
 
+                // ── Action Buttons for UPI & WiFi ──
+                
+                if (!scanResult.isUrl && (isUpiScan || isWifiScan)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            val redColor = MaliciousRed
+                            val greenColor = SafeGreen
+                            val textColor = MaterialTheme.colorScheme.onSurface
+
+                            Button(
+                                onClick = { isPositiveReport = false; showReportDialog = true },
+                                shape = RoundedCornerShape(12.dp),
+                                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 4.dp),
+                                modifier = Modifier.weight(1f).height(40.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant, contentColor = MaterialTheme.colorScheme.onSurfaceVariant)
+                            ) {
+                                Icon(Icons.Outlined.Warning, contentDescription = null, tint = redColor, modifier = Modifier.size(16.dp))
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Report", color = textColor, fontSize = 12.sp, fontWeight = FontWeight.Bold, maxLines = 1)
+                            }
+
+                            Button(
+                                onClick = { isPositiveReport = true; showReportDialog = true },
+                                shape = RoundedCornerShape(12.dp),
+                                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 4.dp),
+                                modifier = Modifier.weight(1f).height(40.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant, contentColor = MaterialTheme.colorScheme.onSurfaceVariant)
+                            ) {
+                                Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = greenColor, modifier = Modifier.size(16.dp))
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Appreciate", color = textColor, fontSize = 12.sp, fontWeight = FontWeight.Bold, maxLines = 1)
+                            }
+                        }
+
+                        if (isUpiScan) {
+                            Button(
+                                onClick = {
+                                    if (scanResult.safetyStatus == SafetyStatus.MALICIOUS) {
+                                        showMaliciousDialog = true
+                                    } else {
+                                        onOpenUrl(scanResult.rawContent)
+                                    }
+                                },
+                                colors = ButtonDefaults.buttonColors(containerColor = statusColor),
+                                shape = RoundedCornerShape(12.dp),
+                                modifier = Modifier.fillMaxWidth().height(48.dp)
+                            ) {
+                                Icon(Icons.Outlined.CreditCard, contentDescription = null, modifier = Modifier.size(20.dp))
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Pay via UPI App", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                    }
+                } else if (parsedData.type == com.safeqr.scanner.analysis.QrDataType.TEXT) {
+                    // Universal "Report Threat" button for Text
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(
+                        onClick = { isPositiveReport = false; showReportDialog = true },
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.fillMaxWidth().height(48.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaliciousRed.copy(alpha = 0.15f), contentColor = MaliciousRed)
+                    ) {
+                        Icon(Icons.Outlined.Warning, contentDescription = null, tint = MaliciousRed, modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Report Threat", color = MaliciousRed, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+
                 if (!shouldBlockAction) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -836,6 +1420,28 @@ fun ResultBottomSheet(
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
+    }
+
+    // Threat Report Sheet
+    if (showReportDialog && !isPositiveReport) {
+        com.safeqr.scanner.ui.components.ThreatReportSheet(
+            rawContent = scanResult.rawContent,
+            onDismiss = { showReportDialog = false },
+            onSubmit = { report ->
+                kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                    com.safeqr.scanner.data.remote.CloudSyncManager.submitThreatReport(report)
+                }
+                showReportDialog = false
+                Toast.makeText(context, "Threat report submitted. Thank you!", Toast.LENGTH_SHORT).show()
+                // Update intel optimistically
+                val currentIntel = communityIntel ?: com.safeqr.scanner.data.remote.CloudSyncManager.ThreatIntelReport()
+                communityIntel = currentIntel.copy(
+                    totalReports = currentIntel.totalReports + 1,
+                    reportTypes = if (currentIntel.reportTypes.contains(report.reportType)) currentIntel.reportTypes else currentIntel.reportTypes + report.reportType,
+                    riskEscalation = if (currentIntel.totalReports + 1 >= 3) "HIGH" else "MEDIUM"
+                )
+            }
+        )
     }
 
     // Malicious URL confirmation dialog
@@ -1072,17 +1678,26 @@ fun ResultBottomSheet(
  */
 @Composable
 private fun CertificateVerificationBanner(
+    scanResult: ScanResult,
     verifyResult: com.safeqr.scanner.security.CertificateEngine.VerifyResult,
     statusColor: androidx.compose.ui.graphics.Color
 ) {
     val payload = verifyResult.payload
+    val isStale = scanResult.threatDetails.any { it.startsWith("⏰ Stale") }
     val (borderColor, bgColor, icon, title, subtitle) = when {
-        verifyResult.isValid -> CertBannerStyle(
-            border = SafeGreen,
-            bg = SafeGreen.copy(alpha = 0.08f),
-            icon = "✅",
-            title = "ThreatLens Certificate Valid",
-            subtitle = "Signature verified · this QR was certified by ThreatLens · cert ID: ${payload?.id ?: "—"}"
+        verifyResult.isValid && !isStale -> CertBannerStyle(
+            border = Color(0xFFFFD700), // Premium Gold
+            bg = Color(0xFFFFD700).copy(alpha = 0.1f),
+            icon = "🛡️",
+            title = "ThreatLens Certified",
+            subtitle = "Cryptographically signed and verified. Cert ID: ${payload?.id ?: "—"}"
+        )
+        verifyResult.isValid && isStale -> CertBannerStyle(
+            border = CautionAmber,
+            bg = CautionAmber.copy(alpha = 0.08f),
+            icon = "⚠️",
+            title = "Certified, but STALE",
+            subtitle = "Live analysis found issues that were not present when this QR was certified."
         )
         verifyResult.isTampered -> CertBannerStyle(
             border = MaliciousRed,
@@ -1305,6 +1920,29 @@ private fun connectToWifi(actionContext: android.content.Context, parsedData: co
                     // Intent failed or password invalid, fall through to manual fallback
                 }
             } 
+            // Android 10 (API 29) Auto-Connect System Dialog
+            else if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.Q) {
+                try {
+                    val builder = android.net.wifi.WifiNetworkSuggestion.Builder().setSsid(ssid)
+                    if (!password.isNullOrBlank() && !wifiType.contains("nopass", ignoreCase = true)) {
+                        if (wifiType.contains("WEP", ignoreCase = true)) {
+                            throw IllegalArgumentException("WEP not supported for auto-connect on Android 10")
+                        } else if (wifiType.contains("SAE", ignoreCase = true) || wifiType.contains("WPA3", ignoreCase = true)) {
+                            builder.setWpa3Passphrase(password)
+                        } else {
+                            builder.setWpa2Passphrase(password)
+                        }
+                    }
+                    val suggestion = builder.build()
+                    val status = wifiManager.addNetworkSuggestions(listOf(suggestion))
+                    if (status == android.net.wifi.WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
+                        android.widget.Toast.makeText(actionContext, "Network suggested. The system may prompt you to connect.", android.widget.Toast.LENGTH_LONG).show()
+                        return // Success, exit out
+                    }
+                } catch (e: Exception) {
+                    // Fall through to manual fallback
+                }
+            }
             // Android 9 and below (API 28-) Direct Auto-Connect
             else if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
                 try {
@@ -1334,7 +1972,8 @@ private fun connectToWifi(actionContext: android.content.Context, parsedData: co
                 }
             }
 
-            // --- Robust Fallback (For Android 10, or if auto-connect failed) ---
+            // --- Robust Fallback (For any unhandled API, or if auto-connect failed) ---
+
             if (!password.isNullOrBlank()) {
                 val clipboard = actionContext.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
                 clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Wi-Fi Password", password))
@@ -1343,15 +1982,80 @@ private fun connectToWifi(actionContext: android.content.Context, parsedData: co
                 android.widget.Toast.makeText(actionContext, "Select '$ssid' to connect.", android.widget.Toast.LENGTH_LONG).show()
             }
 
-            val fallbackIntent = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                android.content.Intent(android.provider.Settings.Panel.ACTION_WIFI)
-            } else {
-                android.content.Intent(android.provider.Settings.ACTION_WIFI_SETTINGS)
-            }
+            val fallbackIntent = android.content.Intent(android.provider.Settings.ACTION_WIFI_SETTINGS)
             fallbackIntent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
             actionContext.startActivity(fallbackIntent)
         }
     } catch (e: Exception) {
         android.widget.Toast.makeText(actionContext, "Failed to initiate Wi-Fi connection", android.widget.Toast.LENGTH_SHORT).show()
+    }
+}
+
+@Composable
+fun PasswordUnlockView(
+    scanResult: ScanResult,
+    onUnlock: (String) -> Unit
+) {
+    var password by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf<String?>(null) }
+    var isAttempting by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(72.dp)
+                .clip(RoundedCornerShape(36.dp))
+                .background(Brush.radialGradient(listOf(NeonCyan.copy(alpha = 0.2f), Color.Transparent))),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(Icons.Filled.Lock, contentDescription = null, tint = NeonCyan, modifier = Modifier.size(36.dp))
+        }
+        Spacer(Modifier.height(16.dp))
+        Text("Protected QR Code", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+        Spacer(Modifier.height(8.dp))
+        Text("This QR code is encrypted. Enter the password to view its contents.", color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, fontSize = 14.sp)
+        Spacer(Modifier.height(24.dp))
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it; error = null },
+            label = { Text("Password") },
+            isError = error != null,
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = NeonCyan, focusedLabelColor = NeonCyan)
+        )
+        if (error != null) {
+            Text(error!!, color = MaliciousRed, fontSize = 12.sp, modifier = Modifier.padding(top = 4.dp).align(Alignment.Start))
+        }
+
+        Spacer(Modifier.height(24.dp))
+        Button(
+            onClick = {
+                if (password.isBlank()) return@Button
+                isAttempting = true
+                val result = com.safeqr.scanner.security.QrEncryptionEngine.decrypt(scanResult.rawContent, password)
+                if (result.success && result.content != null) {
+                    onUnlock(result.content)
+                } else {
+                    error = result.error ?: "Incorrect password"
+                    isAttempting = false
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(50.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = NeonCyan)
+        ) {
+            if (isAttempting) {
+                androidx.compose.material3.CircularProgressIndicator(modifier = Modifier.size(24.dp), color = DarkSurface)
+            } else {
+                Text("Unlock QR", color = DarkSurface, fontWeight = FontWeight.Bold)
+            }
+        }
     }
 }

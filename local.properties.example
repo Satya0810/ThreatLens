@@ -32,3 +32,5 @@ CLOUDFLARE_KEY=
 
 # Google Gemini (Generative AI) — https://aistudio.google.com/apikey
 GEMINI_KEY=
+QWEN_ENDPOINT_URL="http://your-oracle-ip:11434/v1"
+QWEN_API_KEY="ollama"

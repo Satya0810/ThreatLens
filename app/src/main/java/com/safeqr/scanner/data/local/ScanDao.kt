@@ -15,6 +15,9 @@ interface ScanDao {
     @Query("SELECT * FROM scan_history ORDER BY timestamp DESC")
     fun getAllScans(): Flow<List<ScanEntity>>
 
+    @Query("SELECT * FROM scan_history")
+    suspend fun getAllScansSync(): List<ScanEntity>
+
     @Query("DELETE FROM scan_history")
     suspend fun clearAll()
 
@@ -26,6 +29,12 @@ interface ScanDao {
 
     @Query("DELETE FROM scan_history WHERE rawContent = :rawContent")
     suspend fun deleteByContent(rawContent: String)
+
+    @Query("UPDATE scan_history SET isFavorite = :isFavorite WHERE rawContent = :rawContent")
+    suspend fun updateFavorite(rawContent: String, isFavorite: Boolean)
+
+    @Query("UPDATE scan_history SET tags = :tagsJson WHERE rawContent = :rawContent")
+    suspend fun updateTags(rawContent: String, tagsJson: String)
 
     @Query("SELECT COUNT(*) FROM scan_history WHERE domain = :domain AND safetyStatus = 'SAFE'")
     suspend fun getSafeVisitCount(domain: String): Int

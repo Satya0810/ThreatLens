@@ -38,12 +38,21 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     private val reportDao = db.reportDao()
 
     private fun createRepository(): ScanRepository {
-        val analyzer = ThreatAnalyzer()
+        val analyzer = ThreatAnalyzer(getApplication<Application>().applicationContext)
         return ScanRepository(dao, analyzer, reportDao)
     }
 
     private val _scanResult = MutableStateFlow<ScanResult?>(null)
     val scanResult: StateFlow<ScanResult?> = _scanResult.asStateFlow()
+
+    private val _isBatchMode = MutableStateFlow(false)
+    val isBatchMode: StateFlow<Boolean> = _isBatchMode.asStateFlow()
+
+    private val _batchResults = MutableStateFlow<List<ScanResult>>(emptyList())
+    val batchResults: StateFlow<List<ScanResult>> = _batchResults.asStateFlow()
+
+    private val _showBatchResults = MutableStateFlow(false)
+    val showBatchResults: StateFlow<Boolean> = _showBatchResults.asStateFlow()
 
     private val _isAnalyzing = MutableStateFlow(false)
     val isAnalyzing: StateFlow<Boolean> = _isAnalyzing.asStateFlow()
@@ -60,8 +69,34 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     private val _scanStats = MutableStateFlow(ScanStats())
     val scanStats: StateFlow<ScanStats> = _scanStats.asStateFlow()
 
+    var lastScannedRawValue: String? = null
+    var lastScannedTime: Long = 0
+
+    fun toggleBatchMode() {
+        _isBatchMode.value = !_isBatchMode.value
+        if (!_isBatchMode.value) {
+            _batchResults.value = emptyList()
+            _showBatchResults.value = false
+        }
+    }
+
+    fun finishBatchScan() {
+        if (_batchResults.value.isNotEmpty()) {
+            _showBatchResults.value = true
+            _scanningEnabled.value = false
+        }
+    }
+
+    fun dismissBatchResults() {
+        _showBatchResults.value = false
+        _batchResults.value = emptyList()
+        _scanningEnabled.value = true
+        lastScannedTime = System.currentTimeMillis()
+    }
+
     init {
         com.safeqr.scanner.analysis.AILearningEngine.init(application)
+        com.safeqr.scanner.analysis.UpiTransactionMLEngine.init(application)
         viewModelScope.launch {
             try {
                 dao.getAllScans().collect { rawScans ->
@@ -129,9 +164,16 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private suspend fun postProcessScan(result: ScanResult) {
-        _scanResult.value = result
-        syncToCloudIfLoggedIn(result)
-        _showResult.value = true
+        if (_isBatchMode.value) {
+            _batchResults.update { it + result }
+            _scanResult.value = result // To trigger haptics
+            _scanningEnabled.value = true
+            _isAnalyzing.value = false
+        } else {
+            _scanResult.value = result
+            syncToCloudIfLoggedIn(result)
+            _showResult.value = true
+        }
         
         // ── AUTONOMOUS AI TRAINING ──
         if (result.isUrl && result.expandedUrl != null) {
@@ -141,6 +183,11 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun syncToCloudIfLoggedIn(result: ScanResult) {
+        // [PRIVACY UPDATE] Do not sync UPI or WiFi scans to the cloud
+        if (result.upiAnalysis != null || result.wifiAnalysis != null) {
+            return
+        }
+        
         viewModelScope.launch {
             val userId = com.safeqr.scanner.data.PreferencesManager.getCurrentUserId(getApplication())
             if (userId != null) {
@@ -216,17 +263,14 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
             try {
                 val repository = createRepository()
                 
-                // BYPASS: If this URL is already in history, use the cache instantly
                 val cached = repository.checkCache(rawValue)
                 if (cached != null) {
                     postProcessScan(cached)
-                    _isAnalyzing.value = false
-                    return@launch
+                } else {
+                    val wsApiKey = com.safeqr.scanner.data.PreferencesManager.getWebshrinkerApiKey(getApplication())
+                    val result = repository.analyzeScan(rawValue, wsApiKey)
+                    postProcessScan(result)
                 }
-
-                val wsApiKey = com.safeqr.scanner.data.PreferencesManager.getWebshrinkerApiKey(getApplication())
-                val result = repository.analyzeScan(rawValue, wsApiKey)
-                postProcessScan(result)
             } catch (e: Exception) {
                 _scanResult.value = ScanResult(
                     rawContent = rawValue,
@@ -252,17 +296,14 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
             try {
                 val repository = createRepository()
                 
-                // BYPASS: If this URL is already in history, use the cache instantly
                 val cached = repository.checkCache(url)
                 if (cached != null) {
                     postProcessScan(cached)
-                    _isAnalyzing.value = false
-                    return@launch
+                } else {
+                    val wsApiKey = com.safeqr.scanner.data.PreferencesManager.getWebshrinkerApiKey(getApplication())
+                    val result = repository.analyzeScan(url, wsApiKey)
+                    postProcessScan(result)
                 }
-
-                val wsApiKey = com.safeqr.scanner.data.PreferencesManager.getWebshrinkerApiKey(getApplication())
-                val result = repository.analyzeScan(url, wsApiKey)
-                postProcessScan(result)
             } catch (e: Exception) {
                 _scanResult.value = ScanResult(
                     rawContent = url,
@@ -285,9 +326,14 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
             kotlinx.coroutines.delay(800) // ⏳ Guarantee animation playback
             try {
                 val repository = createRepository()
-                val wsApiKey = com.safeqr.scanner.data.PreferencesManager.getWebshrinkerApiKey(getApplication())
-                val result = repository.analyzeScan(rawValue, wsApiKey)
-                postProcessScan(result)
+                val cached = repository.checkCache(rawValue)
+                if (cached != null) {
+                    postProcessScan(cached)
+                } else {
+                    val wsApiKey = com.safeqr.scanner.data.PreferencesManager.getWebshrinkerApiKey(getApplication())
+                    val result = repository.analyzeScan(rawValue, wsApiKey)
+                    postProcessScan(result)
+                }
             } catch (e: Exception) {
                 _scanResult.value = ScanResult(
                     rawContent = rawValue,
@@ -306,6 +352,7 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
         _showResult.value = false
         _scanResult.value = null
         _scanningEnabled.value = true
+        lastScannedTime = System.currentTimeMillis()
     }
 
     fun resetScanner() {
@@ -377,6 +424,48 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
                 val currentResult = _scanResult.value
                 if (currentResult != null && currentResult.rawContent == rawContent) {
                     _scanResult.value = updatedResult
+                }
+            }
+        }
+    }
+
+    fun toggleFavorite(rawContent: String) {
+        viewModelScope.launch {
+            val existing = dao.findByContent(rawContent)
+            if (existing != null) {
+                val updatedEntity = existing.copy(isFavorite = !existing.isFavorite)
+                dao.insert(updatedEntity)
+
+                val currentResult = _scanResult.value
+                if (currentResult != null && currentResult.rawContent == rawContent) {
+                    _scanResult.value = currentResult.copy(isFavorite = !currentResult.isFavorite)
+                }
+            }
+        }
+    }
+
+    fun addTag(rawContent: String, tag: String) {
+        viewModelScope.launch {
+            val existing = dao.findByContent(rawContent)
+            if (existing != null) {
+                val gson = com.google.gson.Gson()
+                val listType = object : com.google.gson.reflect.TypeToken<List<String>>() {}.type
+                val currentTagsList: List<String> = try {
+                    gson.fromJson(existing.tags, listType) ?: emptyList()
+                } catch (e: Exception) {
+                    emptyList()
+                }
+                
+                val currentTags = currentTagsList.toMutableSet()
+                currentTags.add(tag)
+                val newTagsJson = gson.toJson(currentTags.toList())
+                
+                val updatedEntity = existing.copy(tags = newTagsJson)
+                dao.insert(updatedEntity)
+
+                val currentResult = _scanResult.value
+                if (currentResult != null && currentResult.rawContent == rawContent) {
+                    _scanResult.value = currentResult.copy(tags = currentTags.toList())
                 }
             }
         }

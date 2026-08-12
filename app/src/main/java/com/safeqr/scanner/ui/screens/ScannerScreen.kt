@@ -94,6 +94,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -142,11 +144,14 @@ fun ScannerScreen(
     eventViewModel: EventViewModel = viewModel(),
     qrViewModel: QrViewModel = viewModel(),
     externalUrl: String? = null,
+    externalImageUri: Uri? = null,
     onNavigateToSandbox: (String) -> Unit = {},
     onNavigateToHistory: (String?) -> Unit = {}
 ) {
     val eventScanResult by eventViewModel.scanResult.collectAsState()
     var isEntryMode by remember { mutableStateOf(true) }
+    var captureOffset by remember { mutableStateOf(Offset.Zero) }
+    val resumeTime = remember { System.currentTimeMillis() }
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -255,7 +260,7 @@ fun ScannerScreen(
     var activeMode by remember { mutableStateOf(ScanMode.CAMERA) }
 
     // Paste-link dialog state
-        var showPasteDialog by remember { mutableStateOf(false) }
+    var showPasteDialog by remember { mutableStateOf(false) }
 
     // -- Auto-analyze external URL from link intercept / share ------------
     LaunchedEffect(externalUrl) {
@@ -263,7 +268,7 @@ fun ScannerScreen(
             viewModel.analyzeUrl(externalUrl)
         }
     }
-
+    
     // -- Image picker -----------------------------------------------------
     val barcodeScanner = remember { BarcodeScanning.getClient() }
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -514,20 +519,27 @@ fun ScannerScreen(
                             label = "captureAlpha"
                         )
 
-                        if (captureAlpha > 0f) {
+                        val captureVisible = captureAlpha > 0f
+                        val density = androidx.compose.ui.platform.LocalDensity.current
+                        val captureOffsetX = with(density) { captureOffset.x.toDp() }
+                        val captureOffsetY = with(density) { captureOffset.y.toDp() }
+
+                        if (captureVisible) {
                             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                                 // Subtle shutter flash background
                                 Box(modifier = Modifier.fillMaxSize().background(NeonCyan.copy(alpha = captureAlpha * 0.15f)))
                                 
-                                // Target Lock Crosshair
-                                Icon(
-                                    imageVector = androidx.compose.material.icons.Icons.Default.QrCodeScanner,
-                                    contentDescription = "Target Locked",
-                                    tint = NeonCyan.copy(alpha = captureAlpha),
-                                    modifier = Modifier
-                                        .size(250.dp)
-                                        .scale(captureScale)
-                                )
+                                Box(modifier = Modifier.offset(x = captureOffsetX, y = captureOffsetY), contentAlignment = Alignment.Center) {
+                                    // Target Lock Crosshair
+                                    Icon(
+                                        imageVector = androidx.compose.material.icons.Icons.Default.QrCodeScanner,
+                                        contentDescription = "Target Locked",
+                                        tint = NeonCyan.copy(alpha = captureAlpha),
+                                        modifier = Modifier
+                                            .size(250.dp)
+                                            .scale(captureScale)
+                                    )
+                                }
                             }
                         }
 
@@ -652,10 +664,46 @@ fun ScannerScreen(
                                 )
                                 mlKitScanner.process(inputImage)
                                     .addOnSuccessListener { barcodes ->
-                                        barcodes.firstOrNull()?.rawValue?.let { rawValue ->
+                                        val barcode = barcodes.firstOrNull()
+                                        barcode?.rawValue?.let { rawValue ->
                                             val now = System.currentTimeMillis()
-                                            if (now - lastScanTime > 2500) {
+                                            
+                                            // Prevent immediate re-scanning when navigating back
+                                            val lastRaw = viewModel.lastScannedRawValue
+                                            val lastTime = viewModel.lastScannedTime
+                                            if (rawValue == lastRaw && (now - lastTime) < 4000) {
+                                                return@addOnSuccessListener
+                                            }
+                                            
+                                            if (now - lastScanTime > 2500 && now - resumeTime > 1500) {
                                                 lastScanTime = now
+                                                viewModel.lastScannedRawValue = rawValue
+                                                viewModel.lastScannedTime = now
+                                                
+                                                // Map bounding box to preview coordinates
+                                                barcode.boundingBox?.let { rect ->
+                                                    val imgW = inputImage.width.toFloat()
+                                                    val imgH = inputImage.height.toFloat()
+                                                    val viewW = previewView.width.toFloat()
+                                                    val viewH = previewView.height.toFloat()
+                                                    
+                                                    if (viewW > 0 && viewH > 0 && imgW > 0 && imgH > 0) {
+                                                        val scaleX = viewW / imgW
+                                                        val scaleY = viewH / imgH
+                                                        val scale = maxOf(scaleX, scaleY)
+                                                        
+                                                        val cx = rect.exactCenterX() * scale
+                                                        val cy = rect.exactCenterY() * scale
+                                                        
+                                                        val dx = (viewW - imgW * scale) / 2f
+                                                        val dy = (viewH - imgH * scale) / 2f
+                                                        
+                                                        captureOffset = Offset(cx + dx - (viewW/2f), cy + dy - (viewH/2f))
+                                                    } else {
+                                                        captureOffset = Offset.Zero
+                                                    }
+                                                } ?: run { captureOffset = Offset.Zero }
+                                                
                                                 if (rawValue.startsWith("threatlens://ticket", ignoreCase = true)) {
                                                     val uri = android.net.Uri.parse(rawValue)
                                                     val ticketId = uri.getQueryParameter("id") ?: ""
@@ -749,6 +797,7 @@ fun ScannerScreen(
                     onNavigateToSandbox(url)
                 },
                 onReport = { url, issue -> viewModel.reportWebsite(url, issue) },
+                onAddTag = { tag -> viewModel.addTag(scanResult!!.rawContent, tag) },
                 autoConnectWifi = true
             )
         }
@@ -890,6 +939,7 @@ fun ScannerScreen(
                         onNavigateToSandbox(url)
                     },
                     onReport = { url, issue -> viewModel.reportWebsite(url, issue) },
+                    onAddTag = { tag -> viewModel.addTag(scanResult!!.rawContent, tag) },
                     autoConnectWifi = true
                 )
             }
