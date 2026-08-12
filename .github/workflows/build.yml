@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -34,6 +34,26 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: Create Dummy google-services.json
+        run: |
+          cat <<EOF > app/google-services.json
+          {
+            "project_info": { "project_number": "123456789", "project_id": "dummy-project" },
+            "client": [
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:123456789:android:dummy",
+                  "android_client_info": { "package_name": "com.safeqr.scanner" }
+                },
+                "oauth_client": [],
+                "api_key": [{ "current_key": "dummy-key" }],
+                "services": { "appinvite_service": { "other_platform_oauth_client": [] } }
+              }
+            ],
+            "configuration_version": "1"
+          }
+          EOF
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace --no-daemon
