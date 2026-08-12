@@ -131,40 +131,6 @@ Score = 100 − Σ(API Penalties) − Σ(Heuristic Penalties) + Bonuses
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-- **Android Studio** Hedgehog (2023.1.1) or later
-- **JDK 17**
-- **Android SDK** API 34 (compileSdk) / API 26 (minSdk)
-
-### Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/ThreatLens.git
-   cd ThreatLens
-   ```
-
-2. **Configure API keys**
-   ```bash
-   cp local.properties.example local.properties
-   ```
-   Edit `local.properties` and fill in your API keys. The app works without them but skips those API checks.
-
-3. **Firebase setup**
-   - Create a Firebase project at [console.firebase.google.com](https://console.firebase.google.com)
-   - Enable Authentication (Google Sign-In) and Firestore
-   - Download `google-services.json` and place it in `app/`
-
-4. **Build & Run**
-   ```bash
-   ./gradlew assembleDebug
-   ```
-   Or open in Android Studio and click ▶️ Run.
-
----
 
 ## Tech Stack
 
