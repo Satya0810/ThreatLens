@@ -194,14 +194,7 @@ app/src/main/java/com/safeqr/scanner/
 ```
 
 ---
-
-## Team
- 
-The following team members contributed to building ThreatLens:
-
-* **[SATYAM KUMAR]** - Project Lead / Developer
-* **[AMAN PATEL]** - [SYSTEM INTEGRATION]
-* **[DEEPANSHU]** - [TESTING & DEBUGGING]
+hi
 
 
 
