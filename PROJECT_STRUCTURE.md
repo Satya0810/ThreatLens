@@ -143,17 +143,19 @@ graph TD
 
 ## 2. 🤖 Autonomous Perceptron & Cloud AI Intelligence
 
-> Autonomous native Kotlin Perceptron Neural Network using Sigmoid activation and local SharedPreferences weight storage with federated learning weight merging via `CloudSyncManager`. Combined with Google Gemini and Qwen LLMs for zero-day threat reasoning.
+> Autonomous native Kotlin Perceptron Neural Network using Sigmoid activation and local SharedPreferences weight storage with federated learning weight merging via `CloudSyncManager`. Combined with the LLM7.io Fast Engine and Google Gemini for zero-day threat reasoning and website categorization.
 
 | Sub-Feature | How It's Achieved | Benefit |
 | :--- | :--- | :--- |
 | **Native Kotlin Perceptron Model** | Extracts 20+ numerical features (URL entropy via Shannon entropy, subdomain count, homographs `0x0400..0x04FF`, 14 API verdicts) and computes Sigmoid probability score. | Operates zero-latency on-device without needing external binary model assets. |
 | **On-Device Gradient Descent** | Updates feature weights locally via Gradient Descent when prediction error exceeds 0.1 threshold. | Model learns from local scanning outcomes autonomously over time. |
-| **Google Gemini AI Explanations** | The Generative AI SDK (`generativeai:0.6.0`) generates plain-English threat summaries explaining *why* a link is dangerous. | Non-technical users understand the specific risk without reading raw API data. |
-| **Qwen AI Fallback** | Cloud-hosted Qwen LLM provides secondary AI opinions when Gemini quotas are exceeded. | Redundancy — AI analysis never fully fails even under heavy load. |
+| **LLM7.io Fast Engine & Threat Explanations** | OpenAI-compatible high-speed inference engine (`Llm7Client.kt`) generates plain-English threat summaries explaining *why* a link is dangerous and categorizes ambiguous websites. | High-speed zero-day reasoning with offline deterministic fallback. |
+| **Google Gemini AI Explanations** | The Generative AI SDK (`generativeai:0.6.0`) generates secondary plain-English threat summaries explaining *why* a link is dangerous. | Non-technical users understand the specific risk without reading raw API data. |
+| **Qwen AI Fallback** | Cloud-hosted Qwen LLM provides tertiary AI opinions when quotas are exceeded. | Redundancy — AI analysis never fully fails even under heavy load. |
 
 **📁 Files:**
 - [`AILearningEngine.kt`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/app/src/main/java/com/safeqr/scanner/analysis/AILearningEngine.kt) — Autonomous Kotlin Perceptron Neural Engine
+- [`Llm7Client.kt`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/app/src/main/java/com/safeqr/scanner/data/remote/Llm7Client.kt) — LLM7.io Fast Engine AI client
 - [`QwenApiClient.kt`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/app/src/main/java/com/safeqr/scanner/data/remote/QwenApiClient.kt) — Qwen LLM Retrofit client
 - [`NeuralCoreScreen.kt`](file:///c:/AndroidProjects/ThreatLens_FINAL_v2/ThreatLens/app/src/main/java/com/safeqr/scanner/ui/screens/NeuralCoreScreen.kt) — AI neural dashboard screen
 

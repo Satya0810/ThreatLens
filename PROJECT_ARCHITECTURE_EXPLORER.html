@@ -259,6 +259,116 @@
     .nav-list { max-height: 280px; }
     .subfeature-table { display: block; overflow-x: auto; }
   }
+  /* Architecture Section Styles */
+  .arch-container {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 40px;
+  }
+
+  .arch-svg-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .arch-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .arch-path {
+    fill: none;
+    stroke: var(--border-bright);
+    stroke-width: 3;
+    stroke-dasharray: 6 6;
+    transition: all 0.3s ease;
+  }
+  .arch-path.active {
+    stroke: var(--cyan);
+    stroke-width: 4;
+    stroke-dasharray: none;
+    filter: drop-shadow(0 0 8px var(--cyan-glow));
+    animation: flowDash 1s linear infinite;
+  }
+  @keyframes flowDash {
+    to { stroke-dashoffset: -20; }
+  }
+
+  .arch-node-fo {
+    overflow: visible;
+  }
+
+  .arch-node {
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 150px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .arch-node:hover, .arch-node.active {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--cyan-glow);
+  }
+  .arch-node .ic { font-size: 20px; }
+  .arch-node .lbl {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .arch-panel {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .arch-panel-eyebrow {
+    font-family: var(--mono); font-size: 11px; color: var(--cyan); letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .arch-panel-title {
+    font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 12px;
+  }
+  .arch-panel-desc {
+    font-size: 14.5px; color: var(--muted); line-height: 1.6; margin-bottom: 20px;
+  }
+  .arch-panel-files {
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .arch-panel-file {
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+    background: var(--surface-3); border: 1px solid var(--border);
+    padding: 6px 10px; border-radius: 6px; margin-bottom: 6px; display: inline-block;
+  }
+
+  @media (max-width: 960px) {
+    .arch-container { grid-template-columns: 1fr; }
+  }
+
 </style>
 </head>
 <body>
@@ -467,6 +577,73 @@
             </div>
           </div>
           <div class="flow-file-chip">NeuralCoreScreen.kt + AILearningEngine.kt</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="arch-container">
+      <div class="arch-svg-wrapper">
+        <svg class="arch-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
+          <!-- Connections -->
+          <path class="arch-path" id="p-cam-parse" d="M 180 120 C 240 120, 260 250, 320 250" />
+          <path class="arch-path" id="p-gal-parse" d="M 180 380 C 240 380, 260 250, 320 250" />
+          
+          <path class="arch-path" id="p-parse-threat" d="M 480 250 C 520 250, 520 120, 580 120" />
+          <path class="arch-path" id="p-parse-upi" d="M 480 250 C 520 250, 520 250, 580 250" />
+          <path class="arch-path" id="p-parse-wifi" d="M 480 250 C 520 250, 520 380, 580 380" />
+
+          <path class="arch-path" id="p-threat-router" d="M 740 120 C 780 120, 780 250, 840 250" />
+          <path class="arch-path" id="p-upi-router" d="M 740 250 C 780 250, 780 250, 840 250" />
+          <path class="arch-path" id="p-wifi-router" d="M 740 380 C 780 380, 780 250, 840 250" />
+
+          <!-- Nodes via foreignObject -->
+          <foreignObject x="20" y="90" width="160" height="60" class="arch-node-fo">
+            <div class="arch-node" data-node="cam" onmouseenter="hoverNode('cam')" onclick="toggleNode('cam')" onmouseleave="unhoverNode()">
+              <span class="ic">📷</span><span class="lbl">CameraX<br>Live Stream</span>
+            </div>
+          </foreignObject>
+
+          <foreignObject x="20" y="350" width="160" height="60" class="arch-node-fo">
+            <div class="arch-node" data-node="gal" onmouseenter="hoverNode('gal')" onclick="toggleNode('gal')" onmouseleave="unhoverNode()">
+              <span class="ic">🖼️</span><span class="lbl">Gallery<br>Import</span>
+            </div>
+          </foreignObject>
+
+          <foreignObject x="320" y="220" width="160" height="60" class="arch-node-fo">
+            <div class="arch-node" data-node="parse" onmouseenter="hoverNode('parse')" onclick="toggleNode('parse')" onmouseleave="unhoverNode()">
+              <span class="ic">🧩</span><span class="lbl">ML Kit &<br>Data Parser</span>
+            </div>
+          </foreignObject>
+
+          <foreignObject x="580" y="90" width="160" height="60" class="arch-node-fo">
+            <div class="arch-node" data-node="threat" onmouseenter="hoverNode('threat')" onclick="toggleNode('threat')" onmouseleave="unhoverNode()">
+              <span class="ic">🛡️</span><span class="lbl">URL Threat<br>Analyzer</span>
+            </div>
+          </foreignObject>
+
+          <foreignObject x="580" y="220" width="160" height="60" class="arch-node-fo">
+            <div class="arch-node" data-node="upi" onmouseenter="hoverNode('upi')" onclick="toggleNode('upi')" onmouseleave="unhoverNode()">
+              <span class="ic">💰</span><span class="lbl">UPI Risk<br>Engine</span>
+            </div>
+          </foreignObject>
+
+          <foreignObject x="580" y="350" width="160" height="60" class="arch-node-fo">
+            <div class="arch-node" data-node="wifi" onmouseenter="hoverNode('wifi')" onclick="toggleNode('wifi')" onmouseleave="unhoverNode()">
+              <span class="ic">📶</span><span class="lbl">Wi-Fi<br>Auditor</span>
+            </div>
+          </foreignObject>
+
+        </svg>
+      </div>
+
+      <div class="arch-panel">
+        <div class="arch-panel-eyebrow" id="ap-eye">HOVER TO EXPLORE</div>
+        <div class="arch-panel-title" id="ap-title">System Architecture</div>
+        <div class="arch-panel-desc" id="ap-desc">Interact with the nodes on the left to reveal the flow of data through ThreatLens.</div>
+        <div class="arch-panel-files" id="ap-files">
+          <div class="arch-panel-file">Select a component</div>
         </div>
       </div>
     </div>
@@ -1026,6 +1203,51 @@ function setSimScore(score, label) {
 
 // Start Application
 init();
+const archData = {
+      'cam': { title: 'CameraX Live Stream', eye: 'INPUT LAYER', desc: 'Streams camera frames at 60fps directly into Google ML Kit for zero-latency barcode detection.', files: ['ScannerScreen.kt'], edges: ['p-cam-parse'] },
+      'gal': { title: 'Gallery Import', eye: 'INPUT LAYER', desc: 'Allows users to pick screenshots or saved QR codes from their local Android gallery for offline decoding.', files: ['ScannerScreen.kt'], edges: ['p-gal-parse'] },
+      'parse': { title: 'ML Kit & Data Parser', eye: 'PROCESSING LAYER', desc: 'Decodes the raw QR payload string into intelligent formats (URL, UPI, Wi-Fi, Text, Encrypted) and routes it to the corresponding analyzer.', files: ['QrDataParser.kt'], edges: ['p-cam-parse', 'p-gal-parse', 'p-parse-threat', 'p-parse-upi', 'p-parse-wifi'] },
+      'threat': { title: 'URL Threat Analyzer', eye: 'ANALYSIS LAYER', desc: 'Queries 14 cloud security APIs concurrently and runs an on-device Neural Network to produce a 0-100 Safety Score for web links.', files: ['ThreatAnalyzer.kt', 'AILearningEngine.kt'], edges: ['p-parse-threat', 'p-threat-router'] },
+      'upi': { title: 'UPI Risk Engine', eye: 'ANALYSIS LAYER', desc: 'Validates Indian UPI payee handles, detects zero-amount collect request scams, and evaluates transaction risk.', files: ['UpiPaymentAnalyzer.kt'], edges: ['p-parse-upi', 'p-upi-router'] },
+      'wifi': { title: 'Wi-Fi Auditor', eye: 'ANALYSIS LAYER', desc: 'Inspects Wi-Fi network payloads for weak encryption protocols (WEP, Open) and suspicious SSID naming.', files: ['WifiThreatAnalyzer.kt'], edges: ['p-parse-wifi', 'p-wifi-router'] }
+    };
+
+    function hoverNode(nodeId) {
+      document.querySelectorAll('.arch-node, .arch-path').forEach(el => el.classList.remove('active'));
+      const nodeEl = document.querySelector(`[data-node="${nodeId}"]`);
+      if(nodeEl) nodeEl.classList.add('active');
+
+      const data = archData[nodeId];
+      if(!data) return;
+
+      data.edges.forEach(edgeId => {
+        const edgeEl = document.getElementById(edgeId);
+        if(edgeEl) edgeEl.classList.add('active');
+      });
+
+      document.getElementById('ap-eye').innerText = data.eye;
+      document.getElementById('ap-title').innerText = data.title;
+      document.getElementById('ap-desc').innerText = data.desc;
+      
+      const filesHtml = data.files.map(f => `<div class="arch-panel-file">${f}</div>`).join('');
+      document.getElementById('ap-files').innerHTML = filesHtml;
+    }
+
+    function unhoverNode() {
+      document.querySelectorAll('.arch-node, .arch-path').forEach(el => el.classList.remove('active'));
+      document.getElementById('ap-eye').innerText = 'HOVER TO EXPLORE';
+      document.getElementById('ap-title').innerText = 'System Architecture';
+      document.getElementById('ap-desc').innerText = 'Interact with the nodes on the left to reveal the flow of data through ThreatLens.';
+      document.getElementById('ap-files').innerHTML = '<div class="arch-panel-file">Select a component</div>';
+    }
+    
+    function toggleNode(nodeId) {
+      if (typeof selectFeature === 'function') {
+         const data = archData[nodeId];
+         if (data && data.featureId) selectFeature(data.featureId);
+      }
+    }
+    
 </script>
 </body>
 </html>

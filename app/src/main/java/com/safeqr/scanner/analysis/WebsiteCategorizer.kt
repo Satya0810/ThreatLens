@@ -4121,13 +4121,67 @@ object WebsiteCategorizer {
     }
 
     private suspend fun tryAIClassification(signals: PageSignals): CategoryResult? {
-        // [PERFORMANCE UPDATE] AI fallback completely disabled and removed by user request due to timeouts.
-        return null
+        if (!com.safeqr.scanner.data.remote.Llm7Client.isEnabled) return null
+        return try {
+            val result = com.safeqr.scanner.data.remote.Llm7Client.classifyWebsite(
+                url = signals.url,
+                title = signals.scrapedTitle,
+                description = signals.scrapedDescription,
+                textSnippet = signals.bodyText
+            ) ?: return null
+
+            val matchedCategory = SiteCategory.entries.find {
+                it.name.equals(result.category, ignoreCase = true) ||
+                it.label.equals(result.category, ignoreCase = true)
+            } ?: when (result.category.uppercase()) {
+                "ECOMMERCE", "E-COMMERCE", "RETAIL", "SHOPPING" -> SiteCategory.ONLINE_RETAIL
+                "SOCIAL_MEDIA", "SOCIAL" -> SiteCategory.SOCIAL_MEDIA
+                "NEWS_MEDIA", "NEWS" -> SiteCategory.NATIONAL_NEWS
+                "BANKING", "FINANCE" -> SiteCategory.BANKING
+                "STREAMING", "MOVIE_STREAMING" -> SiteCategory.MOVIE_STREAMING
+                "MUSIC_STREAMING", "MUSIC" -> SiteCategory.MUSIC_STREAMING
+                "ONLINE_GAMING" -> SiteCategory.GAMING
+                "EDUCATION", "ACADEMIA" -> SiteCategory.SCHOOLS_UNIVERSITIES
+                "GOVERNMENT" -> SiteCategory.GOVERNMENT_PORTALS
+                "HEALTHCARE", "MEDICINE" -> SiteCategory.HOSPITALS_CLINICS
+                "BUSINESS" -> SiteCategory.TECH_FORUMS
+                "AI_ML_PLATFORMS", "AI" -> SiteCategory.AI_ML_PLATFORMS
+                "DEV", "DEVELOPER_PORTALS" -> SiteCategory.DEVELOPER_TOOLS
+                "SEARCH_ENGINE" -> SiteCategory.TECH_NEWS
+                "PORNOGRAPHY", "ADULT" -> SiteCategory.PORNOGRAPHY
+                "GAMBLING", "BETTING" -> SiteCategory.ONLINE_CASINOS
+                "PIRACY" -> SiteCategory.TORRENT_SITES
+                "PHISHING" -> SiteCategory.PHISHING
+                "MALWARE" -> SiteCategory.MALWARE
+                "FINANCIAL_FRAUD", "SCAM" -> SiteCategory.FINANCIAL_FRAUD
+                else -> null
+            }
+
+            if (matchedCategory != null) {
+                CategoryResult(
+                    category = matchedCategory,
+                    confidence = result.confidence,
+                    reason = "LLM7 AI: ${result.reason}"
+                )
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "LLM7 AI Classification error: ${e.message}")
+            null
+        }
     }
 
     suspend fun generateThreatInsight(reportText: String): String? {
-        // [PERFORMANCE UPDATE] AI insight generation completely disabled and removed by user request due to timeouts.
-        return null
+        if (!com.safeqr.scanner.data.remote.Llm7Client.isEnabled) return null
+        return try {
+            com.safeqr.scanner.data.remote.Llm7Client.generateResponse(
+                prompt = "Based on this ThreatLens security scan report, provide a 2-sentence plain-English summary of the risks for an everyday user:\n$reportText",
+                systemPrompt = "You are ThreatLens AI Security Engine. Provide an objective, clear, 2-sentence summary.",
+                maxTokens = 150
+            )
+        } catch (e: Exception) {
+            null
+        }
     }
-
 }

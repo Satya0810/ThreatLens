@@ -1,0 +1,97 @@
+{
+  "manifest_version": 3,
+  "name": "ThreatLens - AI Threat Analyzer & Ad Shield",
+  "version": "1.0.0",
+  "description": "Real-time threat analysis, link guard, pop-up blocker, ad shield, and secure QR code scanner powered by AI.",
+  "permissions": [
+    "activeTab",
+    "webNavigation",
+    "contextMenus",
+    "storage",
+    "scripting",
+    "identity",
+    "declarativeNetRequest",
+    "downloads",
+    "notifications"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://us-central1-threatlens-4065e.cloudfunctions.net/*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "adblock_ads",
+        "enabled": true,
+        "path": "rules/adblock_ads.json"
+      },
+      {
+        "id": "adblock_trackers",
+        "enabled": true,
+        "path": "rules/adblock_trackers.json"
+      },
+      {
+        "id": "adblock_malware",
+        "enabled": true,
+        "path": "rules/adblock_malware.json"
+      }
+    ]
+  },
+  "oauth2": {
+    "client_id": "171716467103-b09ukthoklag4na2p1sk30lduo41c098.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/surrogates.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/jsQR.js", "content/dom-scanner.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/jsQR.js", "content/content-script.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "ThreatLens Dashboard",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "commands": {
+    "scan-screen-snip": {
+      "suggested_key": {
+        "default": "Alt+Q",
+        "mac": "Alt+Q"
+      },
+      "description": "ThreatLens Screen-Snip QR Scanner"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["pages/warning.html", "pages/dashboard.html", "pages/sandbox.html", "assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

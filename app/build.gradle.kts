@@ -39,6 +39,7 @@ android {
         buildConfigField("String", "GEMINI_KEY", "\"${localProperties.getProperty("GEMINI_KEY", "")}\"")
         buildConfigField("String", "QWEN_ENDPOINT_URL", "\"${localProperties.getProperty("QWEN_ENDPOINT_URL", "")}\"")
         buildConfigField("String", "QWEN_API_KEY", "\"${localProperties.getProperty("QWEN_API_KEY", "")}\"")
+        buildConfigField("String", "LLM7_API_KEY", "\"${localProperties.getProperty("LLM7_API_KEY", "")}\"")
     }
 
     signingConfigs {

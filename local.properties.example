@@ -34,3 +34,6 @@ CLOUDFLARE_KEY=
 GEMINI_KEY=
 QWEN_ENDPOINT_URL="http://your-oracle-ip:11434/v1"
 QWEN_API_KEY="ollama"
+
+# LLM7.io Fast Engine — https://api.llm7.io
+LLM7_API_KEY=

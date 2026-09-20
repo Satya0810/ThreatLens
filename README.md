@@ -79,7 +79,7 @@ ThreatLens isn't just for enterprise security; it's a powerful tool for families
 Traditional static blocklists are slow to update and easily bypassed by new malicious URLs. ThreatLens tackles this with an advanced **On-Device AI Engine**:
 
 * **Federated Learning**: The app learns from novel, newly encountered threat patterns and securely shares generalized models back to the cloud without compromising your privacy or sharing your actual scan data.
-* **Generative AI Analysis**: Powered by Google Gemini, the AI categorizer performs deep multi-signal analysis of website content, intent, and structure, assigning a category and threat score instantly.
+* **Generative AI Analysis & Threat Explanations**: Powered by the **LLM7.io Fast Engine** and Google Gemini, ThreatLens generates natural-language threat summaries explaining *why* a link is dangerous and performs zero-day website categorization for unknown or ambiguous domains.
 * **Zero-Day Phishing Detection**: The AI heuristic checker identifies homograph attacks (e.g., `g00gle.com`), typosquatting, and deceptive UI patterns indicative of credential phishing, even if the URL has never been seen before.
 
 ---
@@ -147,7 +147,7 @@ Score = 100 − Σ(API Penalties) − Σ(Heuristic Penalties) + Bonuses
 | **Auth** | Firebase Auth + Google Sign-In |
 | **Cloud** | Firebase Firestore |
 | **Background Work** | WorkManager |
-| **AI** | Google Gemini (Generative AI) |
+| **AI** | LLM7.io Fast Engine + Google Gemini (Generative AI) |
 | **Security** | EncryptedSharedPreferences, Biometric API, HMAC-SHA256 |
 | **Dependency Injection** | Manual (singleton pattern) |
 | **Build System** | Gradle (Kotlin DSL) |

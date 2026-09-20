@@ -3,115 +3,390 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThreatLens | Cyber-Centric QR Code Security Scanner</title>
-    <meta name="description" content="Real-time threat intelligence, multi-API analysis, and on-device heuristics to protect you from malicious QR codes.">
+    <title>ThreatLens | AI-Powered Cyber Defense for QR Codes & URLs</title>
+    <meta name="description" content="Next-Gen AI Cyber Firewall for QR Codes & URLs across Android & Web Browsers. Real-time threat intelligence, cryptographic certification, and zero-click Link Guard.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- Ambient Cyber Glows -->
     <div class="glow-bg glow-bg-1"></div>
     <div class="glow-bg glow-bg-2"></div>
+    <div class="glow-bg glow-bg-3"></div>
     
+    <!-- Navigation Bar -->
     <nav class="navbar" id="navbar">
         <div class="container nav-content">
             <div class="logo">
                 <img src="assets/ic_threatlens_logo.png" alt="ThreatLens Logo" id="nav-logo">
-                <span>ThreatLens</span>
+                <span class="logo-title">ThreatLens</span>
+                <span class="logo-tag">AI DEFENSE</span>
             </div>
-            <a href="#download" class="btn-primary">Download APK</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#demo">Live Demo</a>
+                <a href="#extension">Browser Extension</a>
+                <a href="#download" class="nav-cta-btn">Get App</a>
+            </div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <header class="hero container">
         <div class="hero-content reveal">
-            <div class="badge">Advanced Android Protection</div>
+            <div class="badge">
+                <span class="pulse-dot"></span>
+                <span>Dual-Platform Protection • Android & Web</span>
+            </div>
             <h1>The QR code is <span class="highlight">NOT</span> the threat. <br/>The destination is.</h1>
-            <p>Standard scanners treat QR codes blindly. ThreatLens acts as a real-time security firewall, querying 12+ world-class threat intelligence APIs concurrently to keep you safe from Quishing.</p>
+            <p>Standard scanners blindly open links. ThreatLens acts as an autonomous cyber firewall—combining <strong>LLM7.io Fast Engine</strong> AI, HMAC-SHA256 cryptographic certification, and 12+ threat intelligence feeds to stop Quishing, rogue WiFi hotspots, and financial fraud.</p>
             <div class="hero-cta">
-                <a href="#download" class="btn-primary btn-large">Get ThreatLens for Android</a>
-                <a href="#features" class="btn-secondary btn-large">Explore Features</a>
+                <a href="#download" class="btn-primary btn-large">
+                    <span>📲</span> Download Android APK
+                </a>
+                <a href="#extension" class="btn-secondary btn-large">
+                    <span>🧩</span> Add to Chrome / Edge
+                </a>
+            </div>
+            <div class="hero-metrics">
+                <div class="hero-metric-item">
+                    <span class="metric-num">12+</span>
+                    <span class="metric-lbl">Threat APIs</span>
+                </div>
+                <div class="hero-metric-item">
+                    <span class="metric-num">HMAC</span>
+                    <span class="metric-lbl">QR Signatures</span>
+                </div>
+                <div class="hero-metric-item">
+                    <span class="metric-num">0-Click</span>
+                    <span class="metric-lbl">Link Guard</span>
+                </div>
+                <div class="hero-metric-item">
+                    <span class="metric-num">LLM7</span>
+                    <span class="metric-lbl">Neural Engine</span>
+                </div>
             </div>
         </div>
+
         <div class="hero-visual reveal slide-up delay-1">
             <div class="glass-card mock-app">
                 <div class="mock-header">
-                    <img src="assets/ic_threatlens_logo.png" alt="ThreatLens Icon">
-                    <span>ThreatLens Scanner</span>
+                    <div class="mock-brand">
+                        <img src="assets/ic_threatlens_logo.png" alt="ThreatLens Icon">
+                        <span>ThreatLens Neural HUD</span>
+                    </div>
+                    <span class="mock-badge">ACTIVE SHIELD</span>
                 </div>
                 <div class="mock-body">
                     <div class="scanner-frame">
+                        <div class="radar-circle"></div>
+                        <img src="assets/app_logo_3d.png" alt="ThreatLens 3D" class="mock-3d-logo">
                         <div class="scan-line"></div>
                     </div>
                     <div class="status-indicator safe glow-pulse">
-                        <span class="dot"></span> Safe URL Detected
+                        <span class="dot"></span> Verified Safe Destination
+                    </div>
+                    <div class="trust-meter-row">
+                        <div class="meter-bar"><div class="meter-fill" style="width: 96%;"></div></div>
+                        <span class="meter-score">96 / 100</span>
                     </div>
                     <div class="api-checks">
-                        <div class="check-item"><span>VirusTotal</span> <span class="status green">Pass</span></div>
-                        <div class="check-item"><span>URLhaus</span> <span class="status green">Pass</span></div>
-                        <div class="check-item"><span>Google Safe Browsing</span> <span class="status green">Pass</span></div>
+                        <div class="check-item"><span class="check-name">LLM7 AI Neural</span> <span class="status green">Passed</span></div>
+                        <div class="check-item"><span class="check-name">VirusTotal Intel</span> <span class="status green">Clean (0/72)</span></div>
+                        <div class="check-item"><span class="check-name">Cryptographic Cert</span> <span class="status cyan">Valid HMAC</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- INTERACTIVE LIVE URL SCANNER DEMO WITH LLM7.IO -->
+    <section id="demo" class="demo-section container reveal">
+        <div class="section-header">
+            <span class="section-tag">INTERACTIVE TESTBENCH</span>
+            <h2 class="section-title">Test ThreatLens Intelligence Live</h2>
+            <p class="section-sub">Type or test any destination below to see on-device heuristics and real-time <strong>LLM7.io AI threat analysis</strong> execute live in your browser.</p>
+        </div>
+
+        <div class="terminal-demo-card glass-card">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <span class="tdot red"></span>
+                    <span class="tdot yellow"></span>
+                    <span class="tdot green"></span>
+                </div>
+                <span class="terminal-title">THREATLENS LIVE EVALUATION ENGINE • LLM7.IO FAST CLOUD</span>
+                <span class="terminal-badge">LIVE DEMO</span>
+            </div>
+            <div class="terminal-body">
+                <div class="demo-input-bar">
+                    <span class="input-icon">🔍</span>
+                    <input type="text" id="demoUrlInput" placeholder="Enter any URL (e.g. https://paypal-security-update.xyz/login)..." value="https://paypal-security-update.xyz/login">
+                    <button id="btnRunDemoScan" class="btn-primary">
+                        <span>⚡</span> Run AI Scan
+                    </button>
+                </div>
+                <div class="demo-quick-pills">
+                    <span class="quick-pill-label">Quick Samples:</span>
+                    <button class="sample-btn" data-url="https://paypal-security-update.xyz/login">Phishing Lookalike</button>
+                    <button class="sample-btn" data-url="http://192.168.1.1/admin">Private IP / SSRF</button>
+                    <button class="sample-btn" data-url="https://github.com/Satya0810/ThreatLens">Verified Safe (GitHub)</button>
+                    <button class="sample-btn" data-url="http://free-iphone-giveaway.buzz/claim">Scam TLD (.buzz)</button>
+                </div>
+
+                <!-- Live Results HUD -->
+                <div id="demoResultBox" class="demo-result-box">
+                    <div class="result-hud-header">
+                        <div class="result-target">
+                            <span class="target-icon">🔗</span>
+                            <span id="demoTargetUrl" class="target-url">https://paypal-security-update.xyz/login</span>
+                        </div>
+                        <div id="demoStatusBadge" class="status-pill danger">MALICIOUS THREAT</div>
+                    </div>
+
+                    <div class="result-hud-grid">
+                        <div class="hud-stat-card">
+                            <span class="hud-stat-label">TRUST SCORE</span>
+                            <span id="demoTrustScore" class="hud-stat-val danger">15 / 100</span>
+                        </div>
+                        <div class="hud-stat-card">
+                            <span class="hud-stat-label">CATEGORY</span>
+                            <span id="demoCategory" class="hud-stat-val">🔴 Phishing & Impersonation</span>
+                        </div>
+                        <div class="hud-stat-card">
+                            <span class="hud-stat-label">HEURISTIC FLAGS</span>
+                            <span id="demoFlagsCount" class="hud-stat-val">3 Issues Found</span>
+                        </div>
+                    </div>
+
+                    <div class="demo-ai-card">
+                        <div class="ai-card-title">
+                            <span>✨</span> THREATLENS AI VERDICT (POWERED BY LLM7.IO)
+                        </div>
+                        <p id="demoAiVerdict" class="ai-card-text">
+                            Analyzing destination heuristics and threat intelligence feeds...
+                        </p>
+                    </div>
+
+                    <div class="demo-flags-list" id="demoFlagsList">
+                        <div class="flag-item">⚠️ Suspicious abused TLD (.xyz) frequently associated with phishing campaigns</div>
+                        <div class="flag-item">⚠️ Brand impersonation detected: uses 'paypal' keyword in an unverified hostname</div>
+                        <div class="flag-item">⚠️ Urgent credential harvesting keyword in URL path ('/login')</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FULL ECOSYSTEM FEATURE GRID -->
     <section id="features" class="features container">
-        <h2 class="section-title reveal">Unmatched Security Engine</h2>
+        <div class="section-header">
+            <span class="section-tag">MULTI-LAYER DEFENSE</span>
+            <h2 class="section-title">Complete Security Ecosystem</h2>
+            <p class="section-sub">Engineered to protect every digital touchpoint—from physical printed QR codes to background desktop browsing.</p>
+        </div>
+
         <div class="feature-grid">
             <div class="feature-card glass-card reveal slide-up delay-1">
-                <div class="feature-icon">🔍</div>
-                <h3>Real-Time Analysis</h3>
-                <p>CameraX and ML Kit provide low-latency detection while expanding shortened URLs and unrolling redirect chains up to 10 hops.</p>
+                <div class="feature-icon-box cyan">
+                    <span>🛡️</span>
+                </div>
+                <h3>Cryptographic QR Certification</h3>
+                <p>Embeds tamper-proof HMAC-SHA256 digital signatures inside generated QR codes (<code>threatlenscert://</code>). ThreatLens verifies authenticity on-device—any pixel alteration or tampering is instantly flagged.</p>
             </div>
+
             <div class="feature-card glass-card reveal slide-up delay-2">
-                <div class="feature-icon">🛡️</div>
-                <h3>12+ Threat APIs</h3>
-                <p>Simultaneous queries to VirusTotal, URLhaus, AbuseIPDB, Cloudflare Radar, Symantec, and more to calculate a multidimensional trust score.</p>
+                <div class="feature-icon-box purple">
+                    <span>📶</span>
+                </div>
+                <h3>WiFi Threat & Evil Twin Defense</h3>
+                <p>Analyzes WiFi network QR codes to detect rogue access points, SSID spoofing (Starbucks, airports, metros), and assigns encryption security grades from <strong>A+ (WPA3)</strong> to <strong>F (WEP/Open)</strong>.</p>
             </div>
+
             <div class="feature-card glass-card reveal slide-up delay-3">
-                <div class="feature-icon">🧠</div>
-                <h3>On-Device Heuristics</h3>
-                <p>Detects homograph attacks, typosquatting, suspicious TLDs, and credential phishing patterns completely offline.</p>
+                <div class="feature-icon-box green">
+                    <span>💳</span>
+                </div>
+                <h3>UPI & Payment Fraud Guard</h3>
+                <p>Cross-references 50+ known banking handles (PhonePe, GPay, Paytm, BHIM) and uses AI to detect social engineering phrases ("refund", "cashback", "kyc verification") before money leaves your account.</p>
             </div>
+
             <div class="feature-card glass-card reveal slide-up delay-4">
-                <div class="feature-icon">🤖</div>
-                <h3>AI Categorization</h3>
-                <p>Multi-signal website categorizer powered by Google Gemini and federated learning with a 40+ category classification.</p>
+                <div class="feature-icon-box cyan">
+                    <span>🤖</span>
+                </div>
+                <h3>LLM7.io Fast Engine & Gemini AI</h3>
+                <p>Dual-engine AI architecture delivering sub-second natural-language risk explanations and classifying unknown websites into a taxonomy of 100+ fine-grained security categories.</p>
             </div>
+
             <div class="feature-card glass-card reveal slide-up delay-5">
-                <div class="feature-icon">🔒</div>
-                <h3>Sandbox Browser</h3>
-                <p>Isolated WebView with disabled cookies and JS for safe, risk-free URL inspection if you decide to proceed with caution.</p>
+                <div class="feature-icon-box purple">
+                    <span>🎨</span>
+                </div>
+                <h3>QR Studio & Campaign Analytics</h3>
+                <p>Generate high-contrast, customized QR codes with custom error correction, logo embedding, and track scan circulation history across devices with Firebase Cloud Sync.</p>
             </div>
+
             <div class="feature-card glass-card reveal slide-up delay-6">
-                <div class="feature-icon">💳</div>
-                <h3>Payment & Privacy Guards</h3>
-                <p>Detects UPI, cryptocurrency portals, NSFW content, and known piracy domains with strict blocking features.</p>
+                <div class="feature-icon-box green">
+                    <span>⚡</span>
+                </div>
+                <h3>Link Guard 24/7 Background Shield</h3>
+                <p>Accessibility and notification listener that automatically intercepts and scans links opened across WhatsApp, SMS, Telegram, and mobile browsers before navigation occurs.</p>
+            </div>
+
+            <div class="feature-card glass-card reveal slide-up delay-1">
+                <div class="feature-icon-box cyan">
+                    <span>🔒</span>
+                </div>
+                <h3>AES-Encrypted QR Vault</h3>
+                <p>Create and scan password-protected QR codes (<code>threatlenslock://</code>) encrypted on-device with AES-256-GCM and PBKDF2 (10,000 iterations). Only authorized recipients with the PIN can decrypt.</p>
+            </div>
+
+            <div class="feature-card glass-card reveal slide-up delay-2">
+                <div class="feature-icon-box purple">
+                    <span>📜</span>
+                </div>
+                <h3>W3C Verifiable Credentials</h3>
+                <p>Issue, verify, and carry tamper-evident decentralized credentials for identity, diplomas, licenses, and memberships backed by cryptographic signature verification.</p>
+            </div>
+
+            <div class="feature-card glass-card reveal slide-up delay-3">
+                <div class="feature-icon-box green">
+                    <span>🔬</span>
+                </div>
+                <h3>Isolated Sandbox Browser</h3>
+                <p>Inspect suspicious destinations safely in an isolated, script-disabled, cookie-blocked sandbox environment with zero risk of malware infection or tracking.</p>
+            </div>
+
+            <div class="feature-card glass-card reveal slide-up delay-4">
+                <div class="feature-icon-box cyan">
+                    <span>🛡️</span>
+                </div>
+                <h3>Ad, Tracker & Video Ad Shield</h3>
+                <p>High-speed Manifest V3 Declarative Net Request filtering (uBlock Origin & Brave Shields parity). Blocks 110+ ad networks and tracking pixels, defuses anti-adblock walls, and fast-forwards YouTube video ads to the end automatically.</p>
             </div>
         </div>
     </section>
 
+    <!-- BROWSER EXTENSION SHOWCASE SECTION -->
+    <section id="extension" class="extension-section container reveal">
+        <div class="extension-card glass-card">
+            <div class="extension-content">
+                <div class="badge">
+                    <span>CHROME & EDGE EXTENSION</span>
+                </div>
+                <h2>Desktop Web Protection That Never Sleeps</h2>
+                <p>Bring ThreatLens's intelligence to your browser. The extension automatically shields your web experience with <strong>Declarative Net Request ad & tracker blocking</strong>, YouTube video ad fast-forwarding, uBlock-style Element Zapper, and live AI threat explanations.</p>
+                
+                <div class="extension-features-list">
+                    <div class="ext-feature-item">
+                        <span class="ext-icon">🛡️</span>
+                        <div>
+                            <strong>Ad & Tracker Shield & YouTube Skipper</strong>
+                            <p>Blocks invasive advertising networks, popunders, and tracking pixels while auto-skipping video ads.</p>
+                        </div>
+                    </div>
+                    <div class="ext-feature-item">
+                        <span class="ext-icon">⚡</span>
+                        <div>
+                            <strong>Element Zapper (Custom Filter Rules)</strong>
+                            <p>Point and click on any annoying web element or sticky newsletter to permanently hide it.</p>
+                        </div>
+                    </div>
+                    <div class="ext-feature-item">
+                        <span class="ext-icon">☁️</span>
+                        <div>
+                            <strong>Cross-Platform Cloud Sync</strong>
+                            <p>Scan history, custom QR campaigns, and safety settings stay synchronized with your Android app.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="extension-actions">
+                    <a href="https://github.com/Satya0810/ThreatLens/tree/master/threatlens-extension" target="_blank" class="btn-primary btn-large">
+                        <span>🧩</span> Add to Chrome / Edge
+                    </a>
+                    <a href="https://github.com/Satya0810/ThreatLens/releases" target="_blank" class="btn-secondary btn-large">
+                        <span>📱</span> Download Android APK
+                    </a>
+                </div>
+            </div>
+
+            <div class="extension-visual">
+                <div class="ext-mock-browser">
+                    <div class="ext-browser-bar">
+                        <div class="browser-dots">
+                            <span class="bdot red"></span>
+                            <span class="bdot yellow"></span>
+                            <span class="bdot green"></span>
+                        </div>
+                        <div class="browser-address">threatlens-extension://dashboard.html</div>
+                    </div>
+                    <div class="ext-browser-preview">
+                        <div class="ext-preview-header">
+                            <img src="assets/ic_threatlens_logo.png" alt="ThreatLens Logo">
+                            <span>ThreatLens Security Hub</span>
+                            <span class="ext-status-pill">ARMED</span>
+                        </div>
+                        <div class="ext-preview-stats">
+                            <div class="ext-stat-box"><span class="val cyan">1,420</span><span class="lbl">Protected</span></div>
+                            <div class="ext-stat-box"><span class="val red">18</span><span class="lbl">Blocked</span></div>
+                            <div class="ext-stat-box"><span class="val green">99.4%</span><span class="lbl">Trust Rate</span></div>
+                        </div>
+                        <div class="ext-preview-card">
+                            <span class="icon">✨</span>
+                            <div>
+                                <strong>LLM7.io Real-Time Analysis</strong>
+                                <p>Autonomous neural guard active on all tabs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD SECTION -->
     <section id="download" class="download-section container reveal">
         <div class="glass-card cta-card">
-            <h2>Ready to secure your scans?</h2>
-            <p>Download the latest version of ThreatLens for Android and protect your device from the rising threat of QR code phishing.</p>
-            <a href="https://github.com/Satya0810/ThreatLens/releases/latest" target="_blank" rel="noopener noreferrer" class="btn-primary btn-large">Download APK from GitHub</a>
-            <p class="requires">Requires Android 8.0+ (API 26)</p>
+            <div class="cta-logo-wrap">
+                <img src="assets/app_logo_3d.png" alt="ThreatLens 3D Logo" class="cta-3d-logo">
+            </div>
+            <h2>Ready to secure your digital world?</h2>
+            <p>Download the latest version of ThreatLens for Android and protect your device from the rising threats of Quishing, rogue hotspots, and financial scams.</p>
+            <div class="download-buttons">
+                <a href="https://github.com/Satya0810/ThreatLens/releases/latest" target="_blank" rel="noopener noreferrer" class="btn-primary btn-large">
+                    <span>📲</span> Download APK from GitHub
+                </a>
+                <a href="https://github.com/Satya0810/ThreatLens" target="_blank" rel="noopener noreferrer" class="btn-secondary btn-large">
+                    <span>⭐</span> View on GitHub
+                </a>
+            </div>
+            <p class="requires">Requires Android 8.0+ (API 26) • Open Source Security</p>
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer>
         <div class="container footer-content">
             <div class="footer-brand">
-                <img src="assets/ic_threatlens_logo.png" alt="ThreatLens Logo" width="40">
-                <span>ThreatLens</span>
+                <img src="assets/ic_threatlens_logo.png" alt="ThreatLens Logo" width="36">
+                <div class="footer-brand-text">
+                    <span class="brand-name">ThreatLens</span>
+                    <span class="brand-desc">Next-Gen AI Cyber Firewall</span>
+                </div>
             </div>
-            <p>&copy; 2026 The ThreatLens Team. Built with 🛡️</p>
             <div class="footer-links">
+                <a href="#features">Features</a>
+                <a href="#demo">Live Demo</a>
+                <a href="#extension">Browser Extension</a>
+                <a href="privacy.html">Privacy Policy</a>
                 <a href="https://github.com/Satya0810/ThreatLens" target="_blank">GitHub Repository</a>
             </div>
+            <p class="footer-copy">&copy; 2026 The ThreatLens Security Team. Built with 🛡️ for a safer web.</p>
         </div>
     </footer>
 

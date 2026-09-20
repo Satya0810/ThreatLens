@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ThreatLens Security</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Ambient background cyber glow -->
+  <div class="ambient-glow glow-cyan"></div>
+  <div class="ambient-glow glow-violet"></div>
+
+  <header class="popup-header">
+    <div class="logo">
+      <div class="logo-wrapper">
+        <img src="../assets/ic_threatlens_shield.png?v=3" alt="ThreatLens" id="logoImg" class="app-logo">
+      </div>
+      <div class="logo-text">
+        <h1>ThreatLens</h1>
+        <span class="logo-sub">NEURAL SHIELD</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="headerAccountBtn" class="header-account-btn" title="Cloud Sync & Account">
+        <span id="headerAccountDot" class="account-dot"></span>
+        <span id="headerAccountLabel">Guest</span>
+      </button>
+      <div class="status-badge" id="globalStatus">Active</div>
+    </div>
+  </header>
+
+  <!-- Segmented Navigation Bar -->
+  <nav class="popup-nav" aria-label="Extension Navigation">
+    <button class="popup-tab active" data-target="tab-shield">
+      <span class="tab-icon">🛡️</span>
+      <span class="tab-text">Shield</span>
+    </button>
+    <button class="popup-tab" data-target="tab-send-phone">
+      <span class="tab-icon">📲</span>
+      <span class="tab-text">To Phone</span>
+    </button>
+    <button class="popup-tab" data-target="tab-generator">
+      <span class="tab-icon">🎨</span>
+      <span class="tab-text">Safe QR</span>
+    </button>
+  </nav>
+
+  <main class="popup-main">
+    <!-- TAB 1: SHIELD & CURRENT TAB -->
+    <section id="tab-shield" class="popup-tab-content active">
+      <!-- 1. Logo Radar Scanning Animation State -->
+      <div id="shieldScanningState" class="shield-scanning-state">
+        <div class="radar-scanner-box">
+          <div class="radar-pulse-ring ring-1"></div>
+          <div class="radar-pulse-ring ring-2"></div>
+          <div class="radar-pulse-ring ring-3"></div>
+          <div class="radar-sweep-beam"></div>
+          <div class="scanner-logo-wrapper">
+            <img src="../assets/ic_threatlens_shield.png?v=3" alt="Scanning..." class="radar-center-logo">
+            <div class="scanner-beam-line"></div>
+          </div>
+        </div>
+        <div class="scanner-status-text" id="scannerStatusText">Scanning Neural Heuristics...</div>
+        <div class="scanner-subtext" id="scannerSubText">Validating certificate signatures & AI threat intelligence</div>
+      </div>
+
+      <!-- 2. Completed Threat Report State -->
+      <div id="shieldReportState" class="shield-report-state hidden">
+        <section class="score-section">
+          <div class="score-ring">
+            <svg viewBox="0 0 100 100">
+              <circle class="score-ring-bg" cx="50" cy="50" r="45"></circle>
+              <circle class="score-ring-progress" cx="50" cy="50" r="45" id="scoreProgress"></circle>
+            </svg>
+            <div class="score-value">
+              <span id="scoreText">--</span>
+              <span class="score-label">Trust Score</span>
+            </div>
+          </div>
+          <div class="site-url-container">
+            <span class="url-icon">🌐</span>
+            <p id="siteUrl" class="site-url">Analyzing current tab...</p>
+          </div>
+          <div class="meta-pills-row">
+            <div id="siteCategoryBadge" class="meta-pill category-pill">General</div>
+            <div id="adblockStatusPill" class="meta-pill adblock-pill">
+              <span class="pill-dot"></span>
+              <span>Ad Shield: Active</span>
+            </div>
+          </div>
+          <div class="analysis-status" id="analysisMessage">
+            Checking heuristic rules and community intelligence.
+          </div>
+        </section>
+
+        <!-- Detected Flags List if any -->
+        <div id="flagsContainer" class="flags-box hidden">
+          <div class="flags-header">
+            <span class="warning-icon">⚠️</span>
+            <strong>Security Indicators Detected</strong>
+          </div>
+          <ul id="flagsList" class="flags-list"></ul>
+        </div>
+
+        <!-- Live Security Checklist Matrix (2x2 Glass Telemetry Grid) -->
+        <div class="security-audit-matrix" id="securityAuditMatrix">
+          <div class="audit-card">
+            <div class="audit-icon-wrap">🔒</div>
+            <div class="audit-info">
+              <span class="audit-label">Transport</span>
+              <span class="audit-value" id="auditSslStatus">Verified HTTPS</span>
+            </div>
+          </div>
+          <div class="audit-card">
+            <div class="audit-icon-wrap">🛡️</div>
+            <div class="audit-info">
+              <span class="audit-label">Origin & Brand</span>
+              <span class="audit-value" id="auditBrandStatus">Authentic Origin</span>
+            </div>
+          </div>
+          <div class="audit-card">
+            <div class="audit-icon-wrap">📝</div>
+            <div class="audit-info">
+              <span class="audit-label">Forms & Inputs</span>
+              <span class="audit-value" id="auditFormsStatus">Secure Endpoints</span>
+            </div>
+          </div>
+          <div class="audit-card">
+            <div class="audit-icon-wrap">🚫</div>
+            <div class="audit-info">
+              <span class="audit-label">Trackers & Ads</span>
+              <span class="audit-value" id="auditAdblockStatus">Active & Shielded</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ad & Tracker Shield Control Card (Brave Shields & uBlock Origin Style) -->
+        <div class="adshield-control-card" id="adshieldControlCard">
+          <div class="adshield-header">
+            <div class="adshield-title-row">
+              <div class="adshield-icon">🛡️</div>
+              <div class="adshield-info">
+                <span class="adshield-title">Ad & Tracker Shield</span>
+                <span class="adshield-subtitle" id="adshieldPageStats">Scanning page elements...</span>
+              </div>
+            </div>
+            <label class="adshield-switch" title="Toggle Shield Protection">
+              <input type="checkbox" id="adshieldMasterToggle" checked>
+              <span class="adshield-slider"></span>
+            </label>
+          </div>
+          <div class="adshield-actions-row">
+            <button id="btnWhitelistSite" class="adshield-btn-whitelist">
+              <span id="whitelistBtnIcon">⏸️</span>
+              <span id="whitelistBtnText">Pause on this site</span>
+            </button>
+            <button id="btnZapElement" class="adshield-btn-zap" title="Pick an element on the page to permanently remove">
+              <span>⚡</span>
+              <span>Zap Element</span>
+            </button>
+            <div class="adshield-lifetime-stat">
+              <span class="lifetime-num" id="adshieldLifetimeCount">0</span>
+              <span class="lifetime-label">Total Blocked</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Insight Section (Powered by LLM7.io Fast Engine) -->
+        <section class="ai-insight-section" id="aiInsightSection">
+          <div class="ai-header">
+            <div class="ai-badge">
+              <span class="ai-sparkle">✨</span>
+              <span>THREATLENS AI • LLM7 FAST ENGINE</span>
+            </div>
+          </div>
+          <p id="aiInsightText">Analyzing neural heuristics, redirect integrity, and threat intelligence feeds...</p>
+        </section>
+
+        <!-- Community Intelligence Rating Row -->
+        <div class="community-rating-row">
+          <button id="btnAppreciate" class="btn-rating btn-appreciate">
+            <span class="icon">👍</span>
+            <span>Appreciate</span>
+          </button>
+          <button id="btnReportThreat" class="btn-rating btn-report">
+            <span class="icon">⚠️</span>
+            <span>Report Threat</span>
+          </button>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <button id="btnSnipScreen" class="action-btn btn-snip">
+            <span class="icon">✂️</span>
+            <span>Snip (Alt+Q)</span>
+          </button>
+          <button id="btnScanQR" class="action-btn">
+            <span class="icon">🔍</span>
+            <span>Scan QR</span>
+          </button>
+          <button id="btnDashboard" class="action-btn">
+            <span class="icon">📊</span>
+            <span>Hub</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SEND TO PHONE -->
+    <section id="tab-send-phone" class="popup-tab-content">
+      <div class="send-phone-card">
+        <div class="card-header-clean">
+          <span class="card-badge">SEAMLESS HAND-OFF</span>
+          <h3>Open on ThreatLens Mobile</h3>
+          <p>Scan with your Android ThreatLens camera to inspect and monitor this page on mobile.</p>
+        </div>
+        
+        <div class="cyber-qr-frame">
+          <div class="corner-bracket top-left"></div>
+          <div class="corner-bracket top-right"></div>
+          <div class="corner-bracket bottom-left"></div>
+          <div class="corner-bracket bottom-right"></div>
+          <div class="qr-code-holder" id="sendPhoneQrHolder">
+            <div class="qr-placeholder-text">Generating transfer QR...</div>
+          </div>
+        </div>
+
+        <div class="send-phone-url-box" id="sendPhoneUrlLabel">
+          Loading URL...
+        </div>
+
+        <button class="action-btn btn-primary-glow" id="btnCopyPhoneUrl">
+          <span>📋</span> Copy Link
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 3: SAFE QR GENERATOR -->
+    <section id="tab-generator" class="popup-tab-content">
+      <div class="generator-card">
+        <div class="form-group-popup">
+          <label for="popQrType">Payload Type</label>
+          <div class="select-wrapper">
+            <select id="popQrType">
+              <option value="URL">🌐 Web URL</option>
+              <option value="TEXT">📄 Plain Text</option>
+              <option value="UPI">💳 UPI Payment</option>
+              <option value="WIFI">📶 WiFi Network</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="popQrDynamicFields">
+          <div class="form-group-popup">
+            <label for="popQrInput">Target URL</label>
+            <input type="text" id="popQrInput" placeholder="https://example.com" value="https://threatlens.io">
+          </div>
+        </div>
+
+        <label class="cert-checkbox-label">
+          <input type="checkbox" id="popQrSignCert" checked>
+          <span class="checkbox-custom"></span>
+          <span class="checkbox-text">Sign with HMAC-SHA256 Certificate</span>
+        </label>
+
+        <button id="btnPopGenerateQr" class="action-btn btn-primary-glow">
+          <span>✨</span> Generate Certified QR
+        </button>
+
+        <div class="cyber-qr-frame" id="popQrFrame" style="display: none; margin-top: 14px;">
+          <div class="corner-bracket top-left"></div>
+          <div class="corner-bracket top-right"></div>
+          <div class="corner-bracket bottom-left"></div>
+          <div class="corner-bracket bottom-right"></div>
+          <div class="qr-code-holder" id="popQrPreviewHolder"></div>
+        </div>
+
+        <button class="action-btn btn-download-qr" id="btnPopDownloadQr" style="display: none;">
+          <span>⬇️</span> Download PNG
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="popup-footer">
+    <div class="footer-status">
+      <span class="footer-dot"></span>
+      <span>Protected by ThreatLens Core</span>
+    </div>
+    <span class="version">v2.0.0</span>
+  </footer>
+
+  <script src="../lib/jsQR.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

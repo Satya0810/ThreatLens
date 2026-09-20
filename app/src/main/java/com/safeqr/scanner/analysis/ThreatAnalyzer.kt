@@ -1269,7 +1269,27 @@ class ThreatAnalyzer(private val appContext: Context? = null) {
         }
         
         val rawReport = intelligenceReport.toString()
-        val siteSummaryText = rawReport
+        val aiInsight = if (isWebUrl) {
+            try {
+                withTimeoutOrNull(4500L) {
+                    com.safeqr.scanner.data.remote.Llm7Client.generateThreatExplanation(
+                        url = expandedUrl ?: normalizedUrl,
+                        score = overallScore,
+                        flags = heuristicFlags + threatDetails,
+                        threatType = safetyStatus.name,
+                        category = siteCategory
+                    )
+                }
+            } catch (e: Exception) {
+                null
+            }
+        } else null
+
+        val siteSummaryText = if (!aiInsight.isNullOrBlank()) {
+            aiInsight
+        } else {
+            rawReport
+        }
         return ScanResult(
             rawContent = rawContent,
             isUrl = isWebUrl,

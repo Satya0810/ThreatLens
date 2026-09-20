@@ -3,89 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - ThreatLens</title>
+    <title>Privacy Policy - ThreatLens Cyber Defense</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #09090b;
+            --surface: #121215;
+            --surface-card: #18181b;
+            --border: rgba(255, 255, 255, 0.08);
+            --cyan: #00f0ff;
+            --cyan-glow: rgba(0, 240, 255, 0.25);
+            --text-main: #f4f4f5;
+            --text-muted: #94a3b8;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0e14; color: #c8cdd5; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7; }
-        .container { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
-        h1 { color: #00d4ff; font-size: 2rem; margin-bottom: 8px; }
-        h2 { color: #e0e4ea; font-size: 1.3rem; margin-top: 32px; margin-bottom: 12px; border-left: 3px solid #00d4ff; padding-left: 12px; }
-        p, li { margin-bottom: 10px; font-size: 0.95rem; }
-        ul { padding-left: 24px; }
-        .date { color: #6b7280; font-size: 0.85rem; margin-bottom: 24px; }
-        a { color: #00d4ff; text-decoration: none; }
+        body {
+            background: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            transition: transform 0.2s;
+        }
+        .back-link:hover { transform: translateX(-3px); }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .date {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            color: #ffffff;
+            font-size: 1.35rem;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--cyan);
+            padding-left: 12px;
+        }
+
+        p, li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        ul { padding-left: 24px; margin-bottom: 16px; }
+        strong { color: var(--text-main); }
+        a { color: var(--cyan); text-decoration: none; }
         a:hover { text-decoration: underline; }
-        .card { background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 24px; margin: 24px 0; }
-        .back { display: inline-block; margin-bottom: 24px; color: #6b7280; font-size: 0.9rem; }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="index.html" class="back">← Back to Home</a>
+        <a href="index.html" class="back-link">← Back to Home</a>
         <h1>🛡️ Privacy Policy</h1>
-        <p class="date">Last updated: July 5, 2026</p>
+        <p class="date">Last updated: September 20, 2026</p>
 
         <div class="card">
-            <p>ThreatLens ("we", "our", "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.</p>
+            <p><strong>ThreatLens</strong> ("we", "our", "us") is dedicated to protecting your privacy across both the <strong>ThreatLens Android Mobile Application</strong> and the <strong>ThreatLens Browser Extension</strong>. This Privacy Policy details our strict zero-log principles, cryptographic verification protocols, and how data is processed.</p>
         </div>
 
-        <h2>1. Information We Collect</h2>
-        <p><strong>Account Information:</strong> When you create an account, we collect your email address, display name, and an encrypted password hash. If you sign in with Google, we receive your name and email from Google.</p>
-        <p><strong>Scan Data:</strong> QR codes and URLs you scan are analyzed locally on your device using on-device ML models. Scan history (URLs, timestamps, safety scores) is stored locally on your device.</p>
-        <p><strong>Cloud Sync (Optional):</strong> If you enable cloud sync, your scan history and QR campaigns are stored in Google Firebase Firestore, linked to your user account.</p>
-
-        <h2>2. How We Use Your Information</h2>
+        <h2>1. Zero-Log Local Heuristics Principle</h2>
+        <p>Whenever you scan a QR code, inspect a WiFi configuration, or hover over a link:</p>
         <ul>
-            <li>To provide QR code scanning and threat analysis</li>
-            <li>To maintain your scan history and favorites</li>
-            <li>To sync your data across devices (if enabled)</li>
-            <li>To generate and manage QR codes in QR Studio</li>
-            <li>To improve the accuracy of our threat detection algorithms</li>
+            <li><strong>On-Device Heuristics:</strong> Pattern matching, homograph detection, and structural analyses are executed 100% locally on your device or in-browser memory.</li>
+            <li><strong>No Tracking:</strong> Scanned content is never logged, sold, or shared for advertising purposes.</li>
         </ul>
 
-        <h2>3. Data Storage & Security</h2>
-        <p>Your data is stored using Google Firebase with industry-standard encryption. Passwords are hashed using SHA-256 before storage. On-device ML analysis runs locally and does not send your scanned content to external servers.</p>
-
-        <h2>4. Third-Party Services</h2>
-        <p>ThreatLens uses the following third-party services:</p>
+        <h2>2. Browser Extension Privacy & Permissions</h2>
+        <p>The ThreatLens Chrome & Edge Extension operates under minimal required permissions:</p>
         <ul>
-            <li><strong>Google Firebase</strong> — Authentication, Firestore database, cloud storage</li>
-            <li><strong>Google ML Kit</strong> — On-device barcode scanning (no data sent to Google)</li>
-            <li><strong>VirusTotal API</strong> — URL reputation checking (URLs may be sent for analysis)</li>
-            <li><strong>Google Safe Browsing</strong> — URL safety verification</li>
+            <li><strong>declarativeNetRequest:</strong> Used exclusively to block known tracking scripts and malicious ad networks before they execute. ThreatLens does not log or monitor your browsing history.</li>
+            <li><strong>webNavigation:</strong> Used to intercept high-risk malicious redirect chains before page execution.</li>
+            <li><strong>Local Storage:</strong> Scan history is saved within your local browser storage (<code>chrome.storage.local</code>) and remains private to your device unless you log into Cloud Sync.</li>
         </ul>
 
-        <h2>5. Data Sharing</h2>
-        <p>We do not sell, trade, or rent your personal information to third parties. URLs scanned may be checked against third-party threat databases (VirusTotal, Google Safe Browsing) for safety analysis.</p>
-
-        <h2>6. Your Rights</h2>
+        <h2>3. AI Intelligence & Third-Party Threat Engines</h2>
+        <p>To evaluate complex, zero-day threat destinations, ThreatLens consults trusted intelligence providers:</p>
         <ul>
-            <li><strong>Access:</strong> You can view all your data within the app</li>
-            <li><strong>Delete Scan History:</strong> Use the "Clear History" button in the History screen</li>
-            <li><strong>Delete Account:</strong> Use the "Delete" button in Settings → Profile to permanently delete your account and all associated data</li>
-            <li><strong>Export:</strong> You can export your scan history as PDF from the app</li>
+            <li><strong>LLM7.io Fast Engine & Google Gemini:</strong> Evaluates destination heuristics to produce natural-language safety explanations and categorize domains. No personal account credentials or private identity data are ever sent to AI endpoints.</li>
+            <li><strong>Threat Intelligence Feeds:</strong> VirusTotal, Google Safe Browsing, and URLhaus are queried to cross-reference known malware signatures.</li>
         </ul>
 
-        <h2>7. Account Deletion</h2>
+        <h2>4. Cloud Sync & Account Data (Optional)</h2>
+        <p>If you choose to register and enable cross-device cloud synchronization:</p>
+        <ul>
+            <li>Your user profile, scan history, and custom QR campaigns are securely stored in <strong>Google Firebase Firestore</strong> with industry-standard encryption in transit and at rest.</li>
+            <li>Passwords are hashed before transmission and are never stored in plaintext.</li>
+        </ul>
+
+        <h2>5. Account Deletion & Right to Erasure</h2>
         <div class="card">
-            <p>You can delete your account at any time:</p>
+            <p>You have full ownership of your data and can permanently delete your account at any time:</p>
             <ul>
-                <li>Open ThreatLens → Settings → Profile Section</li>
-                <li>Tap the <strong>"Delete"</strong> button</li>
-                <li>Enter your password to confirm</li>
-                <li>Your account, profile data, and all cloud-synced data will be permanently deleted</li>
+                <li>In the Android App: Navigate to <strong>Settings → Profile Section → Delete Account</strong>.</li>
+                <li>In the Browser Extension: Navigate to <strong>Settings & Cloud → Sign Out / Clear Data</strong>.</li>
+                <li>Upon confirmation, all personal profiles, cloud-synced scan records, and campaign data are irrevocably wiped from Firebase Firestore.</li>
             </ul>
-            <p>Alternatively, you can request account deletion by emailing <a href="mailto:satyamkumar24052006@gmail.com">satyamkumar24052006@gmail.com</a>.</p>
         </div>
 
-        <h2>8. Children's Privacy</h2>
-        <p>ThreatLens is not directed at children under 13. We do not knowingly collect personal information from children.</p>
-
-        <h2>9. Changes to This Policy</h2>
-        <p>We may update this Privacy Policy from time to time. Changes will be reflected with an updated "Last updated" date at the top of this page.</p>
-
-        <h2>10. Contact Us</h2>
-        <p>If you have questions about this Privacy Policy, please contact us at <a href="mailto:satyamkumar24052006@gmail.com">satyamkumar24052006@gmail.com</a>.</p>
+        <h2>6. Contact Us</h2>
+        <p>For questions or privacy inquiries regarding ThreatLens, reach us at <a href="mailto:satyamkumar24052006@gmail.com">satyamkumar24052006@gmail.com</a> or visit our <a href="https://github.com/Satya0810/ThreatLens" target="_blank">GitHub Repository</a>.</p>
     </div>
 </body>
 </html>

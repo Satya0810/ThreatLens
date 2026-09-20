@@ -13,4 +13,5 @@ object ApiKeys {
     val GEMINI = BuildConfig.GEMINI_KEY
     val QWEN_ENDPOINT = BuildConfig.QWEN_ENDPOINT_URL
     val QWEN_API_KEY = BuildConfig.QWEN_API_KEY
+    val LLM7 = BuildConfig.LLM7_API_KEY
 }

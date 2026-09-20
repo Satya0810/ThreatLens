@@ -109,6 +109,28 @@ private val blockedSchemes = listOf(
     "intent", "javascript", "data", "blob"
 )
 
+private val adTrackerDomains = setOf(
+    "doubleclick.net", "googlesyndication.com", "googleadservices.com", "googletagservices.com",
+    "adnxs.com", "taboola.com", "outbrain.com", "popads.net", "popcash.net", "propellerads.com",
+    "adcash.com", "clickadu.com", "exoclick.com", "ad-maven.com", "mgid.com", "criteo.com",
+    "adroll.com", "rubiconproject.com", "smartadserver.com", "revcontent.com", "trafficstars.com",
+    "richpush.co", "monetag.com", "adsterra.com", "juicyads.com", "trafficjunky.com", "realsrv.com",
+    "clarity.ms", "hotjar.com", "coinhive.com", "crypto-loot.com", "webminepool.com"
+)
+
+private fun isAdOrTrackerDomain(url: String): Boolean {
+    val uri = try { Uri.parse(url) } catch (e: Exception) { return false }
+    val host = uri.host?.lowercase() ?: return false
+    val path = uri.path?.lowercase() ?: ""
+    
+    // Pixel endpoints
+    if (host.contains("facebook.com") && path.startsWith("/tr")) return true
+    if (host.contains("tiktok.com") && (path.contains("pixel") || host.startsWith("analytics."))) return true
+    if (host.contains("twitter.com") && host.startsWith("static.ads-")) return true
+    
+    return adTrackerDomains.any { adDomain -> host == adDomain || host.endsWith(".$adDomain") }
+}
+
 private fun isDomainBlocked(url: String, context: android.content.Context): Boolean {
     val uri = Uri.parse(url)
     val host = uri.host?.lowercase() ?: return false
@@ -178,6 +200,7 @@ fun SandboxBrowserScreen(
     var showBlockedBanner by remember { mutableStateOf(false) }
     var isJavaScriptEnabled by remember { mutableStateOf(true) }
     var showConsole by remember { mutableStateOf(false) }
+    var adBlockedCount by remember { mutableStateOf(0) }
 
     // Pro Features States
     var isDesktopMode by remember { mutableStateOf(false) }
@@ -479,13 +502,35 @@ fun SandboxBrowserScreen(
                 }
             }
 
-            AnimatedVisibility(visible = showBlockedBanner, enter = fadeIn(), exit = fadeOut()) {
-                Text(
-                    text = "Blocked Tracker!",
-                    color = MaliciousRed,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
-                )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                if (adBlockedCount > 0) {
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(PrimaryBlue.copy(alpha = 0.2f))
+                            .padding(horizontal = 8.dp, vertical = 3.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "🛡️ $adBlockedCount Blocked",
+                            color = PrimaryBlue,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                AnimatedVisibility(visible = showBlockedBanner, enter = fadeIn(), exit = fadeOut()) {
+                    Text(
+                        text = "Blocked Tracker!",
+                        color = MaliciousRed,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
 
@@ -553,13 +598,21 @@ fun SandboxBrowserScreen(
                                         }
                                         override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
                                             val requestUrl = request?.url?.toString() ?: return null
+                                            if (isAdOrTrackerDomain(requestUrl)) {
+                                                val domain = Uri.parse(requestUrl).host ?: requestUrl
+                                                view?.post { 
+                                                    blockedLog.add("Ad/Tracker Blocked: $domain") 
+                                                    adBlockedCount++
+                                                }
+                                                return WebResourceResponse("text/plain", "UTF-8", java.io.ByteArrayInputStream(ByteArray(0)))
+                                            }
                                             if (isDomainBlocked(requestUrl, ctx)) {
                                                 val domain = Uri.parse(requestUrl).host ?: requestUrl
                                                 view?.post { 
                                                     blockedLog.add("Resource Blocked: $domain") 
                                                     threatScore += 0.05f
                                                 }
-                                                return WebResourceResponse("text/plain", "UTF-8", ByteArrayInputStream(ByteArray(0)))
+                                                return WebResourceResponse("text/plain", "UTF-8", java.io.ByteArrayInputStream(ByteArray(0)))
                                             }
                                             return super.shouldInterceptRequest(view, request)
                                         }

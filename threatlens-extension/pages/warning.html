@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ThreatLens Security Interception</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafd;
+      --surface: #ffffff;
+      --surface-elevated: #ffffff;
+      --border: #e2e8f0;
+      --danger: #dc2626;
+      --danger-glow: rgba(220, 38, 38, 0.15);
+      --cyan: #1d4ed8;
+      --cyan-glow: rgba(29, 78, 216, 0.15);
+      --text: #334155;
+      --muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 15%, #fef2f2 0%, #fff5f5 50%, #f8fafd 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      margin: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(140px);
+      z-index: 0;
+    }
+
+    .glow-danger {
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(220, 38, 38, 0.08);
+    }
+
+    .glow-cyan {
+      bottom: -150px;
+      right: 10%;
+      background: rgba(29, 78, 216, 0.04);
+    }
+
+    .report-card {
+      background: #ffffff;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 520px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.1), 0 0 30px rgba(220, 38, 38, 0.1);
+      position: relative;
+      z-index: 1;
+      animation: cardAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes cardAppear {
+      from { opacity: 0; transform: translateY(16px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Brand Header with App Logo */
+    .warning-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .warning-logo-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(0, 240, 255, 0.15));
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(239, 68, 68, 0.25);
+      overflow: hidden;
+    }
+
+    .warning-app-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+    }
+
+    .warning-brand-info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .warning-brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .warning-brand-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #ef4444;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .telemetry-header-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      color: rgba(255, 255, 255, 0.55);
+      text-transform: uppercase;
+    }
+
+    .category-pill {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+    }
+
+    .entity-box {
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 12px;
+      color: #cbd5e1;
+      word-break: break-all;
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gauge-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .gauge-container {
+      position: relative;
+      width: 130px;
+      height: 130px;
+    }
+
+    .gauge-container svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: rgba(239, 68, 68, 0.18);
+      stroke-width: 9;
+      stroke-linecap: round;
+      stroke-dasharray: 216.77 289.02;
+      transform-origin: 50% 50%;
+      transform: rotate(135deg);
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke: #ef4444;
+      stroke-width: 9;
+      stroke-linecap: round;
+      stroke-dasharray: 0 289.02;
+      transition: stroke-dasharray 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: 50% 50%;
+      transform: rotate(135deg);
+      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.6));
+    }
+
+    .gauge-score {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .score-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: #a1a1aa;
+      margin-top: 4px;
+    }
+
+    .threat-stamp {
+      margin-top: 12px;
+      padding: 6px 16px;
+      border-radius: 8px;
+      background: #18181b;
+      border: 2px solid #ef4444;
+      color: #ef4444;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
+    }
+
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .telemetry-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px 14px;
+    }
+
+    .telemetry-card-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .telemetry-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .telemetry-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: #f4f4f5;
+    }
+
+    .ai-card {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.06) 0%, rgba(18, 18, 21, 0.7) 100%);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 240, 255, 0.08);
+    }
+
+    .ai-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cyan);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .ai-content {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #e2e8f0;
+    }
+
+    .engine-logs-section {
+      margin-bottom: 22px;
+    }
+
+    .engine-logs-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .engine-logs-box {
+      background: #111114;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px 16px;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+    }
+
+    .timeline-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .timeline-text {
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      flex: 1.2;
+      padding: 13px 18px;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 13.5px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(239, 68, 68, 0.45);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(239, 68, 68, 0.6);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      padding: 13px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #a1a1aa;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 12.5px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f4f4f5;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glow -->
+  <div class="ambient-glow glow-danger"></div>
+  <div class="ambient-glow glow-cyan"></div>
+
+  <div class="report-card">
+    <!-- Brand Header with Official ThreatLens App Logo -->
+    <div class="warning-brand-header">
+      <div class="warning-logo-box">
+        <img src="../assets/logo.png" alt="ThreatLens" class="warning-app-logo">
+      </div>
+      <div class="warning-brand-info">
+        <span class="warning-brand-title">ThreatLens</span>
+        <span class="warning-brand-sub">NEURAL INTERCEPTION ENGINE</span>
+      </div>
+    </div>
+
+    <!-- 1. TELEMETRY & CATEGORY HEADER -->
+    <div class="top-nav">
+      <div class="telemetry-header-label">THREAT TELEMETRY</div>
+      <div class="category-pill" id="siteCategoryPill">🔴 MALICIOUS THREAT</div>
+    </div>
+
+    <!-- Entity Target -->
+    <div class="entity-box">
+      <span>🔗</span>
+      <span id="urlDisplay">Loading...</span>
+    </div>
+
+    <!-- 2. ANIMATED CIRCULAR TRUST GAUGE & STAMP -->
+    <div class="gauge-section">
+      <div class="gauge-container">
+        <svg viewBox="0 0 120 120">
+          <circle class="gauge-bg" cx="60" cy="60" r="46"></circle>
+          <circle class="gauge-fill" id="scoreGaugeFill" cx="60" cy="60" r="46"></circle>
+        </svg>
+        <div class="gauge-score">
+          <span class="score-num" id="scoreDisplay">15</span>
+          <span class="score-lbl">TRUST SCORE</span>
+        </div>
+      </div>
+      <div class="threat-stamp" id="threatStamp">MALICIOUS</div>
+    </div>
+
+    <!-- 3. TELEMETRY GRID -->
+    <div class="telemetry-grid">
+      <div class="telemetry-card">
+        <div class="telemetry-card-top">
+          <span>🛣️</span>
+          <span class="telemetry-title">Routing</span>
+        </div>
+        <div class="telemetry-val" style="color: var(--cyan);" id="routingDisplay">Direct</div>
+      </div>
+      <div class="telemetry-card">
+        <div class="telemetry-card-top">
+          <span>🚩</span>
+          <span class="telemetry-title">Engine Flags</span>
+        </div>
+        <div class="telemetry-val" style="color: var(--danger);" id="flagsCountDisplay">1 Found</div>
+      </div>
+    </div>
+
+    <!-- 4. THREATLENS AI INSIGHT -->
+    <div class="ai-card">
+      <div class="ai-header">
+        <span>✨</span> THREATLENS AI INSIGHT
+      </div>
+      <div class="ai-content" id="aiExplanation">
+        Analyzing destination heuristics and threat intelligence feeds...
+      </div>
+    </div>
+
+    <!-- 5. ENGINE LOGS TIMELINE -->
+    <div class="engine-logs-section">
+      <div class="engine-logs-header">ENGINE INTELLIGENCE LOGS</div>
+      <div class="engine-logs-box" id="warningFlagsBox">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-text">Suspicious malicious pattern signatures detected</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5.5. ISOLATED SANDBOX CONTAINER -->
+    <div id="warningSandboxBox" style="display: none; margin-top: 16px; border: 1px solid rgba(0, 240, 255, 0.4); border-radius: 14px; overflow: hidden; background: #000;">
+      <div style="background: #18181b; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 11.5px; color: #94a3b8;">
+        <span>🔒 ThreatLens Isolated Sandbox Mode</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span id="sandboxStatusMsg" style="color: #10b981; font-weight: 700;">Scripts & Cookies Blocked</span>
+          <button id="btnOpenFullSandbox" style="background: rgba(0, 240, 255, 0.15); border: 1px solid rgba(0, 240, 255, 0.4); color: var(--cyan); padding: 2px 8px; border-radius: 4px; font-size: 10.5px; font-weight: 700; cursor: pointer;">Full Screen ↗</button>
+        </div>
+      </div>
+      <iframe id="warningSandboxIframe" sandbox="allow-same-origin" style="width: 100%; height: 280px; border: none; background: #fff;" src="about:blank"></iframe>
+    </div>
+
+    <!-- 6. ACTION BUTTONS -->
+    <div class="actions-row">
+      <button class="btn-primary" id="btnBack">
+        <span>🛡️</span> Return to Safety
+      </button>
+      <button class="btn-secondary" id="btnSandboxPreview">
+        <span>🔬</span> Sandbox
+      </button>
+      <button class="btn-secondary" id="btnProceed">
+        Proceed Anyway
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="warning.js"></script>
+</body>
+</html>

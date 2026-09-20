@@ -121,10 +121,25 @@ fun ResultBottomSheet(
 
     // Threat Intel State
     var communityIntel by remember { mutableStateOf<com.safeqr.scanner.data.remote.CloudSyncManager.ThreatIntelReport?>(null) }
+    var liveAiInsight by remember(scanResult.rawContent) { mutableStateOf(scanResult.siteSummary) }
     
     LaunchedEffect(scanResult.rawContent) {
         if (!isCertified && scanResult.rawContent.isNotBlank()) {
             communityIntel = com.safeqr.scanner.data.remote.CloudSyncManager.getThreatIntel(scanResult.rawContent)
+        }
+        if (liveAiInsight.isNullOrBlank() && (scanResult.isUrl || scanResult.domain != null || scanResult.threatDetails.isNotEmpty())) {
+            try {
+                val insight = com.safeqr.scanner.data.remote.Llm7Client.generateThreatExplanation(
+                    url = scanResult.expandedUrl ?: scanResult.rawContent,
+                    score = scanResult.overallScore,
+                    flags = scanResult.threatDetails.ifEmpty { scanResult.heuristicFlags },
+                    threatType = scanResult.safetyStatus.name,
+                    category = scanResult.siteCategory
+                )
+                if (insight.isNotBlank()) {
+                    liveAiInsight = insight
+                }
+            } catch (e: Exception) {}
         }
     }
 
@@ -425,7 +440,7 @@ fun ResultBottomSheet(
 
                         if (isWebOrDomain && !isUpiScan && !isWifiScan && !isLinkGuardSafe) {
                             com.safeqr.scanner.ui.components.IntelligenceReportCard(
-                                scanResult = scanResult,
+                                scanResult = if (liveAiInsight != null) scanResult.copy(siteSummary = liveAiInsight) else scanResult,
                                 baseColor = statusColor
                             )
                             Spacer(modifier = Modifier.height(16.dp))

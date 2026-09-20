@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThreatLens — Isolated Sandbox Browser</title>
+  <link rel="icon" type="image/png" href="../assets/icon48.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafd;
+      --surface: #ffffff;
+      --card: #ffffff;
+      --card-border: #e2e8f0;
+      --cyan: #1d4ed8;
+      --cyan-glow: rgba(29, 78, 216, 0.15);
+      --emerald: #059669;
+      --emerald-glow: rgba(5, 150, 105, 0.15);
+      --danger: #dc2626;
+      --danger-glow: rgba(220, 38, 38, 0.15);
+      --amber: #d97706;
+      --text: #334155;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Top Bar: Brand & Security Telemetry ── */
+    .sandbox-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--card-border);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+      z-index: 20;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-box {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 8px rgba(29, 78, 216, 0.1);
+    }
+
+    .brand-logo {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+    }
+
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-title .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+
+    .brand-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.8px;
+    }
+
+    .header-security-pills {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .security-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .security-pill.safe {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: var(--emerald);
+    }
+
+    .security-pill.danger {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: var(--danger);
+    }
+
+    .threat-meter-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--danger);
+    }
+
+    .threat-meter-bar {
+      width: 60px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .threat-meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--emerald) 0%, var(--amber) 50%, var(--danger) 100%);
+      width: 85%;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-header {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-header:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-header.danger-action {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .btn-header.danger-action:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: var(--danger);
+      color: #ffffff;
+    }
+
+    /* ── Navigation Address Bar ── */
+    .sandbox-nav-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--card-border);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .nav-btn-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .nav-btn-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-btn-icon:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .cyber-address-bar {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: #000000;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 10px;
+      padding: 0 12px;
+      height: 36px;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.06);
+    }
+
+    .cyber-address-bar:focus-within {
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px var(--cyan-glow);
+    }
+
+    .protocol-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--emerald);
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .protocol-badge.insecure {
+      color: var(--amber);
+    }
+
+    .address-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: #ffffff;
+      width: 100%;
+    }
+
+    .address-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .btn-clear-url {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px;
+      display: none;
+    }
+
+    .btn-clear-url:hover {
+      color: var(--text);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2) 0%, rgba(6, 182, 212, 0.4) 100%);
+      border: 1px solid var(--cyan);
+      color: #ffffff;
+      padding: 5px 14px;
+      border-radius: 7px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-go:hover {
+      background: var(--cyan);
+      color: #000000;
+      box-shadow: 0 0 12px var(--cyan-glow);
+    }
+
+    /* ── Multi-Tab & Security Controls Ribbon ── */
+    .sandbox-ribbon {
+      background: #0d0d10;
+      border-bottom: 1px solid var(--card-border);
+      padding: 4px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .tabs-track {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      max-width: 180px;
+      transition: all 0.15s;
+    }
+
+    .tab-item.active {
+      background: rgba(0, 240, 255, 0.12);
+      border-color: rgba(0, 240, 255, 0.4);
+      color: #ffffff;
+    }
+
+    .tab-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tab-close-btn {
+      font-size: 13px;
+      color: var(--text-dim);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      width: 16px;
+      height: 16px;
+    }
+
+    .tab-close-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: var(--text);
+    }
+
+    .btn-new-tab {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.15s;
+    }
+
+    .btn-new-tab:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+    }
+
+    .ribbon-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tool-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 7px;
+      padding: 4px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .tool-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .tool-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: rgba(0, 240, 255, 0.5);
+      color: var(--cyan);
+    }
+
+    .tool-btn.warning-state {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #f87171;
+    }
+
+    /* ── Progress & Status Bar ── */
+    .status-bar {
+      height: 2px;
+      background: rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .status-bar-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0%;
+      background: linear-gradient(90deg, var(--cyan), var(--emerald));
+      transition: width 0.3s ease;
+    }
+
+    .status-bar-fill.loading {
+      width: 70%;
+      animation: indeterminate 1.5s infinite ease-in-out;
+    }
+
+    @keyframes indeterminate {
+      0% { left: -30%; width: 30%; }
+      50% { left: 40%; width: 50%; }
+      100% { left: 100%; width: 30%; }
+    }
+
+    /* ── Main Viewport Container ── */
+    .sandbox-viewport-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      background: #000000;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .viewport-device-frame {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .viewport-device-frame.mobile-mode {
+      flex: none;
+      width: 412px;
+      height: 94%;
+      margin: auto;
+      border-radius: 28px;
+      border: 8px solid #27272a;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .sandbox-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+    }
+
+    /* ── Diagnostic / Error Viewport State ── */
+    .error-viewport-card {
+      position: absolute;
+      inset: 0;
+      background: #0e0e11;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .error-icon-box {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 16px;
+      box-shadow: 0 0 24px var(--danger-glow);
+    }
+
+    .error-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .error-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .error-url-box {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: var(--cyan);
+      background: #000000;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      max-width: 500px;
+      word-break: break-all;
+      margin-bottom: 20px;
+    }
+
+    /* ── Drawers & Modals ── */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .drawer-modal {
+      background: var(--surface);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 18px;
+      width: 90%;
+      max-width: 860px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 240, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+    }
+
+    .modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .source-code-pre {
+      background: #000000;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #e2e8f0;
+      overflow: auto;
+      max-height: 55vh;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .audit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .audit-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .audit-card-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .audit-card-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .audit-log-list {
+      background: #000000;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .audit-log-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 12px;
+    }
+
+    .audit-log-item:last-child {
+      border-bottom: none;
+    }
+
+    .audit-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--danger);
+      box-shadow: 0 0 6px var(--danger);
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .audit-dot.info {
+      background: var(--cyan);
+      box-shadow: 0 0 6px var(--cyan);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. TOP HEADER: Brand & Security Overview -->
+  <header class="sandbox-header">
+    <div class="brand-section">
+      <div class="brand-logo-box">
+        <img src="../assets/logo.png" alt="ThreatLens" class="brand-logo">
+      </div>
+      <div class="brand-titles">
+        <div class="brand-title">
+          <span>ThreatLens Sandbox</span>
+          <span class="badge">Isolated v1.0</span>
+        </div>
+        <div class="brand-subtitle">ZERO-COOKIE DOM INSPECTION CONTAINER</div>
+      </div>
+    </div>
+
+    <div class="header-security-pills">
+      <div class="security-pill safe">
+        <span>🔒</span>
+        <span>Zero Storage & Cookies</span>
+      </div>
+      <div class="security-pill" id="headerScriptPill">
+        <span>🛡️</span>
+        <span id="headerScriptText">Scripts Blocked (Safe)</span>
+      </div>
+      <div class="threat-meter-badge" id="headerThreatBadge">
+        <span>⚠️ Threat Risk</span>
+        <div class="threat-meter-bar">
+          <div class="threat-meter-fill" id="headerThreatFill"></div>
+        </div>
+        <span id="headerThreatScore">85%</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-header" id="btnReturnSafety">
+        <span>🛡️</span> Exit to Safety
+      </button>
+      <button class="btn-header danger-action" id="btnProceedLive">
+        <span>⚡</span> Proceed to Live
+      </button>
+    </div>
+  </header>
+
+  <!-- 2. NAVIGATION & CYBER ADDRESS BAR -->
+  <nav class="sandbox-nav-bar">
+    <button class="nav-btn-icon" id="btnNavBack" title="Back" disabled>←</button>
+    <button class="nav-btn-icon" id="btnNavForward" title="Forward" disabled>→</button>
+    <button class="nav-btn-icon" id="btnNavReload" title="Reload Sandbox">↻</button>
+
+    <div class="cyber-address-bar">
+      <div class="protocol-badge" id="protocolBadge">
+        <span>🔒</span> HTTPS
+      </div>
+      <input type="text" class="address-input" id="urlInput" placeholder="Enter target URL to inspect safely (e.g., https://example.com)..." spellcheck="false" autocomplete="off">
+      <button class="btn-clear-url" id="btnClearUrl" title="Clear">✕</button>
+      <button class="btn-go" id="btnNavGo">Inspect ↵</button>
+    </div>
+  </nav>
+
+  <!-- 3. TABS & SECURITY TOOLS RIBBON -->
+  <div class="sandbox-ribbon">
+    <div class="tabs-track" id="tabsTrack">
+      <div class="tab-item active" data-tab-id="tab-1">
+        <span>🌐</span>
+        <span class="tab-title" id="tab1Title">Inspecting Destination...</span>
+      </div>
+      <button class="btn-new-tab" id="btnNewTab" title="Open New Tab">+</button>
+    </div>
+
+    <div class="ribbon-tools">
+      <button class="tool-btn" id="btnToggleScripts" title="Toggle JavaScript execution">
+        <span>🛡️</span> <span id="toggleScriptLabel">Scripts: Blocked (Safe)</span>
+      </button>
+      <button class="tool-btn" id="btnToggleViewport" title="Switch Desktop / Mobile Viewport">
+        <span>🖥️</span> <span>Desktop View</span>
+      </button>
+      <button class="tool-btn" id="btnViewSource" title="View sanitized DOM source code">
+        <span>🔍</span> <span>View DOM</span>
+      </button>
+      <button class="tool-btn" id="btnAuditLogs" title="View threat & tracker telemetry">
+        <span>📋</span> <span id="auditLogCountBadge">Threat Audit (0)</span>
+      </button>
+      <button class="tool-btn" id="btnCaptureSnapshot" title="Download isolated DOM snapshot">
+        <span>📸</span> <span>Capture</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 4. PROGRESS BAR -->
+  <div class="status-bar">
+    <div class="status-bar-fill" id="sandboxProgressBar"></div>
+  </div>
+
+  <!-- 5. MAIN VIEWPORT CONTAINER -->
+  <main class="sandbox-viewport-wrapper">
+    <div class="viewport-device-frame" id="viewportFrame">
+      <iframe class="sandbox-iframe" id="sandboxIframe" sandbox="allow-same-origin" src="about:blank"></iframe>
+      
+      <!-- Diagnostic Error Card -->
+      <div class="error-viewport-card" id="errorViewportCard">
+        <div class="error-icon-box">⚠️</div>
+        <h2 class="error-title" id="errorTitle">Target Server Unreachable</h2>
+        <p class="error-desc" id="errorDesc">
+          ThreatLens could not retrieve the remote DOM. The server may be blocking automated security requests, offline, or requiring non-standard protocol negotiation.
+        </p>
+        <div class="error-url-box" id="errorUrlBox"></div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn-go" id="btnRetryFetch">↻ Retry Sandbox Fetch</button>
+          <button class="btn-header" id="btnErrorProceedAnyway">Proceed to Live URL</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── MODAL: DOM Source Code Viewer ── -->
+  <div class="drawer-overlay" id="sourceCodeModal">
+    <div class="drawer-modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🔍</span> DOM Source Code Inspector
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="btn-header" id="btnCopySource">📋 Copy HTML</button>
+          <button class="nav-btn-icon" id="btnCloseSourceModal">✕</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <pre class="source-code-pre"><code id="sourceCodeContent">Loading DOM...</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: Threat & Tracker Audit Log ── -->
+  <div class="drawer-overlay" id="auditLogModal">
+    <div class="drawer-modal">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📋</span> Security & Threat Audit Telemetry
+        </div>
+        <button class="nav-btn-icon" id="btnCloseAuditModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="audit-grid">
+          <div class="audit-card">
+            <div class="audit-card-title"><span>🛡️</span> Scripts Neutralized</div>
+            <div class="audit-card-val" id="auditScriptsCount" style="color: var(--cyan);">0</div>
+          </div>
+          <div class="audit-card">
+            <div class="audit-card-title"><span>📝</span> Forms Disarmed</div>
+            <div class="audit-card-val" id="auditFormsCount" style="color: var(--amber);">0</div>
+          </div>
+          <div class="audit-card">
+            <div class="audit-card-title"><span>👁️</span> Trackers Detected</div>
+            <div class="audit-card-val" id="auditTrackersCount" style="color: var(--danger);">0</div>
+          </div>
+          <div class="audit-card">
+            <div class="audit-card-title"><span>🖼️</span> Hidden Iframes</div>
+            <div class="audit-card-val" id="auditIframesCount" style="color: #a78bfa;">0</div>
+          </div>
+        </div>
+
+        <h4 style="font-family: 'Outfit', sans-serif; font-size: 14px; margin-bottom: 8px; color: #ffffff;">Interception Events & Intelligence Flags</h4>
+        <div class="audit-log-list" id="auditLogList">
+          <div class="audit-log-item">
+            <div class="audit-dot info"></div>
+            <div style="color: var(--text-muted);">Sandbox container initialized with zero cookies and isolated storage.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: JavaScript Execution Warning ── -->
+  <div class="drawer-overlay" id="scriptWarningModal">
+    <div class="drawer-modal" style="max-width: 500px;">
+      <div class="modal-header" style="background: rgba(239, 68, 68, 0.15);">
+        <div class="modal-title" style="color: #ef4444;">
+          <span>⚠️</span> Security Warning: Enable JavaScript?
+        </div>
+        <button class="nav-btn-icon" id="btnCloseScriptWarning">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13.5px; line-height: 1.6; color: #e2e8f0; margin-bottom: 16px;">
+          Enabling JavaScript will execute remote scripts inside this sandbox iframe container. While cookies and local storage remain isolated, active scripts may attempt redirects, popups, or cryptomining.
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="btn-header" id="btnCancelScriptEnable">Keep Scripts Blocked</button>
+          <button class="btn-header danger-action" id="btnConfirmScriptEnable">Enable Scripts</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="sandbox.js"></script>
+</body>
+</html>

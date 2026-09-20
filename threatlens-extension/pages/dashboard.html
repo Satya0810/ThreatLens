@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ThreatLens Security Hub</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Ambient Cyber Lighting -->
+  <div class="ambient-glow glow-cyan-top"></div>
+  <div class="ambient-glow glow-purple-bottom"></div>
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo-wrap">
+        <img src="../assets/ic_threatlens_shield.png?v=3" alt="ThreatLens" class="brand-logo">
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">ThreatLens</span>
+        <span class="brand-badge">SECURITY HUB</span>
+      </div>
+    </div>
+
+    <nav aria-label="Dashboard Navigation">
+      <button class="nav-item active" data-tab="home">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Dashboard</span>
+      </button>
+      <button class="nav-item" data-tab="scanner">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-label">Live Scanner</span>
+      </button>
+      <button class="nav-item" data-tab="history">
+        <span class="nav-icon">📜</span>
+        <span class="nav-label">Scan History</span>
+      </button>
+      <button class="nav-item" data-tab="adshield">
+        <span class="nav-icon">🛡️</span>
+        <span class="nav-label">Ad & Tracker Shield</span>
+      </button>
+      <button class="nav-item" data-tab="studio">
+        <span class="nav-icon">🎨</span>
+        <span class="nav-label">QR Studio</span>
+      </button>
+      <button class="nav-item" data-tab="settings">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Settings & Cloud</span>
+      </button>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <div class="status-indicator">
+        <div class="pulse"></div>
+        <div class="status-text-wrap">
+          <span class="status-title">Real-Time Guard</span>
+          <span class="status-sub">Active & Armed</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+    
+    <!-- 1. Overview Tab -->
+    <section id="tab-home" class="tab-content active">
+      <header class="page-header">
+        <div class="header-tag">NEURAL THREAT INTELLIGENCE</div>
+        <h1>Security Control Center</h1>
+        <p>Real-time neural threat detection, UPI fraud protection, and decentralized cryptographic QR verification.</p>
+      </header>
+
+      <div class="stats-grid">
+        <div class="stat-card cyan-card">
+          <div class="stat-icon-wrap">📊</div>
+          <div class="stat-value cyan" id="statTotalScans">0</div>
+          <div class="stat-label">Total Scans Inspected</div>
+        </div>
+        <div class="stat-card danger-card">
+          <div class="stat-icon-wrap">🛡️</div>
+          <div class="stat-value danger" id="statThreatsBlocked">0</div>
+          <div class="stat-label">Threats Intercepted</div>
+        </div>
+        <div class="stat-card safe-card">
+          <div class="stat-icon-wrap">✅</div>
+          <div class="stat-value safe" id="statSafeScans">0</div>
+          <div class="stat-label">Safe Verified Resources</div>
+        </div>
+        <div class="stat-card purple-card">
+          <div class="stat-icon-wrap">⚡</div>
+          <div class="stat-value purple">100%</div>
+          <div class="stat-label">Engines Active & Armed</div>
+        </div>
+      </div>
+      
+      <div class="card card-glow mt-24">
+        <div class="card-title-row">
+          <div>
+            <h3>Integrated Multi-Layer Defense Architecture</h3>
+            <p>5 synchronized on-device and cloud security engines matching the ThreatLens Android core:</p>
+          </div>
+          <span class="badge badge-safe">Full Parity Active</span>
+        </div>
+
+        <div class="engine-grid">
+          <div class="engine-card">
+            <div class="engine-header">
+              <span class="engine-icon">⚡</span>
+              <strong class="cyan-text">Heuristics & Homoglyphs</strong>
+            </div>
+            <p>Zero-width char sanitization, Cyrillic homoglyph attacks, SSRF IP filtering, and Levenshtein typosquatting distance.</p>
+          </div>
+
+          <div class="engine-card">
+            <div class="engine-header">
+              <span class="engine-icon">🏧</span>
+              <strong class="blue-text">UPI Payment Fraud Guard</strong>
+            </div>
+            <p>50+ verified bank handle registry, phishing keywords, zero-amount collect trap detection, and merchant spoofing checks.</p>
+          </div>
+
+          <div class="engine-card">
+            <div class="engine-header">
+              <span class="engine-icon">📶</span>
+              <strong class="purple-text">WiFi Rogue Hotspot Defense</strong>
+            </div>
+            <p>Evil Twin hotspot spoofing detection, WEP/Open unencrypted connection warnings, and password entropy evaluation.</p>
+          </div>
+
+          <div class="engine-card">
+            <div class="engine-header">
+              <span class="engine-icon">🤖</span>
+              <strong class="green-text">LLM7 AI Website Categorizer</strong>
+            </div>
+            <p>Fast AI zero-day categorization across 40+ granular security tags with intrinsic threat scoring and risk reasoning.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Live Scanner Tab -->
+    <section id="tab-scanner" class="tab-content">
+      <header class="page-header">
+        <div class="header-tag">INTERACTIVE ANALYSIS</div>
+        <h1>Live Threat Scanner</h1>
+        <p>Inspect any URL, UPI payment string, WiFi network config, or upload a QR image for deep inspection.</p>
+      </header>
+
+      <div class="card card-glow">
+        <div class="form-group">
+          <label for="liveScanInput">Target Payload or Web URL</label>
+          <textarea id="liveScanInput" rows="3" placeholder="Paste https://..., upi://pay?..., WIFI:S:...;, or any QR payload here..."></textarea>
+        </div>
+
+        <div class="scanner-actions-bar">
+          <button class="btn btn-primary" id="btnRunLiveScan">
+            <span>🔍</span> Analyze Payload
+          </button>
+          <span class="divider-text">OR</span>
+          <label class="btn btn-outline upload-qr-btn">
+            <span>📷</span> Upload QR Image
+            <input type="file" id="qrImageFileInput" accept="image/*" style="display: none;">
+          </label>
+        </div>
+
+        <!-- Scan Result HUD -->
+        <div id="liveScanResult" class="mt-24" style="display: none;">
+          <div class="result-hud-card">
+            <div class="result-header-row">
+              <div class="result-badges-wrap">
+                <span id="scanResultCategory" class="badge badge-safe">🌐 General Web</span>
+                <span id="scanResultStatus" class="badge badge-safe">SAFE</span>
+              </div>
+              <div class="result-score-wrap">
+                <span class="score-label">Trust Score:</span>
+                <strong id="scanResultScore" class="score-value-large">100/100</strong>
+              </div>
+            </div>
+
+            <div class="expanded-url-box" id="scanResultExpanded"></div>
+
+            <!-- ThreatLens AI Neural Verdict (LLM7.io) -->
+            <div class="hud-ai-verdict-card" id="scanResultAiCard" style="display: none; margin-top: 14px; background: linear-gradient(135deg, rgba(0, 240, 255, 0.08) 0%, rgba(18, 18, 21, 0.8) 100%); border: 1px solid rgba(0, 240, 255, 0.35); border-radius: 12px; padding: 14px 16px;">
+              <div class="ai-verdict-title" style="display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--cyan); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;">
+                <span>✨</span> THREATLENS AI NEURAL VERDICT (LLM7.IO)
+              </div>
+              <p id="scanResultAiText" class="ai-verdict-text" style="font-size: 13px; line-height: 1.55; color: #e2e8f0; margin: 0;"></p>
+            </div>
+
+            <!-- W3C Verifiable Credential Display Card -->
+            <div class="hud-vc-card" id="scanResultVcCard" style="display: none; margin-top: 14px; background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 12px; padding: 14px 16px;">
+              <div class="vc-card-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-family: var(--font-display); font-size: 14px; font-weight: 800; color: var(--purple);">📜 W3C Verifiable Credential</span>
+                <span id="vcCardStatus" class="badge badge-safe">VALID & SIGNED</span>
+              </div>
+              <div class="vc-card-body" id="vcCardBody" style="font-family: var(--font-mono); font-size: 11.5px; color: #cbd5e1; line-height: 1.5;"></div>
+            </div>
+
+            <div class="summary-box" id="scanResultSummary" style="margin-top: 14px;"></div>
+
+            <!-- Action Buttons -->
+            <div class="hud-actions" style="margin-top: 18px; display: flex; gap: 12px;">
+              <button class="btn btn-outline" id="btnExportScanPdf">
+                <span>📄</span> Export PDF Report
+              </button>
+              <button class="btn btn-primary" id="btnOpenInSandbox" style="display: none;">
+                <span>🔬</span> Inspect in Sandbox
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. History Tab -->
+    <section id="tab-history" class="tab-content">
+      <header class="page-header flex-between">
+        <div>
+          <div class="header-tag">TELEMETRY ARCHIVE</div>
+          <h1>Scan History</h1>
+          <p>Local & cloud synchronized security inspection records across devices.</p>
+        </div>
+        <button class="btn btn-danger-outline" id="btnClearHistory">
+          <span>🗑️</span> Clear History
+        </button>
+      </header>
+
+      <div class="filter-bar">
+        <button class="filter-pill active" data-filter="ALL">All Scans</button>
+        <button class="filter-pill" data-filter="URL">URLs</button>
+        <button class="filter-pill" data-filter="UPI">UPI Payments</button>
+        <button class="filter-pill" data-filter="WIFI">WiFi Networks</button>
+        <button class="filter-pill" data-filter="THREAT">Threats Only</button>
+      </div>
+
+      <div class="history-list" id="historyContainer">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- 4. QR Studio Tab -->
+    <section id="tab-studio" class="tab-content">
+      <header class="page-header">
+        <div class="header-tag">SECURE GENERATION</div>
+        <h1>Safe QR Studio</h1>
+        <p>Generate cryptographically signed, tamper-evident QR codes for URLs, UPI payments, and WiFi configurations.</p>
+      </header>
+
+      <div class="studio-layout">
+        <div class="studio-controls card card-glow">
+          <div class="form-group">
+            <label for="qrTypeSelect">Template Type</label>
+            <div class="select-wrapper">
+              <select id="qrTypeSelect">
+                <option value="URL">🌐 Web URL</option>
+                <option value="UPI">💳 UPI Payment</option>
+                <option value="WIFI">📶 WiFi Network</option>
+                <option value="TEXT">📄 Plain Text</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Form Fields -->
+          <div id="qrDynamicFields">
+            <div class="form-group">
+              <label for="qrUrlInput">Target URL</label>
+              <input type="text" id="qrUrlInput" placeholder="https://example.com" value="https://threatlens.io">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="qrColor">Branding Color</label>
+            <div class="select-wrapper">
+              <select id="qrColor">
+                <option value="#06b6d4">Cyber Cyan</option>
+                <option value="#000000">Classic Black</option>
+                <option value="#10b981">Emerald Safe</option>
+                <option value="#ef4444">Alert Red</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group cert-box">
+            <label class="cert-checkbox-wrap">
+              <input type="checkbox" id="qrSignCert" checked>
+              <span class="cert-title">🛡️ Sign with HMAC-SHA256 Cryptographic Certificate</span>
+            </label>
+            <div class="cert-desc">
+              Embeds a verifiable cryptographic signature compatible with ThreatLens Android App & Browser Shield.
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="btnGenerateQr">
+            <span>✨</span> Generate Certified QR
+          </button>
+        </div>
+        
+        <div class="studio-preview card card-glow">
+          <h3>Live Viewport</h3>
+          <div class="cyber-qr-frame studio-qr-frame">
+            <div class="corner-bracket top-left"></div>
+            <div class="corner-bracket top-right"></div>
+            <div class="corner-bracket bottom-left"></div>
+            <div class="corner-bracket bottom-right"></div>
+            <div class="qr-preview-box" id="qrPreviewBox">
+              <div class="placeholder-text">Click generate to preview code</div>
+            </div>
+          </div>
+          <button class="btn btn-outline" style="width: 100%;" disabled id="btnDownloadQr">
+            <span>⬇️</span> Download PNG
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Settings Tab -->
+    <section id="tab-settings" class="tab-content">
+      <header class="page-header">
+        <div class="header-tag">CONFIGURATION & CLOUD</div>
+        <h1>Settings & Cloud Sync</h1>
+        <p>Configure ThreatLens link interception sensitivity, parental filters, and Android cloud sync.</p>
+      </header>
+
+      <div class="card card-glow" id="cloudSyncCard">
+        <div class="flex-between" style="align-items: flex-start; margin-bottom: 16px;">
+          <div>
+            <h3 style="margin: 0 0 4px 0;">ThreatLens Cloud & Android Sync</h3>
+            <p style="margin: 0; color: var(--muted); font-size: 13px;">Synchronize your real-time scan history and threat alerts with your ThreatLens Android App.</p>
+          </div>
+          <span id="cloudSyncStatusBadge" class="badge badge-warning">Offline / Guest</span>
+        </div>
+
+        <!-- Auth Form Container (When Logged Out) -->
+        <div id="authContainer">
+          <!-- Auth Toggle Tabs -->
+          <div class="auth-toggle-bar">
+            <button class="filter-pill active" id="tabAuthLogin">Sign In</button>
+            <button class="filter-pill" id="tabAuthRegister">Create Account</button>
+          </div>
+
+          <!-- Sign In Form -->
+          <div id="loginForm">
+            <div class="form-group">
+              <label for="loginInput">User ID or Email Address</label>
+              <input type="text" id="loginInput" placeholder="e.g. satyaprakash or user@example.com">
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            <button class="btn btn-primary" id="btnLogin" style="width: 100%;">
+              <span>🔐</span> Log In to ThreatLens
+            </button>
+            
+            <div class="auth-divider">
+              <span>OR</span>
+            </div>
+
+            <button class="btn btn-outline google-btn" id="btnGoogleLogin">
+              <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+              <span>Continue with Google</span>
+            </button>
+          </div>
+
+          <!-- Register Form -->
+          <div id="registerForm" style="display: none;">
+            <div class="form-group">
+              <label for="regName">Full Name</label>
+              <input type="text" id="regName" placeholder="e.g. Satya Prakash">
+            </div>
+            <div class="form-group">
+              <label for="regUserId">Choose a User ID</label>
+              <input type="text" id="regUserId" placeholder="e.g. satyaprakash (letters & numbers only)">
+            </div>
+            <div class="form-group">
+              <label for="regEmail">Email Address</label>
+              <input type="email" id="regEmail" placeholder="e.g. user@example.com">
+            </div>
+            <div class="form-group">
+              <label for="regPassword">Password (min 6 chars)</label>
+              <input type="password" id="regPassword" placeholder="Create a password">
+            </div>
+            <button class="btn btn-primary" id="btnRegister" style="width: 100%;">
+              <span>✨</span> Create ThreatLens Account
+            </button>
+          </div>
+
+          <div id="authAlert" class="auth-alert-box" style="display: none;"></div>
+        </div>
+
+        <!-- Logged In State Container -->
+        <div id="loggedInState" style="display: none; margin-top: 16px;">
+          <div class="logged-in-card">
+            <div class="user-meta-row">
+              <div class="user-details-wrap">
+                <div id="userAvatarCircle" class="user-avatar-circle">
+                  U
+                </div>
+                <div>
+                  <div id="userDisplayName" class="user-name-text">User Name</div>
+                  <div class="user-sub-row">
+                    <span id="userHandle" class="user-handle-tag">@userid</span>
+                    <span class="dot-sep">•</span>
+                    <span id="userEmailAddress" class="user-email-text">user@example.com</span>
+                  </div>
+                </div>
+              </div>
+              <div class="user-actions-wrap">
+                <button class="btn btn-outline" id="btnSyncNow">🔄 Sync Cloud</button>
+                <button class="btn btn-danger-outline" id="btnLogout">Sign Out</button>
+              </div>
+            </div>
+
+            <div class="firestore-path-row">
+              <span>Android Cloud Path: <code id="firestorePathLabel" class="code-pill">users/default/history</code></span>
+              <span class="sync-active-badge">🟢 Live 2-Way Sync Active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-glow mt-24">
+        <h3>Link Guard Strictness Sensitivity</h3>
+        <p>Adjust the threat sensitivity score threshold for warning and blocking websites (Default: 60).</p>
+        <div class="slider-container">
+          <input type="range" id="strictnessSlider" min="30" max="90" value="60">
+          <div class="slider-value-box">
+            <span id="strictnessValue">60</span>
+            <span class="slider-unit">PTS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Ad & Tracker Shield Tab -->
+    <section id="tab-adshield" class="tab-content">
+      <header class="page-header">
+        <div class="header-tag">NETWORK & PRIVACY SHIELD</div>
+        <h1>Ad, Tracker & Malware Defense Hub</h1>
+        <p>Declarative MV3 network filtering, anti-adblock wall neutralization, bandwidth savings telemetry, and per-site whitelist controls.</p>
+      </header>
+
+      <!-- Live Shield Telemetry Stats -->
+      <div class="stats-grid">
+        <div class="stat-card cyan-card">
+          <div class="stat-icon-wrap">🛡️</div>
+          <div class="stat-value cyan" id="dashAdshieldTotalBlocked">0</div>
+          <div class="stat-label">Total Ads & Trackers Blocked</div>
+        </div>
+        <div class="stat-card safe-card">
+          <div class="stat-icon-wrap">💾</div>
+          <div class="stat-value safe" id="dashAdshieldBandwidth">0 MB</div>
+          <div class="stat-label">Estimated Bandwidth Saved</div>
+        </div>
+        <div class="stat-card purple-card">
+          <div class="stat-icon-wrap">⚡</div>
+          <div class="stat-value purple" id="dashAdshieldTimeSaved">0s</div>
+          <div class="stat-label">Estimated Page Load Time Saved</div>
+        </div>
+        <div class="stat-card safe-card">
+          <div class="stat-icon-wrap">🌐</div>
+          <div class="stat-value safe" id="dashAdshieldWhitelistedCount">0</div>
+          <div class="stat-label">Whitelisted Sites</div>
+        </div>
+      </div>
+
+      <!-- Protection Layer Controls Grid -->
+      <div class="card card-glow mt-24">
+        <div class="card-title-row">
+          <div>
+            <h3>Active Protection Layers</h3>
+            <p>Granular Declarative Net Request rulesets defending your browsing experience in real time:</p>
+          </div>
+          <span class="badge badge-safe" id="dashAdshieldGlobalBadge">Shield Armed</span>
+        </div>
+
+        <div class="adshield-layers-grid">
+          <div class="adshield-layer-card">
+            <div class="layer-header">
+              <div class="layer-title-wrap">
+                <span class="layer-icon">🚫</span>
+                <div>
+                  <strong>Advertising Networks</strong>
+                  <p>Blocks DoubleClick, AdSense, Taboola, Outbrain, Criteo & 70+ ad brokers.</p>
+                </div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleRulesetAds" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="layer-meta">
+              <span class="badge badge-subtle">78 Active Rules</span>
+              <span class="layer-status safe-text">Active & Blocking</span>
+            </div>
+          </div>
+
+          <div class="adshield-layer-card">
+            <div class="layer-header">
+              <div class="layer-title-wrap">
+                <span class="layer-icon">🔍</span>
+                <div>
+                  <strong>Trackers & Analytics Pixels</strong>
+                  <p>Blocks Facebook Pixel, TikTok Pixel, Twitter Pixel, Hotjar & Clarity.</p>
+                </div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleRulesetTrackers" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="layer-meta">
+              <span class="badge badge-subtle">25 Active Rules</span>
+              <span class="layer-status safe-text">Active & Blocking</span>
+            </div>
+          </div>
+
+          <div class="adshield-layer-card">
+            <div class="layer-header">
+              <div class="layer-title-wrap">
+                <span class="layer-icon">🚨</span>
+                <div>
+                  <strong>Cryptominers & Malicious Popups</strong>
+                  <p>Blocks CoinHive, WebAssembly miners, scareware dialogs & trap redirects.</p>
+                </div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleRulesetMalware" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="layer-meta">
+              <span class="badge badge-subtle">15 Active Rules</span>
+              <span class="layer-status safe-text">Active & Blocking</span>
+            </div>
+          </div>
+
+          <div class="adshield-layer-card">
+            <div class="layer-header">
+              <div class="layer-title-wrap">
+                <span class="layer-icon">🎬</span>
+                <div>
+                  <strong>YouTube Ad Fast-Forwarder</strong>
+                  <p>Automatically mutes, fast-forwards to end, and clicks skip buttons.</p>
+                </div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleYoutubeSkipper" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="layer-meta">
+              <span class="badge badge-subtle">DOM & Player Engine</span>
+              <span class="layer-status safe-text">Active & Fast-Forwarding</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Domain Whitelist Manager Card -->
+      <div class="card card-glow mt-24">
+        <div class="card-title-row">
+          <div>
+            <h3>Domain Whitelist & Exceptions Manager</h3>
+            <p>Sites on this list bypass ad and tracker blocking rules without disabling protection globally.</p>
+          </div>
+          <button class="btn btn-outline" id="btnSyncWhitelistDnr">🔄 Sync Rules</button>
+        </div>
+
+        <div class="whitelist-add-bar">
+          <input type="text" id="inputWhitelistDomain" placeholder="Enter domain to whitelist (e.g. news-site.com)..." class="search-input">
+          <button class="btn btn-primary" id="btnAddWhitelistDomain">
+            <span>➕</span> Add Domain
+          </button>
+        </div>
+
+        <div class="whitelist-table-wrap">
+          <table class="whitelist-table">
+            <thead>
+              <tr>
+                <th>Domain Hostname</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="whitelistTableBody">
+              <tr>
+                <td colspan="3" class="table-empty">No whitelisted domains yet. ThreatLens is protecting all sites.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Custom Zapped Elements Card -->
+      <div class="card card-glow mt-24">
+        <div class="card-title-row">
+          <div>
+            <h3>Custom Zapped Elements (Element Picker Rules)</h3>
+            <p>Elements and floating banners manually removed using the ThreatLens Element Zapper.</p>
+          </div>
+          <button class="btn btn-danger-outline" id="btnClearAllZappedRules">Clear All Rules</button>
+        </div>
+        <div id="zappedRulesContainer" class="zapped-rules-list">
+          <p class="table-empty">No custom element rules recorded yet. Use the <strong>⚡ Zap Element</strong> tool in the popup to hide annoying elements.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Password-Protected QR Unlock Modal -->
+    <div id="unlockQrModal" class="modal-backdrop" style="display: none;">
+      <div class="modal" style="max-width: 480px;">
+        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 20px;">🔒</span>
+            <h3 style="margin: 0; font-family: var(--font-display); font-size: 18px; color: var(--text-bright);">Unlock Encrypted QR Code</h3>
+          </div>
+          <button id="btnCloseUnlockModal" style="background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer;">&times;</button>
+        </div>
+        <p style="color: var(--muted); font-size: 13px; margin-bottom: 18px; line-height: 1.5;">
+          This QR code is protected with <strong>AES-256-GCM</strong> encryption. Enter the PIN or password to decrypt its contents.
+        </p>
+        <div class="form-group">
+          <label for="unlockQrPassword">DECRYPTION PASSWORD / PIN</label>
+          <input type="password" id="unlockQrPassword" placeholder="Enter password...">
+        </div>
+        <div id="unlockQrError" style="display: none; color: var(--danger); font-size: 12px; margin-bottom: 14px; font-weight: 600;"></div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button class="btn btn-outline" id="btnCancelUnlockQr">Cancel</button>
+          <button class="btn btn-primary" id="btnConfirmUnlockQr">
+            <span>🔓</span> Decrypt & Inspect
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="../lib/jsQR.js"></script>
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>
