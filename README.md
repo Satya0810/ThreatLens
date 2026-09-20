@@ -21,7 +21,7 @@
 
 ---
 
-## The Problem: The QR Code is NOT the threat. The Destination Is.
+## The Problem: The QR Code is NOT the threat. The Destination Is
 
 Standard camera apps and QR scanners have a massive security flaw: they treat QR codes blindly. A QR code is simply a barcode containing text (usually a URL). The danger isn't the QR code graphic itself; the danger is the **site it forces your phone to open**.
 
@@ -194,14 +194,7 @@ app/src/main/java/com/safeqr/scanner/
 ```
 
 ---
-
-## Team
- 
-The following team members contributed to building ThreatLens:
-
-* **[SATYAM KUMAR]** - Project Lead / Developer
-* **[AMAN PATEL]** - [SYSTEM INTEGRATION]
-* **[DEEPANSHU]** - [TESTING & DEBUGGING]
+hi
 
 
 
