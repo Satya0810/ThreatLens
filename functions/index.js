@@ -261,7 +261,7 @@ exports.analyzeThreatUrl = functions.https.onRequest(async (req, res) => {
     if (pageText) {
       checks.push(
         (async () => {
-          const llm7ApiKey = process.env.LLM7_API_KEY || "jc8ydp2rnkoVuODXFJRFAILIY+KpjUuSbjWeLb9CqSAv1rNhwdNQllrPi6oQ5Q37LtGbVGvwKDHq06/HEP+nXE+jKtXLIFiH/beTcdPoq7n8kxaISx9bmfrWaVe3p9YuZUotBO1ZuMPcDrjRD+1QU+EhbuAerw==";
+          const llm7ApiKey = process.env.LLM7_API_KEY || null;
           if (llm7ApiKey) {
             try {
               const controller = new AbortController();

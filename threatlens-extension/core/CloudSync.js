@@ -6,8 +6,8 @@ export class CloudSync {
   
   static CLOUD_FUNCTION_URL = "https://us-central1-threatlens-4065e.cloudfunctions.net";
   
-  // Extracted from Android App's google-services.json
-  static FIREBASE_API_KEY = "AIzaSyB5lzHQT5xJYGPzPZiiKPBciNIIq3Pq8_0";
+  // Firebase Configuration (Loaded dynamically from storage or config.local.js)
+  static FIREBASE_API_KEY = "";
   static FIREBASE_PROJECT_ID = "threatlens-4065e";
   static GOOGLE_CLIENT_ID = "171716467103-b09ukthoklag4na2p1sk30lduo41c098.apps.googleusercontent.com";
 
@@ -32,8 +32,32 @@ export class CloudSync {
    * Initialize session from local storage and auto-refresh token if needed
    */
   static async initSession() {
+    // Attempt to load local config file if present
+    if (!this.FIREBASE_API_KEY) {
+      try {
+        const mod = await import('./config.local.js');
+        if (mod.ThreatLensConfig?.FIREBASE_API_KEY) {
+          this.FIREBASE_API_KEY = mod.ThreatLensConfig.FIREBASE_API_KEY;
+        }
+        if (mod.ThreatLensConfig?.FIREBASE_PROJECT_ID) {
+          this.FIREBASE_PROJECT_ID = mod.ThreatLensConfig.FIREBASE_PROJECT_ID;
+        }
+        if (mod.ThreatLensConfig?.GOOGLE_CLIENT_ID) {
+          this.GOOGLE_CLIENT_ID = mod.ThreatLensConfig.GOOGLE_CLIENT_ID;
+        }
+        if (mod.ThreatLensConfig?.CLOUD_FUNCTION_URL) {
+          this.CLOUD_FUNCTION_URL = mod.ThreatLensConfig.CLOUD_FUNCTION_URL;
+        }
+      } catch (e) {
+        // config.local.js is optional
+      }
+    }
+
     return new Promise((resolve) => {
       chrome.storage.local.get([
+        'firebaseApiKey',
+        'firebaseProjectId',
+        'googleClientId',
         'cloudToken',
         'cloudRefreshToken',
         'cloudUserId',
@@ -42,6 +66,16 @@ export class CloudSync {
         'cloudPhotoUrl',
         'cloudTokenExpiry'
       ], async (result) => {
+        if (result.firebaseApiKey) {
+          this.FIREBASE_API_KEY = result.firebaseApiKey;
+        }
+        if (result.firebaseProjectId) {
+          this.FIREBASE_PROJECT_ID = result.firebaseProjectId;
+        }
+        if (result.googleClientId) {
+          this.GOOGLE_CLIENT_ID = result.googleClientId;
+        }
+
         if (result.cloudToken) {
           this.idToken = result.cloudToken;
           this.refreshToken = result.cloudRefreshToken || null;
@@ -71,7 +105,7 @@ export class CloudSync {
    * Refreshes the Firebase ID token using the Refresh Token
    */
   static async refreshIdToken() {
-    if (!this.refreshToken) return false;
+    if (!this.refreshToken || !this.FIREBASE_API_KEY) return false;
     try {
       const response = await fetch(`https://securetoken.googleapis.com/v1/token?key=${this.FIREBASE_API_KEY}`, {
         method: 'POST',
@@ -189,6 +223,9 @@ export class CloudSync {
       }
 
       // Authenticate with Firebase REST API
+      if (!this.FIREBASE_API_KEY) {
+        return { success: false, error: "Firebase Web API Key is not configured. Please add your key in Dashboard Settings or core/config.local.js." };
+      }
       const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.FIREBASE_API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -286,6 +323,9 @@ export class CloudSync {
       }
 
       // 2. Create user in Firebase Authentication
+      if (!this.FIREBASE_API_KEY) {
+        return { success: false, error: "Firebase Web API Key is not configured. Please add your key in Dashboard Settings or core/config.local.js." };
+      }
       const signUpRes = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.FIREBASE_API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -354,7 +394,10 @@ export class CloudSync {
    * Login using Google OAuth via chrome.identity.launchWebAuthFlow and Firebase signInWithIdp
    */
   static async loginWithGoogle() {
-    return new Promise(async (resolve) => {
+    if (!this.FIREBASE_API_KEY) {
+      return { success: false, error: "Firebase Web API Key is not configured. Please add your key in Dashboard Settings or core/config.local.js." };
+    }
+    return new Promise((resolve) => {
       try {
         const redirectUri = chrome.identity.getRedirectURL();
         const nonce = Math.random().toString(36).substring(2) + Date.now().toString();

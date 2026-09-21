@@ -4,10 +4,28 @@
 
 export class Llm7Client {
   constructor(apiKey = null) {
-    // Default to active LLM7 API key from Loanzo project or user-configured key
-    this.apiKey = apiKey || "jc8ydp2rnkoVuODXFJRFAILIY+KpjUuSbjWeLb9CqSAv1rNhwdNQllrPi6oQ5Q37LtGbVGvwKDHq06/HEP+nXE+jKtXLIFiH/beTcdPoq7n8kxaISx9bmfrWaVe3p9YuZUotBO1ZuMPcDrjRD+1QU+EhbuAerw==";
+    this.apiKey = apiKey || null;
     this.apiUrl = "https://api.llm7.io/v1/chat/completions";
     this.model = "default";
+    this._loadConfig();
+  }
+
+  async _loadConfig() {
+    if (!this.apiKey) {
+      try {
+        const mod = await import('./config.local.js');
+        if (mod.ThreatLensConfig?.LLM7_API_KEY) {
+          this.apiKey = mod.ThreatLensConfig.LLM7_API_KEY;
+          return;
+        }
+      } catch (e) {}
+
+      if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+        chrome.storage.local.get(['llm7ApiKey'], (res) => {
+          if (res.llm7ApiKey) this.apiKey = res.llm7ApiKey;
+        });
+      }
+    }
   }
 
   /**

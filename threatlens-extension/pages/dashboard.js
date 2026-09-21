@@ -595,6 +595,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  // ── API Keys Configuration ───────────────────────────────────────
+  const cfgFirebaseApiKey = document.getElementById('cfgFirebaseApiKey');
+  const cfgLlm7ApiKey = document.getElementById('cfgLlm7ApiKey');
+  const btnSaveApiKeys = document.getElementById('btnSaveApiKeys');
+  const apiKeysSaveStatus = document.getElementById('apiKeysSaveStatus');
+
+  chrome.storage.local.get(['firebaseApiKey', 'llm7ApiKey'], (result) => {
+    if (cfgFirebaseApiKey && result.firebaseApiKey) {
+      cfgFirebaseApiKey.value = result.firebaseApiKey;
+    }
+    if (cfgLlm7ApiKey && result.llm7ApiKey) {
+      cfgLlm7ApiKey.value = result.llm7ApiKey;
+    }
+  });
+
+  btnSaveApiKeys?.addEventListener('click', async () => {
+    const fbKey = cfgFirebaseApiKey?.value.trim() || '';
+    const llmKey = cfgLlm7ApiKey?.value.trim() || '';
+
+    await chrome.storage.local.set({
+      firebaseApiKey: fbKey,
+      llm7ApiKey: llmKey
+    });
+
+    if (fbKey) {
+      CloudSync.FIREBASE_API_KEY = fbKey;
+    }
+
+    if (apiKeysSaveStatus) {
+      apiKeysSaveStatus.style.display = 'inline';
+      setTimeout(() => {
+        apiKeysSaveStatus.style.display = 'none';
+      }, 3000);
+    }
+  });
+
   await CloudSync.initSession();
   updateCloudSyncUI();
 

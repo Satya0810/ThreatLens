@@ -34,6 +34,11 @@ functions/node_modules/
 .env
 *.env
 
+# Browser Extension local configs
+threatlens-extension/**/config.local.js
+threatlens-extension/config.js
+threatlens-extension/config.local.js
+
 # OS files
 .DS_Store
 Thumbs.db

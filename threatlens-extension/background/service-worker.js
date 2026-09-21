@@ -1822,9 +1822,14 @@ class QrDecoder {
 // --- Llm7Client.js ---
 class Llm7Client {
   constructor(apiKey = null) {
-    this.apiKey = apiKey || "jc8ydp2rnkoVuODXFJRFAILIY+KpjUuSbjWeLb9CqSAv1rNhwdNQllrPi6oQ5Q37LtGbVGvwKDHq06/HEP+nXE+jKtXLIFiH/beTcdPoq7n8kxaISx9bmfrWaVe3p9YuZUotBO1ZuMPcDrjRD+1QU+EhbuAerw==";
+    this.apiKey = apiKey || null;
     this.apiUrl = "https://api.llm7.io/v1/chat/completions";
     this.model = "default";
+    if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+      chrome.storage.local.get(['llm7ApiKey'], (res) => {
+        if (res.llm7ApiKey) this.apiKey = res.llm7ApiKey;
+      });
+    }
   }
 
   async getThreatExplanation(url, score, flags = [], threatType = "UNKNOWN", category = "") {
@@ -2050,8 +2055,8 @@ class CloudSync {
   
   static CLOUD_FUNCTION_URL = "https://us-central1-threatlens-4065e.cloudfunctions.net";
   
-  // Extracted from Android App's google-services.json
-  static FIREBASE_API_KEY = "AIzaSyB5lzHQT5xJYGPzPZiiKPBciNIIq3Pq8_0";
+  // Firebase Configuration (Loaded dynamically from chrome.storage.local)
+  static FIREBASE_API_KEY = "";
   static FIREBASE_PROJECT_ID = "threatlens-4065e";
   static GOOGLE_CLIENT_ID = "171716467103-b09ukthoklag4na2p1sk30lduo41c098.apps.googleusercontent.com";
 
@@ -2078,6 +2083,9 @@ class CloudSync {
   static async initSession() {
     return new Promise((resolve) => {
       chrome.storage.local.get([
+        'firebaseApiKey',
+        'firebaseProjectId',
+        'googleClientId',
         'cloudToken',
         'cloudRefreshToken',
         'cloudUserId',
@@ -2086,6 +2094,15 @@ class CloudSync {
         'cloudPhotoUrl',
         'cloudTokenExpiry'
       ], async (result) => {
+        if (result.firebaseApiKey) {
+          this.FIREBASE_API_KEY = result.firebaseApiKey;
+        }
+        if (result.firebaseProjectId) {
+          this.FIREBASE_PROJECT_ID = result.firebaseProjectId;
+        }
+        if (result.googleClientId) {
+          this.GOOGLE_CLIENT_ID = result.googleClientId;
+        }
         if (result.cloudToken) {
           this.idToken = result.cloudToken;
           this.refreshToken = result.cloudRefreshToken || null;
@@ -2114,7 +2131,7 @@ class CloudSync {
    * Refreshes the Firebase ID token using the Refresh Token
    */
   static async refreshIdToken() {
-    if (!this.refreshToken) return false;
+    if (!this.refreshToken || !this.FIREBASE_API_KEY) return false;
     try {
       const response = await fetch(`https://securetoken.googleapis.com/v1/token?key=${this.FIREBASE_API_KEY}`, {
         method: 'POST',

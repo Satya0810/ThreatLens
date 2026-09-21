@@ -60,8 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const demoFlagsList = document.getElementById('demoFlagsList');
     const sampleButtons = document.querySelectorAll('.sample-btn');
 
-    // Active LLM7.io API key from ThreatLens configuration
-    const LLM7_API_KEY = "jc8ydp2rnkoVuODXFJRFAILIY+KpjUuSbjWeLb9CqSAv1rNhwdNQllrPi6oQ5Q37LtGbVGvwKDHq06/HEP+nXE+jKtXLIFiH/beTcdPoq7n8kxaISx9bmfrWaVe3p9YuZUotBO1ZuMPcDrjRD+1QU+EhbuAerw==";
+    // Optional LLM7.io API key for live inference (configurable via window.THREATLENS_LLM_KEY)
+    const LLM7_API_KEY = window.THREATLENS_LLM_KEY || "";
 
     // Fast client-side heuristics rules matching Android ThreatAnalyzer.kt
     const SUSPICIOUS_TLDS = new Set(['.xyz', '.top', '.buzz', '.club', '.tk', '.ml', '.ga', '.cf', '.gq', '.ist', '.wtf', '.lol', '.gripe', '.pw', '.cc']);
