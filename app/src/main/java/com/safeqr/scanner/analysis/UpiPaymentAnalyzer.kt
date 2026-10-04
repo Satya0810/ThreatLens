@@ -341,9 +341,11 @@ object UpiPaymentAnalyzer {
                     severity = RiskLevel.MEDIUM,
                     emoji = "🎲",
                     title = "Random-Looking VPA",
-                    description = "Username '$vpaUsername' appears auto-generated or random",
-                    scorePenalty = 0f
+                    description = "Username '$vpaUsername' appears auto-generated or random (entropy: ${String.format("%.2f", entropy)})",
+                    scorePenalty = 15f
                 ))
+                riskScore += 15f
+                recommendations.add("VPA username appears auto-generated. Scammers frequently use disposable mule accounts.")
             }
 
             // Check for numeric-only VPA (often throwaway/mule accounts)
@@ -499,6 +501,36 @@ object UpiPaymentAnalyzer {
             recommendations.add("If you need to PAY to receive a prize, it's a scam. Legitimate rewards are never collected via UPI.")
         }
 
+        // ── 4B. REVERSE UPI CONTRADICTION DETECTION ──────────────────
+        val refundMatches = REFUND_SCAM_KEYWORDS.filter { combinedText.contains(it) }
+        if (amount != null && amount > 0.0 && refundMatches.isNotEmpty()) {
+            flags.add(UpiFlag(
+                id = "REVERSE_UPI_CONTRADICTION",
+                severity = RiskLevel.CRITICAL,
+                emoji = "🚨",
+                title = "Reverse-UPI Payment Trap",
+                description = "Note/Payee contains refund terms (${refundMatches.take(2).joinToString()}) but specifies an outgoing DEBIT of ₹${amount}. Entering your PIN will SEND money, NOT receive it.",
+                scorePenalty = 45f
+            ))
+            riskScore += 45f
+            recommendations.add("⚠️ REVERSE-UPI FRAUD: You NEVER need a UPI PIN to receive money or refunds. Entering your PIN will DEBIT ₹$amount from your account.")
+        }
+
+        // ── 4C. UPI MANDATE RECURRING DEBIT DETECTION ──────────────
+        val isMandate = mode?.lowercase() == "mandate" || rawContent.contains("upi://mandate", ignoreCase = true)
+        if (isMandate) {
+            flags.add(UpiFlag(
+                id = "UPI_MANDATE_DETECTED",
+                severity = RiskLevel.HIGH,
+                emoji = "🔄",
+                title = "Recurring Auto-Debit Mandate",
+                description = "This QR establishes an automatic recurring mandate that authorizes future deductions from your bank account.",
+                scorePenalty = 25f
+            ))
+            riskScore += 25f
+            recommendations.add("This is an automatic recurring mandate. Do NOT approve unless you explicitly intended to set up a subscription.")
+        }
+
         // ── 5. NAME vs VPA MISMATCH ─────────────────────────────────
         if (!payeeName.isNullOrBlank() && !payeeVpa.isNullOrBlank()) {
             val matchedBrand = KNOWN_BRAND_NAMES.find { nameForAnalysis.contains(it) }
@@ -634,14 +666,14 @@ object UpiPaymentAnalyzer {
             }
 
             // Check for refund-disguised collect scams
-            val refundMatches = REFUND_SCAM_KEYWORDS.filter { noteForAnalysis.contains(it) }
-            if (refundMatches.isNotEmpty()) {
+            val noteRefundMatches = REFUND_SCAM_KEYWORDS.filter { noteForAnalysis.contains(it) }
+            if (noteRefundMatches.isNotEmpty()) {
                 flags.add(UpiFlag(
                     id = "NOTE_REFUND_SCAM",
                     severity = RiskLevel.HIGH,
                     emoji = "🔄",
                     title = "Refund Scam Pattern in Note",
-                    description = "Note mentions '${refundMatches.first()}' — scammers disguise collect requests as refunds. You will LOSE money, not receive it.",
+                    description = "Note mentions '${noteRefundMatches.first()}' — scammers disguise collect requests as refunds. You will LOSE money, not receive it.",
                     scorePenalty = 25f
                 ))
                 riskScore += 25f

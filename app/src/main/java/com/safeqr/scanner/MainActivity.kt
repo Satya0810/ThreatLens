@@ -109,8 +109,8 @@ class MainActivity : FragmentActivity() {
                 val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
                 // Extract URL from shared text (might contain extra text around it)
                 if (sharedText != null) {
-                    val urlRegex = Regex("(https?://[\\w\\-._~:/?#\\[\\]@!\$&'()*+,;=%]+)", RegexOption.IGNORE_CASE)
-                    urlRegex.find(sharedText)?.value ?: sharedText.trim()
+                    val linkRegex = Regex("((https?|upi)://[\\w\\-._~:/?#\\[\\]@!\$&'()*+,;=%]+)", RegexOption.IGNORE_CASE)
+                    linkRegex.find(sharedText)?.value ?: sharedText.trim()
                 } else null
             }
 

@@ -640,88 +640,118 @@ fun ResultBottomSheet(
                         val actionContext = LocalContext.current
                         var showUpiWarningDialog by remember { mutableStateOf(false) }
                         
-                        // UPI fraud warning dialog
+                        // ── ThreatLens-X: Cross-Vector Telemetry & Conformal Risk Evaluation ──
+                        val deviceThreatState = remember {
+                            com.safeqr.scanner.analysis.telemetry.DeviceThreatStateMonitor.captureCurrentState(actionContext)
+                        }
+                        val isReverseUpi = scanResult.upiAnalysis?.flags?.any { it.id == "REVERSE_UPI_CONTRADICTION" } == true
+                        val workflowProfile = remember(scanResult, deviceThreatState) {
+                            com.safeqr.scanner.analysis.graph.ScamWorkflowGraph.evaluatePaymentIntent(
+                                rawRiskScore = scanResult.upiAnalysis?.riskScore ?: 0f,
+                                amount = parsedData.actionData["amount"]?.toDoubleOrNull(),
+                                isReverseUpi = isReverseUpi,
+                                currentState = deviceThreatState
+                            )
+                        }
+                        val conformalResult = remember(workflowProfile) {
+                            com.safeqr.scanner.analysis.ml.ConformalAlertCalibrator.evaluate(workflowProfile.compositeScore)
+                        }
+
+                        // UPI fraud warning dialog / Pre-PIN Interlock
                         if (showUpiWarningDialog && scanResult.upiAnalysis != null) {
                             val upiRisk = scanResult.upiAnalysis
-                            AlertDialog(
-                                onDismissRequest = { showUpiWarningDialog = false },
-                                containerColor = DarkSurface,
-                                icon = {
-                                    Icon(
-                                        Icons.Filled.Warning,
-                                        contentDescription = null,
-                                        tint = if (upiRisk.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.CRITICAL) MaliciousRed else CautionAmber,
-                                        modifier = Modifier.size(48.dp)
-                                    )
-                                },
-                                title = {
-                                    Text(
-                                        "⚠️ Fraud Risk Detected",
-                                        color = TextPrimary,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                },
-                                text = {
-                                    Column {
-                                        Text(
-                                            "ThreatLens detected ${upiRisk.flags.size} fraud indicator(s) with ${upiRisk.riskLevel.name} risk level.",
-                                            color = TextSecondary,
-                                            fontSize = 14.sp,
-                                            lineHeight = 20.sp
+                            val executePayment: () -> Unit = {
+                                showUpiWarningDialog = false
+                                try {
+                                    // Record VPA interaction + daily spending even for risky payments
+                                    val vpa = parsedData.actionData["payeeAddress"]
+                                    if (!vpa.isNullOrBlank()) {
+                                        com.safeqr.scanner.data.UpiGuardPreferences.recordVpaInteraction(
+                                            actionContext, vpa, com.safeqr.scanner.data.UpiGuardPreferences.VpaAction.PAID
                                         )
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        upiRisk.flags.take(3).forEach { flag ->
+                                    }
+                                    val amt = parsedData.actionData["amount"]?.toDoubleOrNull()
+                                    if (amt != null) {
+                                        com.safeqr.scanner.data.UpiGuardPreferences.addTransaction(actionContext, amt)
+                                    }
+                                    
+                                    val upiIntent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(parsedData.rawData))
+                                    val chooser = android.content.Intent.createChooser(upiIntent, "Pay with")
+                                    upiPaymentLauncher.launch(chooser)
+                                } catch (e: Exception) {
+                                    Toast.makeText(actionContext, "No UPI app found", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
+                            if (conformalResult.tier == com.safeqr.scanner.analysis.ml.ConformalAlertCalibrator.DecisionTier.PRE_PIN_INTERLOCK) {
+                                com.safeqr.scanner.ui.components.PrePinInterventionDialog(
+                                    profile = workflowProfile,
+                                    payeeName = parsedData.actionData["payeeName"],
+                                    payeeVpa = parsedData.actionData["payeeAddress"],
+                                    amount = parsedData.actionData["amount"]?.toDoubleOrNull(),
+                                    onCancel = { showUpiWarningDialog = false },
+                                    onProceedAnyway = executePayment
+                                )
+                            } else {
+                                AlertDialog(
+                                    onDismissRequest = { showUpiWarningDialog = false },
+                                    containerColor = DarkSurface,
+                                    icon = {
+                                        Icon(
+                                            Icons.Filled.Warning,
+                                            contentDescription = null,
+                                            tint = if (upiRisk.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.CRITICAL) MaliciousRed else CautionAmber,
+                                            modifier = Modifier.size(48.dp)
+                                        )
+                                    },
+                                    title = {
+                                        Text(
+                                            "⚠️ Fraud Risk Detected",
+                                            color = TextPrimary,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    },
+                                    text = {
+                                        Column {
                                             Text(
-                                                "${flag.emoji} ${flag.title}",
-                                                color = TextPrimary,
+                                                "ThreatLens detected ${upiRisk.flags.size} fraud indicator(s) with ${upiRisk.riskLevel.name} risk level.",
+                                                color = TextSecondary,
+                                                fontSize = 14.sp,
+                                                lineHeight = 20.sp
+                                            )
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            upiRisk.flags.take(3).forEach { flag ->
+                                                Text(
+                                                    "${flag.emoji} ${flag.title}",
+                                                    color = TextPrimary,
+                                                    fontSize = 13.sp,
+                                                    fontWeight = FontWeight.Medium
+                                                )
+                                            }
+                                            Spacer(modifier = Modifier.height(8.dp))
+                                            Text(
+                                                "Are you SURE you want to proceed with this payment?",
+                                                color = MaliciousRed,
                                                 fontSize = 13.sp,
-                                                fontWeight = FontWeight.Medium
+                                                fontWeight = FontWeight.SemiBold
                                             )
                                         }
-                                        Spacer(modifier = Modifier.height(8.dp))
-                                        Text(
-                                            "Are you SURE you want to proceed with this payment?",
-                                            color = MaliciousRed,
-                                            fontSize = 13.sp,
-                                            fontWeight = FontWeight.SemiBold
-                                        )
+                                    },
+                                    confirmButton = {
+                                        Button(
+                                            onClick = executePayment,
+                                            colors = ButtonDefaults.buttonColors(containerColor = MaliciousRed)
+                                        ) {
+                                            Text("Pay Anyway", color = Color.White, fontWeight = FontWeight.Bold)
+                                        }
+                                    },
+                                    dismissButton = {
+                                        OutlinedButton(onClick = { showUpiWarningDialog = false }) {
+                                            Text("Cancel", color = SafeGreen, fontWeight = FontWeight.Bold)
+                                        }
                                     }
-                                },
-                                confirmButton = {
-                                    Button(
-                                        onClick = {
-                                            showUpiWarningDialog = false
-                                            try {
-                                                // Record VPA interaction + daily spending even for risky payments
-                                                val vpa = parsedData.actionData["payeeAddress"]
-                                                if (!vpa.isNullOrBlank()) {
-                                                    com.safeqr.scanner.data.UpiGuardPreferences.recordVpaInteraction(
-                                                        actionContext, vpa, com.safeqr.scanner.data.UpiGuardPreferences.VpaAction.PAID
-                                                    )
-                                                }
-                                                val amt = parsedData.actionData["amount"]?.toDoubleOrNull()
-                                                if (amt != null) {
-                                                    com.safeqr.scanner.data.UpiGuardPreferences.addTransaction(actionContext, amt)
-                                                }
-                                                
-                                                val upiIntent = android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(parsedData.rawData))
-                                                val chooser = android.content.Intent.createChooser(upiIntent, "Pay with")
-                                                upiPaymentLauncher.launch(chooser)
-                                            } catch (e: Exception) {
-                                                Toast.makeText(actionContext, "No UPI app found", Toast.LENGTH_SHORT).show()
-                                            }
-                                        },
-                                        colors = ButtonDefaults.buttonColors(containerColor = MaliciousRed)
-                                    ) {
-                                        Text("Pay Anyway", color = Color.White, fontWeight = FontWeight.Bold)
-                                    }
-                                },
-                                dismissButton = {
-                                    OutlinedButton(onClick = { showUpiWarningDialog = false }) {
-                                        Text("Cancel", color = SafeGreen, fontWeight = FontWeight.Bold)
-                                    }
-                                }
-                            )
+                                )
+                            }
                         }
                         
                         // WiFi threat warning dialog
@@ -860,14 +890,14 @@ fun ResultBottomSheet(
                                 com.safeqr.scanner.data.PreferencesManager.addParentalLog(parentalContext, scanResult.rawContent, "Blocked", blockReason)
                             }
                         } else {
-                        // Determine UPI button color based on risk
+                        // Determine UPI button color based on risk and conformal prediction
                         val isUpiDangerous = parsedData.type == com.safeqr.scanner.analysis.QrDataType.PAYMENT &&
-                            scanResult.upiAnalysis != null &&
-                            (scanResult.upiAnalysis.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.HIGH ||
-                             scanResult.upiAnalysis.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.CRITICAL)
+                            (conformalResult.tier == com.safeqr.scanner.analysis.ml.ConformalAlertCalibrator.DecisionTier.PRE_PIN_INTERLOCK ||
+                             (scanResult.upiAnalysis != null &&
+                              (scanResult.upiAnalysis.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.HIGH ||
+                               scanResult.upiAnalysis.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.CRITICAL)))
                         val isUpiCaution = parsedData.type == com.safeqr.scanner.analysis.QrDataType.PAYMENT &&
-                            scanResult.upiAnalysis != null &&
-                            scanResult.upiAnalysis.riskLevel == com.safeqr.scanner.analysis.UpiPaymentAnalyzer.RiskLevel.MEDIUM
+                            conformalResult.tier == com.safeqr.scanner.analysis.ml.ConformalAlertCalibrator.DecisionTier.CONTEXTUAL_MICRO_NUDGE
                         
                         // Determine WiFi button color based on risk
                         val isWifiDangerous = parsedData.type == com.safeqr.scanner.analysis.QrDataType.WIFI &&

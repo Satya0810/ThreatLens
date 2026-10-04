@@ -547,23 +547,24 @@ export class WebsiteCategorizer {
       return localResult;
     }
 
-    // Otherwise, invoke LLM7.io for zero-shot taxonomy classification
+    // Otherwise, invoke Sovereign AI / LLM7 for deep taxonomy classification
     try {
       const llm7 = new Llm7Client();
-      const classifiedKey = await llm7.classifyWebsite(urlString, metaDescription, pageText);
-      if (classifiedKey && this.CATEGORIES[classifiedKey]) {
-        const catDef = this.CATEGORIES[classifiedKey];
+      const classified = await llm7.classifyWebsite(urlString, metaDescription, pageText);
+      const catKey = (typeof classified === 'string' ? classified : classified?.category || "").toUpperCase();
+      if (catKey && this.CATEGORIES[catKey]) {
+        const catDef = this.CATEGORIES[catKey];
         return {
-          categoryKey: classifiedKey,
+          categoryKey: catKey,
           emoji: catDef.emoji,
           label: catDef.label,
           threatLevel: catDef.threatLevel,
-          confidence: 0.95,
-          reason: `AI classification via LLM7.io Fast Engine (${catDef.label})`
+          confidence: (typeof classified === 'object' && classified.confidence) || 0.90,
+          reason: (typeof classified === 'object' && classified.reason) || `AI classification (${catDef.label})`
         };
       }
     } catch (e) {
-      console.warn("LLM7 async categorization fallback:", e);
+      console.warn("AI async categorization fallback:", e);
     }
 
     return localResult;

@@ -1,0 +1,1118 @@
+keyword,category,weight,threat_level,source,token_length
+airtel thanks app,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,3
+smart point store,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,3
+airtel thanks,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+airtel xstream,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+app click,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+click airtel,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+click bit,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+click http,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+click https,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+credit card,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+data pack,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+disney hotstar,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+point store,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+shoppers stop,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+smart point,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+thanks app,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,2
+.jar malware,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,2
+discord stealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,2
+info stealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,2
+manageengine rmm,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,2
+vs extension,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,2
+airtel,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+alert,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+amazon,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+awarded,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+balance,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+calls,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+cash,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+cashback,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+claim,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+click,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+congratulations,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+credited,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+current,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+daily,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+disney,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+exclusive,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+extra,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+guaranteed,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+hello,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+hotstar,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+hurry,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+landline,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+mins,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+msg,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+nokia,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+offers,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+pack,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+points,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+premium,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+prime,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+prize,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+receive,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+recharge,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+reply,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+ringtone,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+send,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+shoppers,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+shows,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+smart,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+sms,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+stop,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+subscription,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+text,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+thanks,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+till,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+tnc,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+tone,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+txt,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+unlimited,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+upto,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+urgent,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+valid,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+vip,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+visit,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+weekend,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+won,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+wynk,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+xstream,PHISHING,5.0,DANGEROUS,CERT-In_Indian_Scam_Corpus,1
+0d20ad,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+102-220-161-39,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+107-189-27-223-3000,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+10x09x2026,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+124-198-132-220,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+13-143-247-180-8080,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+130-12-181-99,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+141-140-0-74,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+141-98-11-63,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+143-20-185-213,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+144-172-102-119,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+144-172-108-214,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+144-172-117-212,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+144-172-118-213,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+144-172-84-8,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+144-172-85-64,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+146-103-40-70,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+150-40-127-145,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+151-242-30-165,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+158-94-208-124,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+158-94-208-76,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+158-94-208-79,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+158-94-211-116,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+159-253-120-209,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+167-235-91-194,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+168-119-85-190,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+172-86-123-51,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+172-86-72-97,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+172-86-73-169-8081,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+172-86-74-220,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+172-86-84-161,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+172-86-88-189,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-134-121-8080,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-131,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-132,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-135,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-136,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-137,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-139,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-145,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-150,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-152,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-153,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-157,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-158,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-160,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-162,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-168,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-197,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-201-8080,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-206,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-208,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-214,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-217,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-218,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-219,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-220,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-221,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-227,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-229,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-231,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-234,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-239,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-240,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-242,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-250,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-251,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-253,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-35,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-76,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-77,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-139-78,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-148-10,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-65-148-112,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-9-104-142,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+176-9-88-12,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+178-16-52-105-8888,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+178-16-52-139,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+178-16-52-209,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+178-16-52-239-8080,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+178-16-53-250-8443,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+178-16-53-91,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+178-16-54-109,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+178-16-54-55,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+185-161-70-43,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+185-241-211-103,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+192-159-99-212,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+192-159-99-221,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+193-111-117-135,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+193-148-56-217,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+193-233-161-202,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+193-26-115-64,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+196-251-121-178,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+196-251-121-185,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+198-251-91-148-8080,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+2-27-248-149,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+2-29-25-224-8000,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+2-58-56-176,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+203-159-90-39,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+203-202-232-203,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+209-99-188-18,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+209-99-191-42,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+212-86-121-238,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+217-144-190-175,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+217-145-226-120,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+217-60-103-56,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+217-60-195-161,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+217-60-195-187,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+217-60-195-19,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+217-60-195-87,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+23-146-242-101,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+23-146-242-246,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+23-172-112-215,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+23-94-145-112,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+31-76-61-78,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+32-bit,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+363d88e5a9c1d1a3f45f3741a6e2fcaa,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+3c967638c9707bd9a6aa9b0d44570c7a,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+42-238-248-174,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+43-228-157-73,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-135-193-208,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-135-193-63,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-135-194-95,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-141-21-129,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-148-10-165-8000,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-153-34-245,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-198-224-131,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-59-125-165,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-59-126-83-8081,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-61-150-229-8080,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-61-170-146,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-61-170-60,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-61-176-53,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-74-3-24,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-74-31-151-8443,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+45-86-62-54,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+46-151-182-159,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+54e64e,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+579cd0,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+64-89-160-48,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+64-89-163-63,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+64-bit,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+65-108-62-224,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+77-91-100-221,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+7zip,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+80-94-92-128,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+85-137-54-178-8080,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+89-106-83-180,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+89-106-83-205,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+89-106-83-29,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+91-92-241-184,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+91-92-241-187,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+91-92-40-165,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-100,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-107,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-120,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-136,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-156,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-176,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-189,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-190,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-192-8081,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-201,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-203,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-203-8080,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-217,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-221,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-227,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-233,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-241,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-245,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-253,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-30,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-34,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-37,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-38,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-60,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-60-8081,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-69,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-71,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-83,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-84,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-88,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-154-43-95-8081,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+94-183-174-80,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+9d2ca3,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+acrstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+activemq,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+adb,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+agenttesla,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+akira,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+amos,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+apk,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+applescript,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+arechclient2,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+arm,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+arvion,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ascii,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+asciii,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+async,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+asyncrat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+asynxrat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ateraagent,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+aura-tcplegit-space,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+auto-submitted,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+automated,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+avemariarat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+azaleaagent,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+backdoor,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+base64,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+bat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+beacon,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+beavertail,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+bigviktor,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+billgates,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+bit-32,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+blankgrabber,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+bossmen,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+botnet,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+botnetdomain,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+btw_stealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+c2-monitor-auto,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+c2-teamzeroday-net,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+censys,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+clearfake,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+clickfix,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+cloud-sharing-com,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+cobaltstrike,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+coinminer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+component,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+connectwise,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+cowrie,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+croco,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+cryptominer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ctf5,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+d52f85,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+dapato,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+dcagentrmm,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+dcrat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ddosagent,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ddr,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+discord-cdn,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+discordcdn,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+discordinjection,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+docker,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+donutloader,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+downloader,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+dprk,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+dropped,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+dropped-by-phorpiex,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+dropped-by-stealc,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+dropper,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+electron,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+elf,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+encoded,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+encrypted,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+encrypyted,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+etherhiding,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+exastealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+exe,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+extension,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+faceit,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+fake-crack,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+fake-trainer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+fakemas,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+formbook,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+gafgyt,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+generic,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+geofenced,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+gh0strat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+gorat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+guildma,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+guloader,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+hadesstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+hajime,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+honeypot,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+hta,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+hvnc,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+infostealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+irahook,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+irahook-loader,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+jar,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+java,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+loda,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+lummastealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+macho,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+macos,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+malware,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+malware-download,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+manageengine,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+masslogger,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+microstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+minecraft,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+mirai,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+mozi,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+msi,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+msstore,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ngioweb,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+none,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+nyxstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+opendir,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+overlordrat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+overstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+pe32,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+phantomstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+platypus,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ps1,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+purelogsstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+python,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+pythonstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+quasarrat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+quickfix,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ramcosrat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+rat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+redis,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+remcosrat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+remusstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+rev-base64-loader,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+rustystealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+script,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+shadowproject,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+silentnet,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+silverfox,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+snakekeylogger,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+stealc,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+stealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+stego,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+stripe,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+svcstealer,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+telnet,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+trojan,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+tsunami,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ua-ps,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+ua-wget,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+vbs,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+vshell,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+worm.ramnit,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+wraith,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+xenorat,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+xworm,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+zip,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+zombie,MALWARE,5.0,DANGEROUS,URLhaus_Live_Tag,1
+chat,SOCIAL_MEDIA,2.34,SAFE,Kaggle_Website_Social Networking and Messaging,1
+sex,PORNOGRAPHY,2.26,CAUTION,Kaggle_Website_Adult,1
+photography,BLOGGING,2.23,SAFE,Kaggle_Website_Photography,1
+recipe,FOOD_DELIVERY,2.19,SAFE,Kaggle_Website_Food,1
+game,GAMING,2.19,SAFE,Kaggle_Website_Games,1
+forum,FORUMS_COMMUNITIES,2.16,SAFE,Kaggle_Website_Forums,1
+gift,ONLINE_RETAIL,2.13,SAFE,Kaggle_Website_E-Commerce,1
+health,HOSPITALS_CLINICS,2.13,SAFE,Kaggle_Website_Health and Fitness,1
+photo,BLOGGING,2.13,SAFE,Kaggle_Website_Photography,1
+photographer,BLOGGING,2.13,SAFE,Kaggle_Website_Photography,1
+room,SOCIAL_MEDIA,2.13,SAFE,Kaggle_Website_Social Networking and Messaging,1
+music,MOVIE_STREAMING,2.13,SAFE,Kaggle_Website_Streaming Services,1
+home,BANKING,2.12,SAFE,Kaggle_Website_Business/Corporate,1
+league,SPORTS_NEWS,2.12,SAFE,Kaggle_Website_Sports,1
+hotel,FLIGHT_BOOKING,2.12,SAFE,Kaggle_Website_Travel,1
+chat room,SOCIAL_MEDIA,2.11,SAFE,Kaggle_Website_Social Networking and Messaging,2
+story,PORNOGRAPHY,2.11,CAUTION,Kaggle_Website_Adult,1
+service,BANKING,2.11,SAFE,Kaggle_Website_Business/Corporate,1
+software,DEVELOPER_TOOLS,2.11,SAFE,Kaggle_Website_Computers and Technology,1
+shop,ONLINE_RETAIL,2.11,SAFE,Kaggle_Website_E-Commerce,1
+science,SCHOOLS_UNIVERSITIES,2.11,SAFE,Kaggle_Website_Education,1
+chess,GAMING,2.11,SAFE,Kaggle_Website_Games,1
+wedding,BLOGGING,2.11,SAFE,Kaggle_Website_Photography,1
+cricket,SPORTS_NEWS,2.11,SAFE,Kaggle_Website_Sports,1
+site,PORNOGRAPHY,2.1,CAUTION,Kaggle_Website_Adult,1
+business,BANKING,2.1,SAFE,Kaggle_Website_Business/Corporate,1
+university,SCHOOLS_UNIVERSITIES,2.1,SAFE,Kaggle_Website_Education,1
+menu,FOOD_DELIVERY,2.1,SAFE,Kaggle_Website_Food,1
+food,FOOD_DELIVERY,2.1,SAFE,Kaggle_Website_Food,1
+recipes,FOOD_DELIVERY,2.1,SAFE,Kaggle_Website_Food,1
+yoga,HOSPITALS_CLINICS,2.1,SAFE,Kaggle_Website_Health and Fitness,1
+coronavirus,NATIONAL_NEWS,2.1,SAFE,Kaggle_Website_News,1
+football,SPORTS_NEWS,2.1,SAFE,Kaggle_Website_Sports,1
+tour,FLIGHT_BOOKING,2.1,SAFE,Kaggle_Website_Travel,1
+cock,PORNOGRAPHY,2.09,CAUTION,Kaggle_Website_Adult,1
+erotic,PORNOGRAPHY,2.09,CAUTION,Kaggle_Website_Adult,1
+contact,BANKING,2.09,SAFE,Kaggle_Website_Business/Corporate,1
+services,BANKING,2.09,SAFE,Kaggle_Website_Business/Corporate,1
+file,DEVELOPER_TOOLS,2.09,SAFE,Kaggle_Website_Computers and Technology,1
+student,SCHOOLS_UNIVERSITIES,2.09,SAFE,Kaggle_Website_Education,1
+cake,FOOD_DELIVERY,2.09,SAFE,Kaggle_Website_Food,1
+forums,FORUMS_COMMUNITIES,2.09,SAFE,Kaggle_Website_Forums,1
+play,GAMING,2.09,SAFE,Kaggle_Website_Games,1
+board,GAMING,2.09,SAFE,Kaggle_Website_Games,1
+government,GOVERNMENT_PORTALS,2.09,SAFE,Kaggle_Website_Law and Government,1
+trump,NATIONAL_NEWS,2.09,SAFE,Kaggle_Website_News,1
+vaccine,NATIONAL_NEWS,2.09,SAFE,Kaggle_Website_News,1
+camera,BLOGGING,2.09,SAFE,Kaggle_Website_Photography,1
+nfl,SPORTS_NEWS,2.09,SAFE,Kaggle_Website_Sports,1
+hour ago,FORUMS_COMMUNITIES,2.08,SAFE,Kaggle_Website_Forums,2
+porn,PORNOGRAPHY,2.08,CAUTION,Kaggle_Website_Adult,1
+free,PORNOGRAPHY,2.08,CAUTION,Kaggle_Website_Adult,1
+video,PORNOGRAPHY,2.08,CAUTION,Kaggle_Website_Adult,1
+web,DEVELOPER_TOOLS,2.08,SAFE,Kaggle_Website_Computers and Technology,1
+fashion,ONLINE_RETAIL,2.08,SAFE,Kaggle_Website_E-Commerce,1
+chemistry,SCHOOLS_UNIVERSITIES,2.08,SAFE,Kaggle_Website_Education,1
+restaurant,FOOD_DELIVERY,2.08,SAFE,Kaggle_Website_Food,1
+games,GAMING,2.08,SAFE,Kaggle_Website_Games,1
+medical,HOSPITALS_CLINICS,2.08,SAFE,Kaggle_Website_Health and Fitness,1
+hospital,HOSPITALS_CLINICS,2.08,SAFE,Kaggle_Website_Health and Fitness,1
+fitness,HOSPITALS_CLINICS,2.08,SAFE,Kaggle_Website_Health and Fitness,1
+disease,HOSPITALS_CLINICS,2.08,SAFE,Kaggle_Website_Health and Fitness,1
+justice,GOVERNMENT_PORTALS,2.08,SAFE,Kaggle_Website_Law and Government,1
+police,GOVERNMENT_PORTALS,2.08,SAFE,Kaggle_Website_Law and Government,1
+stream,MOVIE_STREAMING,2.08,SAFE,Kaggle_Website_Streaming Services,1
+resort,FLIGHT_BOOKING,2.08,SAFE,Kaggle_Website_Travel,1
+flight,FLIGHT_BOOKING,2.08,SAFE,Kaggle_Website_Travel,1
+toy,PORNOGRAPHY,2.07,CAUTION,Kaggle_Website_Adult,1
+adult,PORNOGRAPHY,2.07,CAUTION,Kaggle_Website_Adult,1
+company,BANKING,2.07,SAFE,Kaggle_Website_Business/Corporate,1
+product,BANKING,2.07,SAFE,Kaggle_Website_Business/Corporate,1
+customer,BANKING,2.07,SAFE,Kaggle_Website_Business/Corporate,1
+page,DEVELOPER_TOOLS,2.07,SAFE,Kaggle_Website_Computers and Technology,1
+course,SCHOOLS_UNIVERSITIES,2.07,SAFE,Kaggle_Website_Education,1
+chicken,FOOD_DELIVERY,2.07,SAFE,Kaggle_Website_Food,1
+google,FORUMS_COMMUNITIES,2.07,SAFE,Kaggle_Website_Forums,1
+question,FORUMS_COMMUNITIES,2.07,SAFE,Kaggle_Website_Forums,1
+hour,FORUMS_COMMUNITIES,2.07,SAFE,Kaggle_Website_Forums,1
+player,GAMING,2.07,SAFE,Kaggle_Website_Games,1
+medicine,HOSPITALS_CLINICS,2.07,SAFE,Kaggle_Website_Health and Fitness,1
+patient,HOSPITALS_CLINICS,2.07,SAFE,Kaggle_Website_Health and Fitness,1
+ministry,GOVERNMENT_PORTALS,2.07,SAFE,Kaggle_Website_Law and Government,1
+national,GOVERNMENT_PORTALS,2.07,SAFE,Kaggle_Website_Law and Government,1
+election,GOVERNMENT_PORTALS,2.07,SAFE,Kaggle_Website_Law and Government,1
+covid,NATIONAL_NEWS,2.07,SAFE,Kaggle_Website_News,1
+portrait,BLOGGING,2.07,SAFE,Kaggle_Website_Photography,1
+streaming,MOVIE_STREAMING,2.07,SAFE,Kaggle_Website_Streaming Services,1
+phone sex,PORNOGRAPHY,2.06,CAUTION,Kaggle_Website_Adult,2
+anal,PORNOGRAPHY,2.06,CAUTION,Kaggle_Website_Adult,1
+wife,PORNOGRAPHY,2.06,CAUTION,Kaggle_Website_Adult,1
+fuck,PORNOGRAPHY,2.06,CAUTION,Kaggle_Website_Adult,1
+breast,PORNOGRAPHY,2.06,CAUTION,Kaggle_Website_Adult,1
+hot,PORNOGRAPHY,2.06,CAUTION,Kaggle_Website_Adult,1
+news,BANKING,2.06,SAFE,Kaggle_Website_Business/Corporate,1
+management,BANKING,2.06,SAFE,Kaggle_Website_Business/Corporate,1
+support,BANKING,2.06,SAFE,Kaggle_Website_Business/Corporate,1
+member,BANKING,2.06,SAFE,Kaggle_Website_Business/Corporate,1
+bank,BANKING,2.06,SAFE,Kaggle_Website_Business/Corporate,1
+industry,BANKING,2.06,SAFE,Kaggle_Website_Business/Corporate,1
+image,DEVELOPER_TOOLS,2.06,SAFE,Kaggle_Website_Computers and Technology,1
+program,DEVELOPER_TOOLS,2.06,SAFE,Kaggle_Website_Computers and Technology,1
+code,DEVELOPER_TOOLS,2.06,SAFE,Kaggle_Website_Computers and Technology,1
+computer,DEVELOPER_TOOLS,2.06,SAFE,Kaggle_Website_Computers and Technology,1
+grocery,ONLINE_RETAIL,2.06,SAFE,Kaggle_Website_E-Commerce,1
+order,ONLINE_RETAIL,2.06,SAFE,Kaggle_Website_E-Commerce,1
+cart,ONLINE_RETAIL,2.06,SAFE,Kaggle_Website_E-Commerce,1
+store,ONLINE_RETAIL,2.06,SAFE,Kaggle_Website_E-Commerce,1
+shopping,ONLINE_RETAIL,2.06,SAFE,Kaggle_Website_E-Commerce,1
+accessory,ONLINE_RETAIL,2.06,SAFE,Kaggle_Website_E-Commerce,1
+shipping,ONLINE_RETAIL,2.06,SAFE,Kaggle_Website_E-Commerce,1
+education,SCHOOLS_UNIVERSITIES,2.06,SAFE,Kaggle_Website_Education,1
+article,SCHOOLS_UNIVERSITIES,2.06,SAFE,Kaggle_Website_Education,1
+number,SCHOOLS_UNIVERSITIES,2.06,SAFE,Kaggle_Website_Education,1
+journal,SCHOOLS_UNIVERSITIES,2.06,SAFE,Kaggle_Website_Education,1
+easy,FOOD_DELIVERY,2.06,SAFE,Kaggle_Website_Food,1
+chef,FOOD_DELIVERY,2.06,SAFE,Kaggle_Website_Food,1
+indian,FOOD_DELIVERY,2.06,SAFE,Kaggle_Website_Food,1
+breakfast,FOOD_DELIVERY,2.06,SAFE,Kaggle_Website_Food,1
+arcade,GAMING,2.06,SAFE,Kaggle_Website_Games,1
+training,HOSPITALS_CLINICS,2.06,SAFE,Kaggle_Website_Health and Fitness,1
+surgery,HOSPITALS_CLINICS,2.06,SAFE,Kaggle_Website_Health and Fitness,1
+cancer,HOSPITALS_CLINICS,2.06,SAFE,Kaggle_Website_Health and Fitness,1
+treatment,HOSPITALS_CLINICS,2.06,SAFE,Kaggle_Website_Health and Fitness,1
+department,GOVERNMENT_PORTALS,2.06,SAFE,Kaggle_Website_Law and Government,1
+law,GOVERNMENT_PORTALS,2.06,SAFE,Kaggle_Website_Law and Government,1
+crime,GOVERNMENT_PORTALS,2.06,SAFE,Kaggle_Website_Law and Government,1
+biden,NATIONAL_NEWS,2.06,SAFE,Kaggle_Website_News,1
+gallery,BLOGGING,2.06,SAFE,Kaggle_Website_Photography,1
+ipl,SPORTS_NEWS,2.06,SAFE,Kaggle_Website_Sports,1
+match,SPORTS_NEWS,2.06,SAFE,Kaggle_Website_Sports,1
+nba,SPORTS_NEWS,2.06,SAFE,Kaggle_Website_Sports,1
+tennis,SPORTS_NEWS,2.06,SAFE,Kaggle_Website_Sports,1
+mlb,SPORTS_NEWS,2.06,SAFE,Kaggle_Website_Sports,1
+premier,SPORTS_NEWS,2.06,SAFE,Kaggle_Website_Sports,1
+hotels,FLIGHT_BOOKING,2.06,SAFE,Kaggle_Website_Travel,1
+tours,FLIGHT_BOOKING,2.06,SAFE,Kaggle_Website_Travel,1
+car,FLIGHT_BOOKING,2.06,SAFE,Kaggle_Website_Travel,1
+mon dec,FORUMS_COMMUNITIES,2.05,SAFE,Kaggle_Website_Forums,2
+premier league,SPORTS_NEWS,2.05,SAFE,Kaggle_Website_Sports,2
+xxx,PORNOGRAPHY,2.05,CAUTION,Kaggle_Website_Adult,1
+phone,PORNOGRAPHY,2.05,CAUTION,Kaggle_Website_Adult,1
+technology,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+help,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+design,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+financial,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+learn,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+market,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+client,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+project,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+provide,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+online,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+banking,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+experience,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+information,BANKING,2.05,SAFE,Kaggle_Website_Business/Corporate,1
+version,DEVELOPER_TOOLS,2.05,SAFE,Kaggle_Website_Computers and Technology,1
+pdf,DEVELOPER_TOOLS,2.05,SAFE,Kaggle_Website_Computers and Technology,1
+research,DEVELOPER_TOOLS,2.05,SAFE,Kaggle_Website_Computers and Technology,1
+network,DEVELOPER_TOOLS,2.05,SAFE,Kaggle_Website_Computers and Technology,1
+datum,DEVELOPER_TOOLS,2.05,SAFE,Kaggle_Website_Computers and Technology,1
+feature,DEVELOPER_TOOLS,2.05,SAFE,Kaggle_Website_Computers and Technology,1
+windows,DEVELOPER_TOOLS,2.05,SAFE,Kaggle_Website_Computers and Technology,1
+accessories,ONLINE_RETAIL,2.05,SAFE,Kaggle_Website_E-Commerce,1
+buy,ONLINE_RETAIL,2.05,SAFE,Kaggle_Website_E-Commerce,1
+delivery,ONLINE_RETAIL,2.05,SAFE,Kaggle_Website_E-Commerce,1
+card,ONLINE_RETAIL,2.05,SAFE,Kaggle_Website_E-Commerce,1
+baby,ONLINE_RETAIL,2.05,SAFE,Kaggle_Website_E-Commerce,1
+item,ONLINE_RETAIL,2.05,SAFE,Kaggle_Website_E-Commerce,1
+clothing,ONLINE_RETAIL,2.05,SAFE,Kaggle_Website_E-Commerce,1
+jewellery,ONLINE_RETAIL,2.05,SAFE,Kaggle_Website_E-Commerce,1
+school,SCHOOLS_UNIVERSITIES,2.05,SAFE,Kaggle_Website_Education,1
+earth,SCHOOLS_UNIVERSITIES,2.05,SAFE,Kaggle_Website_Education,1
+college,SCHOOLS_UNIVERSITIES,2.05,SAFE,Kaggle_Website_Education,1
+biology,SCHOOLS_UNIVERSITIES,2.05,SAFE,Kaggle_Website_Education,1
+theory,SCHOOLS_UNIVERSITIES,2.05,SAFE,Kaggle_Website_Education,1
+kitchen,FOOD_DELIVERY,2.05,SAFE,Kaggle_Website_Food,1
+serve,FOOD_DELIVERY,2.05,SAFE,Kaggle_Website_Food,1
+cookie,FOOD_DELIVERY,2.05,SAFE,Kaggle_Website_Food,1
+chocolate,FOOD_DELIVERY,2.05,SAFE,Kaggle_Website_Food,1
+facebook,FOOD_DELIVERY,2.05,SAFE,Kaggle_Website_Food,1
+meal,FOOD_DELIVERY,2.05,SAFE,Kaggle_Website_Food,1
+knowledge,FORUMS_COMMUNITIES,2.05,SAFE,Kaggle_Website_Forums,1
+mon,FORUMS_COMMUNITIES,2.05,SAFE,Kaggle_Website_Forums,1
+club,GAMING,2.05,SAFE,Kaggle_Website_Games,1
+pinball,GAMING,2.05,SAFE,Kaggle_Website_Games,1
+tournament,GAMING,2.05,SAFE,Kaggle_Website_Games,1
+commission,GOVERNMENT_PORTALS,2.05,SAFE,Kaggle_Website_Law and Government,1
+legislation,GOVERNMENT_PORTALS,2.05,SAFE,Kaggle_Website_Law and Government,1
+central,GOVERNMENT_PORTALS,2.05,SAFE,Kaggle_Website_Law and Government,1
+minister,GOVERNMENT_PORTALS,2.05,SAFE,Kaggle_Website_Law and Government,1
+parliament,GOVERNMENT_PORTALS,2.05,SAFE,Kaggle_Website_Law and Government,1
+report,GOVERNMENT_PORTALS,2.05,SAFE,Kaggle_Website_Law and Government,1
+sports,NATIONAL_NEWS,2.05,SAFE,Kaggle_Website_News,1
+politics,NATIONAL_NEWS,2.05,SAFE,Kaggle_Website_News,1
+opinion,NATIONAL_NEWS,2.05,SAFE,Kaggle_Website_News,1
+canada,NATIONAL_NEWS,2.05,SAFE,Kaggle_Website_News,1
+pandemic,NATIONAL_NEWS,2.05,SAFE,Kaggle_Website_News,1
+friend,SOCIAL_MEDIA,2.05,SAFE,Kaggle_Website_Social Networking and Messaging,1
+meet,SOCIAL_MEDIA,2.05,SAFE,Kaggle_Website_Social Networking and Messaging,1
+badminton,SPORTS_NEWS,2.05,SAFE,Kaggle_Website_Sports,1
+arsenal,SPORTS_NEWS,2.05,SAFE,Kaggle_Website_Sports,1
+season,SPORTS_NEWS,2.05,SAFE,Kaggle_Website_Sports,1
+app,MOVIE_STREAMING,2.05,SAFE,Kaggle_Website_Streaming Services,1
+listen,MOVIE_STREAMING,2.05,SAFE,Kaggle_Website_Streaming Services,1
+platform,MOVIE_STREAMING,2.05,SAFE,Kaggle_Website_Streaming Services,1
+episode,MOVIE_STREAMING,2.05,SAFE,Kaggle_Website_Streaming Services,1
+trial,MOVIE_STREAMING,2.05,SAFE,Kaggle_Website_Streaming Services,1
+movies,MOVIE_STREAMING,2.05,SAFE,Kaggle_Website_Streaming Services,1
+spa,FLIGHT_BOOKING,2.05,SAFE,Kaggle_Website_Travel,1
+trip,FLIGHT_BOOKING,2.05,SAFE,Kaggle_Website_Travel,1
+beach,FLIGHT_BOOKING,2.05,SAFE,Kaggle_Website_Travel,1
+cruise,FLIGHT_BOOKING,2.05,SAFE,Kaggle_Website_Travel,1
+stay,FLIGHT_BOOKING,2.05,SAFE,Kaggle_Website_Travel,1
+package,FLIGHT_BOOKING,2.05,SAFE,Kaggle_Website_Travel,1
+add cart,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,2
+free chat,SOCIAL_MEDIA,2.04,SAFE,Kaggle_Website_Social Networking and Messaging,2
+video chat,SOCIAL_MEDIA,2.04,SAFE,Kaggle_Website_Social Networking and Messaging,2
+free trial,MOVIE_STREAMING,2.04,SAFE,Kaggle_Website_Streaming Services,2
+gay,PORNOGRAPHY,2.04,CAUTION,Kaggle_Website_Adult,1
+body,PORNOGRAPHY,2.04,CAUTION,Kaggle_Website_Adult,1
+feel,PORNOGRAPHY,2.04,CAUTION,Kaggle_Website_Adult,1
+movie,PORNOGRAPHY,2.04,CAUTION,Kaggle_Website_Adult,1
+sexy,PORNOGRAPHY,2.04,CAUTION,Kaggle_Website_Adult,1
+read,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+price,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+need,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+professional,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+view,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+real,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+solution,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+office,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+global,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+team,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+sale,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+blog,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+policy,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+offer,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+account,BANKING,2.04,SAFE,Kaggle_Website_Business/Corporate,1
+internet,DEVELOPER_TOOLS,2.04,SAFE,Kaggle_Website_Computers and Technology,1
+source,DEVELOPER_TOOLS,2.04,SAFE,Kaggle_Website_Computers and Technology,1
+download,DEVELOPER_TOOLS,2.04,SAFE,Kaggle_Website_Computers and Technology,1
+create,DEVELOPER_TOOLS,2.04,SAFE,Kaggle_Website_Computers and Technology,1
+language,DEVELOPER_TOOLS,2.04,SAFE,Kaggle_Website_Computers and Technology,1
+data,DEVELOPER_TOOLS,2.04,SAFE,Kaggle_Website_Computers and Technology,1
+application,DEVELOPER_TOOLS,2.04,SAFE,Kaggle_Website_Computers and Technology,1
+cloud,DEVELOPER_TOOLS,2.04,SAFE,Kaggle_Website_Computers and Technology,1
+brand,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+custom,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+men,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+care,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+bags,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+shoes,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+christmas,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+collection,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+women,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+india,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+shirt,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+wear,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+fresh,ONLINE_RETAIL,2.04,SAFE,Kaggle_Website_E-Commerce,1
+physics,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+study,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+edit,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+world,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+society,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+life,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+chemical,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+international,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+group,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+math,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+element,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+publish,SCHOOLS_UNIVERSITIES,2.04,SAFE,Kaggle_Website_Education,1
+healthy,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+vegan,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+soup,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+salad,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+cookies,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+family,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+delicious,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+ingredient,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+cooking,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+pot,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+dish,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+cook,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+dinner,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+vegetarian,FOOD_DELIVERY,2.04,SAFE,Kaggle_Website_Food,1
+discussion,FORUMS_COMMUNITIES,2.04,SAFE,Kaggle_Website_Forums,1
+join,FORUMS_COMMUNITIES,2.04,SAFE,Kaggle_Website_Forums,1
+word,GAMING,2.04,SAFE,Kaggle_Website_Games,1
+heart,HOSPITALS_CLINICS,2.04,SAFE,Kaggle_Website_Health and Fitness,1
+veterinary,HOSPITALS_CLINICS,2.04,SAFE,Kaggle_Website_Health and Fitness,1
+book,HOSPITALS_CLINICS,2.04,SAFE,Kaggle_Website_Health and Fitness,1
+doctor,HOSPITALS_CLINICS,2.04,SAFE,Kaggle_Website_Health and Fitness,1
+institute,HOSPITALS_CLINICS,2.04,SAFE,Kaggle_Website_Health and Fitness,1
+court,GOVERNMENT_PORTALS,2.04,SAFE,Kaggle_Website_Law and Government,1
+resource,GOVERNMENT_PORTALS,2.04,SAFE,Kaggle_Website_Law and Government,1
+enforcement,GOVERNMENT_PORTALS,2.04,SAFE,Kaggle_Website_Law and Government,1
+tax,GOVERNMENT_PORTALS,2.04,SAFE,Kaggle_Website_Law and Government,1
+legislative,GOVERNMENT_PORTALS,2.04,SAFE,Kaggle_Website_Law and Government,1
+press,GOVERNMENT_PORTALS,2.04,SAFE,Kaggle_Website_Law and Government,1
+official,GOVERNMENT_PORTALS,2.04,SAFE,Kaggle_Website_Law and Government,1
+date,GOVERNMENT_PORTALS,2.04,SAFE,Kaggle_Website_Law and Government,1
+times,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+travel,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+culture,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+case,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+die,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+week,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+minute,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+tech,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+late,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+china,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+lifestyle,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+sport,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+hit,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+latest,NATIONAL_NEWS,2.04,SAFE,Kaggle_Website_News,1
+light,BLOGGING,2.04,SAFE,Kaggle_Website_Photography,1
+lighting,BLOGGING,2.04,SAFE,Kaggle_Website_Photography,1
+print,BLOGGING,2.04,SAFE,Kaggle_Website_Photography,1
+nikon,BLOGGING,2.04,SAFE,Kaggle_Website_Photography,1
+capture,BLOGGING,2.04,SAFE,Kaggle_Website_Photography,1
+social,SOCIAL_MEDIA,2.04,SAFE,Kaggle_Website_Social Networking and Messaging,1
+dating,SOCIAL_MEDIA,2.04,SAFE,Kaggle_Website_Social Networking and Messaging,1
+mobile,SOCIAL_MEDIA,2.04,SAFE,Kaggle_Website_Social Networking and Messaging,1
+test,SPORTS_NEWS,2.04,SAFE,Kaggle_Website_Sports,1
+cup,SPORTS_NEWS,2.04,SAFE,Kaggle_Website_Sports,1
+liverpool,SPORTS_NEWS,2.04,SAFE,Kaggle_Website_Sports,1
+manchester,SPORTS_NEWS,2.04,SAFE,Kaggle_Website_Sports,1
+coach,SPORTS_NEWS,2.04,SAFE,Kaggle_Website_Sports,1
+fantasy,SPORTS_NEWS,2.04,SAFE,Kaggle_Website_Sports,1
+preview,SPORTS_NEWS,2.04,SAFE,Kaggle_Website_Sports,1
+basketball,SPORTS_NEWS,2.04,SAFE,Kaggle_Website_Sports,1
+city,SPORTS_NEWS,2.04,SAFE,Kaggle_Website_Sports,1
+device,MOVIE_STREAMING,2.04,SAFE,Kaggle_Website_Streaming Services,1
+radio,MOVIE_STREAMING,2.04,SAFE,Kaggle_Website_Streaming Services,1
+youtube,MOVIE_STREAMING,2.04,SAFE,Kaggle_Website_Streaming Services,1
+song,MOVIE_STREAMING,2.04,SAFE,Kaggle_Website_Streaming Services,1
+film,MOVIE_STREAMING,2.04,SAFE,Kaggle_Website_Streaming Services,1
+channel,MOVIE_STREAMING,2.04,SAFE,Kaggle_Website_Streaming Services,1
+dining,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+destination,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+check,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+booking,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+island,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+explore,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+guest,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+luxury,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+south,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+discover,FLIGHT_BOOKING,2.04,SAFE,Kaggle_Website_Travel,1
+free chat room,SOCIAL_MEDIA,2.03,SAFE,Kaggle_Website_Social Networking and Messaging,3
+sex story,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,2
+gluten free,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,2
+instant pot,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,2
+privacy policy,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,2
+law enforcement,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,2
+online chat,SOCIAL_MEDIA,2.03,SAFE,Kaggle_Website_Social Networking and Messaging,2
+champions league,SPORTS_NEWS,2.03,SAFE,Kaggle_Website_Sports,2
+live streaming,MOVIE_STREAMING,2.03,SAFE,Kaggle_Website_Streaming Services,2
+pussy,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+start,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+man,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+dick,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+girl,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+say,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+stories,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+tit,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+cum,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+live,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+work,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+love,PORNOGRAPHY,2.03,CAUTION,Kaggle_Website_Adult,1
+trust,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+commercial,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+content,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+investment,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+community,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+privacy,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+credit,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+search,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+close,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+investor,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+united,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+security,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+sell,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+website,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+term,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+personal,BANKING,2.03,SAFE,Kaggle_Website_Business/Corporate,1
+list,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+include,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+model,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+programming,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+algorithm,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+base,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+acm,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+format,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+tool,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+user,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+link,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+machine,DEVELOPER_TOOLS,2.03,SAFE,Kaggle_Website_Computers and Technology,1
+dress,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+sign,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+holiday,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+special,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+quality,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+cards,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+email,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+gifts,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+hair,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+size,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+style,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+available,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+set,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+kids,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+shoe,ONLINE_RETAIL,2.03,SAFE,Kaggle_Website_E-Commerce,1
+history,SCHOOLS_UNIVERSITIES,2.03,SAFE,Kaggle_Website_Education,1
+exam,SCHOOLS_UNIVERSITIES,2.03,SAFE,Kaggle_Website_Education,1
+state,SCHOOLS_UNIVERSITIES,2.03,SAFE,Kaggle_Website_Education,1
+lesson,SCHOOLS_UNIVERSITIES,2.03,SAFE,Kaggle_Website_Education,1
+field,SCHOOLS_UNIVERSITIES,2.03,SAFE,Kaggle_Website_Education,1
+molecular,SCHOOLS_UNIVERSITIES,2.03,SAFE,Kaggle_Website_Education,1
+scientific,SCHOOLS_UNIVERSITIES,2.03,SAFE,Kaggle_Website_Education,1
+human,SCHOOLS_UNIVERSITIES,2.03,SAFE,Kaggle_Website_Education,1
+dessert,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+gluten,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+twitter,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+cheese,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+share,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+perfect,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+pizza,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+sweet,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+sauce,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+rice,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+taste,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+potato,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+instant,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+cooker,FOOD_DELIVERY,2.03,SAFE,Kaggle_Website_Food,1
+writer,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+message,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+august,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+topics,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+entertainment,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+november,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+october,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+january,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+posts,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+job,FORUMS_COMMUNITIES,2.03,SAFE,Kaggle_Website_Forums,1
+rule,GAMING,2.03,SAFE,Kaggle_Website_Games,1
+cribbage,GAMING,2.03,SAFE,Kaggle_Website_Games,1
+point,GAMING,2.03,SAFE,Kaggle_Website_Games,1
+commodore,GAMING,2.03,SAFE,Kaggle_Website_Games,1
+practice,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+eye,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+wellness,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+emergency,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+healthcare,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+clinical,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+guide,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+transplant,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+clinic,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+general,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+center,HOSPITALS_CLINICS,2.03,SAFE,Kaggle_Website_Health and Fitness,1
+shri,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+division,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+mission,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+affairs,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+force,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+criminal,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+house,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+senate,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+states,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+release,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+legal,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+sabha,GOVERNMENT_PORTALS,2.03,SAFE,Kaggle_Website_Law and Government,1
+death,NATIONAL_NEWS,2.03,SAFE,Kaggle_Website_News,1
+plan,NATIONAL_NEWS,2.03,SAFE,Kaggle_Website_News,1
+trend,NATIONAL_NEWS,2.03,SAFE,Kaggle_Website_News,1
+review,BLOGGING,2.03,SAFE,Kaggle_Website_Photography,1
+lens,BLOGGING,2.03,SAFE,Kaggle_Website_Photography,1
+shoot,BLOGGING,2.03,SAFE,Kaggle_Website_Photography,1
+photos,BLOGGING,2.03,SAFE,Kaggle_Website_Photography,1
+tips,BLOGGING,2.03,SAFE,Kaggle_Website_Photography,1
+iphone,BLOGGING,2.03,SAFE,Kaggle_Website_Photography,1
+fun,SOCIAL_MEDIA,2.03,SAFE,Kaggle_Website_Social Networking and Messaging,1
+single,SOCIAL_MEDIA,2.03,SAFE,Kaggle_Website_Social Networking and Messaging,1
+chatroom,SOCIAL_MEDIA,2.03,SAFE,Kaggle_Website_Social Networking and Messaging,1
+connect,SOCIAL_MEDIA,2.03,SAFE,Kaggle_Website_Social Networking and Messaging,1
+registration,SOCIAL_MEDIA,2.03,SAFE,Kaggle_Website_Social Networking and Messaging,1
+australia,SPORTS_NEWS,2.03,SAFE,Kaggle_Website_Sports,1
+champions,SPORTS_NEWS,2.03,SAFE,Kaggle_Website_Sports,1
+series,SPORTS_NEWS,2.03,SAFE,Kaggle_Website_Sports,1
+leave,SPORTS_NEWS,2.03,SAFE,Kaggle_Website_Sports,1
+madrid,SPORTS_NEWS,2.03,SAFE,Kaggle_Website_Sports,1
+fan,SPORTS_NEWS,2.03,SAFE,Kaggle_Website_Sports,1
+betting,SPORTS_NEWS,2.03,SAFE,Kaggle_Website_Sports,1
+apple,MOVIE_STREAMING,2.03,SAFE,Kaggle_Website_Streaming Services,1
+favorite,MOVIE_STREAMING,2.03,SAFE,Kaggle_Website_Streaming Services,1
+mumbai,FLIGHT_BOOKING,2.03,SAFE,Kaggle_Website_Travel,1
+select,FLIGHT_BOOKING,2.03,SAFE,Kaggle_Website_Travel,1
+details,FLIGHT_BOOKING,2.03,SAFE,Kaggle_Website_Travel,1
+enjoy,FLIGHT_BOOKING,2.03,SAFE,Kaggle_Website_Travel,1
+airport,FLIGHT_BOOKING,2.03,SAFE,Kaggle_Website_Travel,1
+slow cooker,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,2
+topics posts,FORUMS_COMMUNITIES,2.02,SAFE,Kaggle_Website_Forums,2
+gin rummy,GAMING,2.02,SAFE,Kaggle_Website_Games,2
+specialty hospital,HOSPITALS_CLINICS,2.02,SAFE,Kaggle_Website_Health and Fitness,2
+press release,GOVERNMENT_PORTALS,2.02,SAFE,Kaggle_Website_Law and Government,2
+lok sabha,GOVERNMENT_PORTALS,2.02,SAFE,Kaggle_Website_Law and Government,2
+late news,NATIONAL_NEWS,2.02,SAFE,Kaggle_Website_News,2
+trend news,NATIONAL_NEWS,2.02,SAFE,Kaggle_Website_News,2
+celebrity photographer,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,2
+teen chat,SOCIAL_MEDIA,2.02,SAFE,Kaggle_Website_Social Networking and Messaging,2
+chat rooms,SOCIAL_MEDIA,2.02,SAFE,Kaggle_Website_Social Networking and Messaging,2
+world cup,SPORTS_NEWS,2.02,SAFE,Kaggle_Website_Sports,2
+finger,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+night,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+tell,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+woman,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+guy,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+open,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+watch,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+mouth,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+hand,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+turn,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+black,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+place,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+pull,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+hard,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+ask,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+head,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+face,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+suck,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+tight,PORNOGRAPHY,2.02,CAUTION,Kaggle_Website_Adult,1
+rental,BANKING,2.02,SAFE,Kaggle_Website_Business/Corporate,1
+event,BANKING,2.02,SAFE,Kaggle_Website_Business/Corporate,1
+payment,BANKING,2.02,SAFE,Kaggle_Website_Business/Corporate,1
+act,BANKING,2.02,SAFE,Kaggle_Website_Business/Corporate,1
+continue,BANKING,2.02,SAFE,Kaggle_Website_Business/Corporate,1
+statement,BANKING,2.02,SAFE,Kaggle_Website_Business/Corporate,1
+follow,BANKING,2.02,SAFE,Kaggle_Website_Business/Corporate,1
+access,BANKING,2.02,SAFE,Kaggle_Website_Business/Corporate,1
+answer,BANKING,2.02,SAFE,Kaggle_Website_Business/Corporate,1
+problem,DEVELOPER_TOOLS,2.02,SAFE,Kaggle_Website_Computers and Technology,1
+type,DEVELOPER_TOOLS,2.02,SAFE,Kaggle_Website_Computers and Technology,1
+comment,DEVELOPER_TOOLS,2.02,SAFE,Kaggle_Website_Computers and Technology,1
+microsoft,DEVELOPER_TOOLS,2.02,SAFE,Kaggle_Website_Computers and Technology,1
+post,DEVELOPER_TOOLS,2.02,SAFE,Kaggle_Website_Computers and Technology,1
+issue,DEVELOPER_TOOLS,2.02,SAFE,Kaggle_Website_Computers and Technology,1
+quantum,DEVELOPER_TOOLS,2.02,SAFE,Kaggle_Website_Computers and Technology,1
+add,DEVELOPER_TOOLS,2.02,SAFE,Kaggle_Website_Computers and Technology,1
+neural,DEVELOPER_TOOLS,2.02,SAFE,Kaggle_Website_Computers and Technology,1
+birthday,ONLINE_RETAIL,2.02,SAFE,Kaggle_Website_E-Commerce,1
+leather,ONLINE_RETAIL,2.02,SAFE,Kaggle_Website_E-Commerce,1
+equation,SCHOOLS_UNIVERSITIES,2.02,SAFE,Kaggle_Website_Education,1
+change,SCHOOLS_UNIVERSITIES,2.02,SAFE,Kaggle_Website_Education,1
+evolution,SCHOOLS_UNIVERSITIES,2.02,SAFE,Kaggle_Website_Education,1
+form,SCHOOLS_UNIVERSITIES,2.02,SAFE,Kaggle_Website_Education,1
+archaeology,SCHOOLS_UNIVERSITIES,2.02,SAFE,Kaggle_Website_Education,1
+class,SCHOOLS_UNIVERSITIES,2.02,SAFE,Kaggle_Website_Education,1
+basic,SCHOOLS_UNIVERSITIES,2.02,SAFE,Kaggle_Website_Education,1
+calculus,SCHOOLS_UNIVERSITIES,2.02,SAFE,Kaggle_Website_Education,1
+pasta,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+slow,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+paneer,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+creamy,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+cream,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+bread,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+min,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+sandwich,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+dal,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+pinterest,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+curry,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+garlic,FOOD_DELIVERY,2.02,SAFE,Kaggle_Website_Food,1
+thread,FORUMS_COMMUNITIES,2.02,SAFE,Kaggle_Website_Forums,1
+aviation,FORUMS_COMMUNITIES,2.02,SAFE,Kaggle_Website_Forums,1
+private,FORUMS_COMMUNITIES,2.02,SAFE,Kaggle_Website_Forums,1
+lounge,FORUMS_COMMUNITIES,2.02,SAFE,Kaggle_Website_Forums,1
+hardware,FORUMS_COMMUNITIES,2.02,SAFE,Kaggle_Website_Forums,1
+write,FORUMS_COMMUNITIES,2.02,SAFE,Kaggle_Website_Forums,1
+technical,FORUMS_COMMUNITIES,2.02,SAFE,Kaggle_Website_Forums,1
+try,FORUMS_COMMUNITIES,2.02,SAFE,Kaggle_Website_Forums,1
+atari,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+rummy,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+line,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+score,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+table,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+gin,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+red,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+casino,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+win,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+piece,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+expo,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+strategy,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+repair,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+deck,GAMING,2.02,SAFE,Kaggle_Website_Games,1
+specialty,HOSPITALS_CLINICS,2.02,SAFE,Kaggle_Website_Health and Fitness,1
+appointment,HOSPITALS_CLINICS,2.02,SAFE,Kaggle_Website_Health and Fitness,1
+delhi,HOSPITALS_CLINICS,2.02,SAFE,Kaggle_Website_Health and Fitness,1
+best,HOSPITALS_CLINICS,2.02,SAFE,Kaggle_Website_Health and Fitness,1
+super,HOSPITALS_CLINICS,2.02,SAFE,Kaggle_Website_Health and Fitness,1
+development,GOVERNMENT_PORTALS,2.02,SAFE,Kaggle_Website_Law and Government,1
+committee,GOVERNMENT_PORTALS,2.02,SAFE,Kaggle_Website_Law and Government,1
+external,GOVERNMENT_PORTALS,2.02,SAFE,Kaggle_Website_Law and Government,1
+lok,GOVERNMENT_PORTALS,2.02,SAFE,Kaggle_Website_Law and Government,1
+gear,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+canon,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+landscape,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+digital,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+exposure,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+lense,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+pro,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+picture,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+focus,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+europe,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+color,BLOGGING,2.02,SAFE,Kaggle_Website_Photography,1
+talk,SOCIAL_MEDIA,2.02,SAFE,Kaggle_Website_Social Networking and Messaging,1
+christian,SOCIAL_MEDIA,2.02,SAFE,Kaggle_Website_Social Networking and Messaging,1
+stranger,SOCIAL_MEDIA,2.02,SAFE,Kaggle_Website_Social Networking and Messaging,1
+senior,SOCIAL_MEDIA,2.02,SAFE,Kaggle_Website_Social Networking and Messaging,1
+kid,SOCIAL_MEDIA,2.02,SAFE,Kaggle_Website_Social Networking and Messaging,1
+rooms,SOCIAL_MEDIA,2.02,SAFE,Kaggle_Website_Social Networking and Messaging,1
+profile,SOCIAL_MEDIA,2.02,SAFE,Kaggle_Website_Social Networking and Messaging,1
+bbl,SPORTS_NEWS,2.02,SAFE,Kaggle_Website_Sports,1
+bet,SPORTS_NEWS,2.02,SAFE,Kaggle_Website_Sports,1
+prediction,SPORTS_NEWS,2.02,SAFE,Kaggle_Website_Sports,1
+tip,SPORTS_NEWS,2.02,SAFE,Kaggle_Website_Sports,1
+performance,SPORTS_NEWS,2.02,SAFE,Kaggle_Website_Sports,1
+wwe,SPORTS_NEWS,2.02,SAFE,Kaggle_Website_Sports,1
+hindi,MOVIE_STREAMING,2.02,SAFE,Kaggle_Website_Streaming Services,1
+comedy,MOVIE_STREAMING,2.02,SAFE,Kaggle_Website_Streaming Services,1
+songs,MOVIE_STREAMING,2.02,SAFE,Kaggle_Website_Streaming Services,1
+drama,MOVIE_STREAMING,2.02,SAFE,Kaggle_Website_Streaming Services,1
+war,MOVIE_STREAMING,2.02,SAFE,Kaggle_Website_Streaming Services,1
+flights,FLIGHT_BOOKING,2.02,SAFE,Kaggle_Website_Travel,1
+address,FLIGHT_BOOKING,2.02,SAFE,Kaggle_Website_Travel,1
+care super specialty,HOSPITALS_CLINICS,2.01,SAFE,Kaggle_Website_Health and Fitness,3
+super specialty hospital,HOSPITALS_CLINICS,2.01,SAFE,Kaggle_Website_Health and Fitness,3
+online banking,BANKING,2.01,SAFE,Kaggle_Website_Business/Corporate,2
+home theater,BANKING,2.01,SAFE,Kaggle_Website_Business/Corporate,2
+neural network,DEVELOPER_TOOLS,2.01,SAFE,Kaggle_Website_Computers and Technology,2
+care super,HOSPITALS_CLINICS,2.01,SAFE,Kaggle_Website_Health and Fitness,2
+super specialty,HOSPITALS_CLINICS,2.01,SAFE,Kaggle_Website_Health and Fitness,2
+dec minute,NATIONAL_NEWS,2.01,SAFE,Kaggle_Website_News,2
+read article,BLOGGING,2.01,SAFE,Kaggle_Website_Photography,2
+begin,PORNOGRAPHY,2.01,CAUTION,Kaggle_Website_Adult,1
+lick,PORNOGRAPHY,2.01,CAUTION,Kaggle_Website_Adult,1
+lesbian,PORNOGRAPHY,2.01,CAUTION,Kaggle_Website_Adult,1
+slut,PORNOGRAPHY,2.01,CAUTION,Kaggle_Website_Adult,1
+push,PORNOGRAPHY,2.01,CAUTION,Kaggle_Website_Adult,1
+inside,PORNOGRAPHY,2.01,CAUTION,Kaggle_Website_Adult,1
+teen,PORNOGRAPHY,2.01,CAUTION,Kaggle_Website_Adult,1
+theater,BANKING,2.01,SAFE,Kaggle_Website_Business/Corporate,1
+deposit,BANKING,2.01,SAFE,Kaggle_Website_Business/Corporate,1
+yang,DEVELOPER_TOOLS,2.01,SAFE,Kaggle_Website_Computers and Technology,1
+computing,DEVELOPER_TOOLS,2.01,SAFE,Kaggle_Website_Computers and Technology,1
+van,DEVELOPER_TOOLS,2.01,SAFE,Kaggle_Website_Computers and Technology,1
+android,DEVELOPER_TOOLS,2.01,SAFE,Kaggle_Website_Computers and Technology,1
+dan,DEVELOPER_TOOLS,2.01,SAFE,Kaggle_Website_Computers and Technology,1
+star,ONLINE_RETAIL,2.01,SAFE,Kaggle_Website_E-Commerce,1
+flower,ONLINE_RETAIL,2.01,SAFE,Kaggle_Website_E-Commerce,1
+suspenders,ONLINE_RETAIL,2.01,SAFE,Kaggle_Website_E-Commerce,1
+trolley,ONLINE_RETAIL,2.01,SAFE,Kaggle_Website_E-Commerce,1
+ancient,SCHOOLS_UNIVERSITIES,2.01,SAFE,Kaggle_Website_Education,1
+doi,SCHOOLS_UNIVERSITIES,2.01,SAFE,Kaggle_Website_Education,1
+isbn,SCHOOLS_UNIVERSITIES,2.01,SAFE,Kaggle_Website_Education,1
+fractional,SCHOOLS_UNIVERSITIES,2.01,SAFE,Kaggle_Website_Education,1
+joseph,SCHOOLS_UNIVERSITIES,2.01,SAFE,Kaggle_Website_Education,1
+derivative,SCHOOLS_UNIVERSITIES,2.01,SAFE,Kaggle_Website_Education,1
+moderators,FORUMS_COMMUNITIES,2.01,SAFE,Kaggle_Website_Forums,1
+bonus,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+president,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+end,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+allow,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+pile,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+draw,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+deal,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+ace,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+round,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+discard,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+foot,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+meld,GAMING,2.01,SAFE,Kaggle_Website_Games,1
+hospitals,HOSPITALS_CLINICS,2.01,SAFE,Kaggle_Website_Health and Fitness,1
+celebrity,BLOGGING,2.01,SAFE,Kaggle_Website_Photography,1
+frame,BLOGGING,2.01,SAFE,Kaggle_Website_Photography,1
+filter,BLOGGING,2.01,SAFE,Kaggle_Website_Photography,1
+mark,BLOGGING,2.01,SAFE,Kaggle_Website_Photography,1
+quiz,SOCIAL_MEDIA,2.01,SAFE,Kaggle_Website_Social Networking and Messaging,1
+athlete,SPORTS_NEWS,2.01,SAFE,Kaggle_Website_Sports,1
+leader,SPORTS_NEWS,2.01,SAFE,Kaggle_Website_Sports,1
+action,MOVIE_STREAMING,2.01,SAFE,Kaggle_Website_Streaming Services,1
+horror,MOVIE_STREAMING,2.01,SAFE,Kaggle_Website_Streaming Services,1
+rate,MOVIE_STREAMING,2.01,SAFE,Kaggle_Website_Streaming Services,1
+documentaries,MOVIE_STREAMING,2.01,SAFE,Kaggle_Website_Streaming Services,1
+eps,MOVIE_STREAMING,2.01,SAFE,Kaggle_Website_Streaming Services,1
+rating,MOVIE_STREAMING,2.01,SAFE,Kaggle_Website_Streaming Services,1
+submit,FLIGHT_BOOKING,2.01,SAFE,Kaggle_Website_Travel,1
+age,FLIGHT_BOOKING,2.01,SAFE,Kaggle_Website_Travel,1
+seat,FLIGHT_BOOKING,2.01,SAFE,Kaggle_Website_Travel,1
+oberoi,FLIGHT_BOOKING,2.01,SAFE,Kaggle_Website_Travel,1
+residency,FLIGHT_BOOKING,2.01,SAFE,Kaggle_Website_Travel,1

@@ -52,7 +52,17 @@ class LinkGuardService : NotificationListenerService() {
             ?: extras.getCharSequence(Notification.EXTRA_BIG_TEXT)?.toString()
             ?: return
 
-        // Extract URLs from notification text
+        // 1. Sanitize text for zero-PII
+        val sanitizedText = com.safeqr.scanner.analysis.ingress.PiiSanitizer.sanitize(text)
+
+        // 2. Classify social engineering pretext & record to ScamWorkflowGraph
+        val pretextResult = com.safeqr.scanner.analysis.ingress.SmishingPatternMatcher.evaluate(sanitizedText)
+        if (pretextResult.category != com.safeqr.scanner.analysis.ingress.SmishingPatternMatcher.PretextCategory.BENIGN) {
+            com.safeqr.scanner.analysis.graph.ScamWorkflowGraph.recordIngressEvent(pretextResult)
+            Log.d(TAG, "🚨 Ingress Scam Pretext Detected: ${pretextResult.category.displayName}")
+        }
+
+        // 3. Extract URLs from notification text
         val urls = URL_REGEX.findAll(text).map { it.value }.toList()
         if (urls.isEmpty()) return
 

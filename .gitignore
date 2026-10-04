@@ -51,3 +51,14 @@ scratch/
 *.log
 firebase-debug.log
 firebase-debug.*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+venv/
+.venv/
+env/
+

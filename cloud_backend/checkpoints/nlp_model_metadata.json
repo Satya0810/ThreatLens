@@ -1,0 +1,23 @@
+{
+  "model_type": "TF-IDF + Calibrated Logistic Regression",
+  "vocabulary_size": 2500,
+  "test_roc_auc": 0.9921,
+  "top_scam_triggers": [
+    "click",
+    "free",
+    "airtel",
+    "txt",
+    "claim",
+    "uk",
+    "50",
+    "http",
+    "rs",
+    "com",
+    "www",
+    "150p",
+    "offers",
+    "ly",
+    "bit ly"
+  ],
+  "intercept": -2.0558582202974294
+}

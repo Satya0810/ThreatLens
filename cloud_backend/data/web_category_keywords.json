@@ -1,0 +1,3738 @@
+{
+  "version": "2.0.0",
+  "total_keywords": 533,
+  "categories_count": 36,
+  "keywords": [
+    {
+      "keyword": "credit card reward points expire today",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 6
+    },
+    {
+      "keyword": "click here to avoid account freeze",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 6
+    },
+    {
+      "keyword": "enter cvv and expiry to verify",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 6
+    },
+    {
+      "keyword": "trojan spy detected do not restart",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 6
+    },
+    {
+      "keyword": "double your money in 7 days",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 6
+    },
+    {
+      "keyword": "pay processing fee to release prize",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 6
+    },
+    {
+      "keyword": "account suspended within 24 hours",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "income tax refund pending claim",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "login to unfreeze your account",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "enter otp to verify payment",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "google pay reward claim now",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "post office parcel delivery failed",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "india post address confirmation update",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "challan penalty pending pay now",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "epfo claim reject verify uan",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "immediate action required bank account",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "critical system alert spyware detected",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "windows activation key expired call",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "crypto cloud mining passive income",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "part time work from home",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "earn 5000 daily from mobile",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "simple data entry typing job",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "no experience required high salary",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "instant sign up bonus withdrawal",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "kaun banega crorepati lucky draw",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "claim your 25 lakh lottery",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "disable windows defender to run",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "crypto cpu mining in background",
+      "category": "CRYPTOJACKING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 5
+    },
+    {
+      "keyword": "sbi yono kyc link",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "pan card update required",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "electricity power disconnected tonight",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "unpaid electricity bill update",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "sim card block warning",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "biometric aadhaar lock update",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "debit card expiring re-activate",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "customs duty parcel pending",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "lottery prize money claim",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "confirm your upi pin",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "security notice account compromised",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "hdfc netbanking session expired",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "icici bank urgent kyc",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "axis bank account block",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "pnb one netbanking verify",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "kotak 811 verification link",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "phonepe cashback pending claim",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "bhim upi refund portal",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "traffic police challan discount",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "urgent bank security verification",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "update registered mobile number",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "deactivation of banking services",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "unauthorized transaction detected verify",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "confirm debit card details",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "call microsoft support immediately",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "windows defender security warning",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "computer infected with virus",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "toll free support helpline",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "apple security alert compromised",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "call customer service toll-free",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "browser locked by administrator",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "firewall breached call now",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "install anydesk to resolve",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "install quicksupport for assistance",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "grant remote desktop access",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "certified technician online help",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "financial information compromised call",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "100% risk free trading",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "automated forex trading bot",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "high yield investment program",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "daily 10% profit guaranteed",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "telegram vip crypto signals",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "whatsapp stock tip group",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "binary options guaranteed profit",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "deposit 1000 earn 10000",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "task completion bonus withdraw",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "exclusive private placement platform",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "zero risk arbitrage bot",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "earn compounding daily interest",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "join rich investors club",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "youtube video like job",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "telegram task rating job",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "amazon product review job",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "google maps review earning",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "prepaid task deposit needed",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "daily payout instant withdrawal",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "whatsapp freelance hiring manager",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "recharge task wallet balance",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "hotel rating task job",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "kbc lottery winner list",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "whatsapp lucky draw winner",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "unclaimed prize money winner",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "lucky coupon prize distribution",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "congratulations selected as winner",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "foreign lottery winning ticket",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "gift parcel release fee",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "rbi prize transfer approval",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "keygen crack serial patch",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "remote access trojan rat",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "stealer payload discord token",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "modded apk unlimited money",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "free wallhack cheat aimbot",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "download free robux generator",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "free fortnite vbucks generator",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "bypass cloudflare bot script",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "run as administrator setup.exe",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "powershell bypass execution policy",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 4
+    },
+    {
+      "keyword": "urgent kyc verification",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "kyc update mandatory",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "verify your netbanking",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "sim verification required",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "re-verify banking credentials",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "paytm kyc expired",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "restore restricted access",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "validate payment pin",
+      "category": "PHISHING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "error code 0x800",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "download teamviewer support",
+      "category": "TECH_SUPPORT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "guaranteed daily returns",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "multilevel crypto earning",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "pre-ipo guaranteed allocation",
+      "category": "INVESTMENT_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "part-time online agent",
+      "category": "JOB_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "official winner confirmation",
+      "category": "LOTTERY_SCAMS",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "download cracked exe",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "bypass antivirus protection",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "njrat trojan payload",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "redline stealer build",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "cryptojacker silent miner",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "ransomware decrypt tool",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "payload injector dll",
+      "category": "MALWARE",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "coinhive miner script",
+      "category": "CRYPTOJACKING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "monero browser miner",
+      "category": "CRYPTOJACKING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "silent web cryptominer",
+      "category": "CRYPTOJACKING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "wasm cryptominer worker",
+      "category": "CRYPTOJACKING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "harvest xmr browser",
+      "category": "CRYPTOJACKING",
+      "weight": 5.0,
+      "threat_level": "DANGEROUS",
+      "token_length": 3
+    },
+    {
+      "keyword": "central board of indirect taxes and customs",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 7
+    },
+    {
+      "keyword": "ministry of road transport and highways",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 6
+    },
+    {
+      "keyword": "national portal of india citizen services",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 6
+    },
+    {
+      "keyword": "right to information online rti request",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 6
+    },
+    {
+      "keyword": "ration card status food supply portal",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 6
+    },
+    {
+      "keyword": "unique identification authority of india",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "link aadhaar with pan card",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "income tax department e-filing portal",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "file income tax return itr",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "view form 26as tax credit",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "online provident fund claim withdrawal",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "voter service portal epic card",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "gst portal login gstr 3b",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "goods and services tax return",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "gazette of india official notification",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "pm kisan samman nidhi status",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "aadhaar enrolment status check",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "order aadhaar pvc card",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "update address in aadhaar",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "permanent account number pan",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "nsdl e-gov pan portal",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "annual information statement ais",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "employees provident fund organisation",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "epfo uan member portal",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "epf passbook balance check",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "passport seva kendra appointment",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "track passport application status",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "police clearance certificate pcc",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "national voters services nsvp",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "electoral roll search name",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "parivahan sewa driving licence",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "vahan vehicle registration details",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "e-challan payment online status",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "digilocker digital india initiative",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "verified government documents wallet",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "ayushman bharat golden card",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "national scholarship portal nsp",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "download e-aadhaar letter",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "utiitsl pan application",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "fitness certificate vehicle",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "umang citizen application",
+      "category": "GOVERNMENT_PORTALS",
+      "weight": 4.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "round trip one way multi city",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 6
+    },
+    {
+      "keyword": "irctc e-catering food delivery on track",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 6
+    },
+    {
+      "keyword": "full time part time remote jobs",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 6
+    },
+    {
+      "keyword": "adobe premiere pro free crack",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 5
+    },
+    {
+      "keyword": "watch online free full movie",
+      "category": "MOVIE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 5
+    },
+    {
+      "keyword": "free movie stream no signup",
+      "category": "MOVIE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 5
+    },
+    {
+      "keyword": "amazon web services aws console",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "tuition fees scholarship financial aid",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "upsc civil services preliminary exam",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "jee main answer key rank",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "neet ug admit card scorecard",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "ssc cgl notification exam date",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "ibps bank po clerical exam",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "cat entrance mock test series",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "web check in boarding pass",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "air india indigo spicejet vistara",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "check in check out dates",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "train running status live tracker",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "state road transport bus booking",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "health checkup package full body",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "radiology mri ct scan appointment",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "end to end encrypted chat",
+      "category": "MESSAGING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "send audio message voice note",
+      "category": "MESSAGING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "whatsapp web scan qr code",
+      "category": "MESSAGING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "online casino real money",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "free spins promo code",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "cricket betting exchange id",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "teen patti real cash",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "andar bahar live game",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "dragon tiger cash game",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "aviator crash betting game",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "live cam girls sex",
+      "category": "PORNOGRAPHY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "torrent download magnet link",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "full version crack download",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "download nulled wordpress theme",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "windows 11 activator kms",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "fl studio cracked regkey",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "autocad crack serial number",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "download movie 1080p torrent",
+      "category": "MOVIE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "filmywap new movie download",
+      "category": "MOVIE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "pagalworld mp3 songs free",
+      "category": "MOVIE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "streaming hdrip bluray free",
+      "category": "MOVIE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "pirated web series download",
+      "category": "MOVIE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 4
+    },
+    {
+      "keyword": "savings account interest rate",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "fixed deposit fd calculator",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "personal loan interest rates",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "home loan eligibility calculator",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "branch locator ifsc code",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "micr code rtgs neft",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "bank account statement download",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "debit card pin generation",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "credit card apply online",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "demat trading account link",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "education loan interest subsidy",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "sovereign gold bond sgb",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "public provident fund ppf",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "senior citizen savings scheme",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "nre nro account banking",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "forex card exchange rates",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "overdraft facility against fd",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "lockers availability bank branch",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "upi qr code scanner",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "virtual payment address vpa",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "scan and pay merchant",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "instant money transfer imps",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "payment gateway api integration",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "pos card swipe machine",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "metro card smart recharge",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "utility bill payment electricity",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "recharge prepaid mobile dth",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "credit card bill payment",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "git pull request merge",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "sdk software development kit",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "npm package manager registry",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "pypi python package install",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "ci cd pipeline workflow",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "source code browse issues",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "open source apache license",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "unit testing integration test",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "large language model llm",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "deep neural network training",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "hugging face model hub",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "natural language processing nlp",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "retrieval augmented generation rag",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "fine tuning model checkpoint",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "open ai api key",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "google cloud platform gcp",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "virtual machine ec2 instance",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "s3 bucket storage object",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "cdn content delivery network",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "cloud database postgres rds",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "elastic load balancer alb",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "campus placement drive records",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "accreditation naac nirf ranking",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "sarkari result admit card",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "gate entrance exam syllabus",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "previous year question papers",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "cutoff marks merit list",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "answer key challenge window",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "exam hall ticket download",
+      "category": "EXAM_PREPARATION",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "book flight tickets online",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "flight schedule departure arrival",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "baggage allowance cabin check-in",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "frequent flyer miles rewards",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "airline fare calendar lowest",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "direct non stop flights",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "deluxe luxury suite room",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "guest ratings and reviews",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "swimming pool hotel amenities",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "homestay villas holiday rental",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "hotel location map distance",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "irctc train ticket reservation",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "tatkal ticket booking timings",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "berth coach seat position",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "vande bharat express timetable",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "metro smart card recharge",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "ksrtc msrtc bus timetable",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "train fare chart enquiry",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "book doctor appointment online",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "hospital opd timings consultation",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "emergency trauma center 24x7",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "laboratory pathology test booking",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "icu bed availability helpline",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "cashless insurance tpa desk",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "order prescription medicine online",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "upload doctor prescription rx",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "diabetic care bp monitor",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "video call group conference",
+      "category": "MESSAGING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "share documents files images",
+      "category": "MESSAGING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "telegram channel public group",
+      "category": "MESSAGING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "signal messenger private chat",
+      "category": "MESSAGING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "job openings careers apply",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "upload resume cv portfolio",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "hiring talent recruiter connect",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "salary compensation range glassdoor",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "company reviews workplace culture",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "linkedin profile professional network",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "naukri job alerts portal",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "human resources contact hr",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "live roulette tables",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "slot machine jackpots",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "deposit bonus 100%",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "blackjack live dealer",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "roulette spin wheel",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "sportsbook betting odds",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "parlay bet slip",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "crypto gambling faucet",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "poker cash tables",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "megaways jackpot slot",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "adult video streaming",
+      "category": "PORNOGRAPHY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "xxx movies free",
+      "category": "PORNOGRAPHY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "erotic video clips",
+      "category": "PORNOGRAPHY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "explicit webcam shows",
+      "category": "PORNOGRAPHY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "escort service contact",
+      "category": "PORNOGRAPHY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "adult sex dating",
+      "category": "PORNOGRAPHY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "nude photo gallery",
+      "category": "PORNOGRAPHY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "license key generator",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "bypass activation keygen",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "patched crack exe",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "direct torrent mirror",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "repack fitgirl download",
+      "category": "SOFTWARE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "camrip hindi dubbed",
+      "category": "MOVIE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "tamilrockers movie mirror",
+      "category": "MOVIE_PIRACY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 3
+    },
+    {
+      "keyword": "recurring deposit rd",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "net banking login",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "mobile banking application",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "cheque book request",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "car loan financing",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "nominee addition bank",
+      "category": "BANKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "bhim upi transactions",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "unified payments interface",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "soundbox payment alert",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "fastag recharge wallet",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "merchant checkout integration",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "recurring mandate e-mandate",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "payment settlement dashboard",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "refund processing gateway",
+      "category": "PAYMENT_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "github repository code",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "commit history diff",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "api documentation reference",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "restful api endpoint",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "graphql query schema",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "dockerfile container build",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "kubernetes cluster orchestration",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "stackoverflow question answer",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "developer console dashboard",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "webhooks event trigger",
+      "category": "DEVELOPER_TOOLS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "artificial intelligence platform",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "transformer model architecture",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "generative ai prompts",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "computer vision classification",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "vector embeddings search",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "reinforcement learning rlhf",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "anthropic claude inference",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "diffusion model generation",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "chatgpt prompt assistant",
+      "category": "AI_ML_PLATFORMS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "microsoft azure portal",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "serverless lambda functions",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "cloudflare dns protection",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "vercel serverless deployment",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "kubernetes engine gke",
+      "category": "CLOUD_SERVICES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "university undergraduate admissions",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "postgraduate degree curriculum",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "academic calendar semester",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "faculty departments research",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "alumni association network",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "convocation ceremony degree",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "prospectus download application",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "hostel accommodation campus",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "vice chancellor address",
+      "category": "SCHOOLS_UNIVERSITIES",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "pnr status enquiry",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "domestic international flights",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "terminal departure gates",
+      "category": "FLIGHT_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "hotel room reservation",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "complimentary breakfast wifi",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "resort vacation staycation",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "cancellation policy refundable",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "oyo rooms booking",
+      "category": "HOTEL_BOOKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "pnr confirmation probability",
+      "category": "PUBLIC_TRANSPORT",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "specialist doctor cardiology",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "neurology orthopedic oncology",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "patient admission guidelines",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "nabh accredited hospital",
+      "category": "HOSPITALS_CLINICS",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "generic medicine substitute",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "home delivery medicines",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "wellness supplements vitamins",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "1mg pharmacy order",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "apollo pharmacy online",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "netmeds medicine delivery",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "pharmeasy discount coupon",
+      "category": "PHARMACY",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "instant messaging notification",
+      "category": "MESSAGING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "chat backup restore",
+      "category": "MESSAGING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "interview questions preparation",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "indeed employment search",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "internship stipend certificate",
+      "category": "PROFESSIONAL_NETWORKING",
+      "weight": 4.0,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "baccarat tournament",
+      "category": "ONLINE_CASINOS",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 2
+    },
+    {
+      "keyword": "hardcore pornography",
+      "category": "PORNOGRAPHY",
+      "weight": 4.0,
+      "threat_level": "CAUTION",
+      "token_length": 2
+    },
+    {
+      "keyword": "live cricket score ball by ball",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 6
+    },
+    {
+      "keyword": "watch in 4k ultra hd dolby",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 6
+    },
+    {
+      "keyword": "free delivery on orders over",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "in stock ready to ship",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "out of stock notify me",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "emi on credit cards available",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "pti press trust of india",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "economic survey rbi monetary policy",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "data science machine learning course",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "latest albums top 50 charts",
+      "category": "MUSIC_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "epic games free weekly game",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "fps battle royale rank up",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "role playing game rpg quest",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "track delivery partner live location",
+      "category": "FOOD_DELIVERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "ratings delivery time 30 mins",
+      "category": "FOOD_DELIVERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 5
+    },
+    {
+      "keyword": "cash on delivery available",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "return and exchange policy",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "customer ratings and reviews",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "discount coupon promo code",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "wishlist save for later",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "lightning deals flash sale",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "seller details warranty information",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "secure payment checkout ssl",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "easy 7 days return",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "instant 10 minute delivery",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "fresh fruits and vegetables",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "dairy bread and eggs",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "organic farm fresh produce",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "cooking essentials oil atta",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "live news coverage updates",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "prime minister speech address",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "parliament budget session update",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "supreme court ruling judgment",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "election results live tally",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "state assembly election coverage",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "ani news wire report",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "weather department imd alert",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "ipl match live streaming",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "t20 world cup scorecard",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "premier league football table",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "champions league match fixture",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "cricket batting bowling figures",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "olympic games medal tally",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "grand slam tennis tournament",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "formula 1 race standings",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "pro kabaddi league live",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "player transfer news rumors",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "free video lectures tutorial",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "nptel swayam course registration",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "full stack web development",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "practice quiz mock tests",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "watch movies online streaming",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "original web series episodes",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "official movie trailer teaser",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "english subtitles audio tracks",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "disney hotstar live streaming",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "amazon prime video series",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "cast and crew synopsis",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "season finale all episodes",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "stream songs playlist online",
+      "category": "MUSIC_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "lyrics with song playback",
+      "category": "MUSIC_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "podcast episodes audio show",
+      "category": "MUSIC_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "apple music lossless audio",
+      "category": "MUSIC_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "gaana jiosaavn stream songs",
+      "category": "MUSIC_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "radio stations live stream",
+      "category": "MUSIC_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "pc console video game",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "steam workshop mods community",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "esports championship live tournament",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "walkthrough guide tips tricks",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "game patch release notes",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "discord gaming server community",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "chess online play lichess",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "play with grandmaster bot",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "share post timeline feed",
+      "category": "SOCIAL_MEDIA",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "follow profile followers count",
+      "category": "SOCIAL_MEDIA",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "like comment repost retweet",
+      "category": "SOCIAL_MEDIA",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "story reel video views",
+      "category": "SOCIAL_MEDIA",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "trending hashtags explore page",
+      "category": "SOCIAL_MEDIA",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "direct message chat friend",
+      "category": "SOCIAL_MEDIA",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "tag friends in photo",
+      "category": "SOCIAL_MEDIA",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "social community group page",
+      "category": "SOCIAL_MEDIA",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "verified creator profile badge",
+      "category": "SOCIAL_MEDIA",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "order food online delivery",
+      "category": "FOOD_DELIVERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "restaurant menu dishes price",
+      "category": "FOOD_DELIVERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "cuisine north indian chinese",
+      "category": "FOOD_DELIVERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "biryani pizza burger desserts",
+      "category": "FOOD_DELIVERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "swiggy discount coupon code",
+      "category": "FOOD_DELIVERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "zomato gold dining discount",
+      "category": "FOOD_DELIVERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "pure veg restaurant filter",
+      "category": "FOOD_DELIVERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 4
+    },
+    {
+      "keyword": "add to cart",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "buy now checkout",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "shopping bag items",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "order tracking status",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "product specifications features",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "amazon prime delivery",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "flipkart assured quality",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "price drop alert",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "verified purchase review",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "grocery shopping delivery",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "dmart ready online",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "breaking news headlines",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "editorial opinion column",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "cabinet committee decisions",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "investigative journalism report",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "monsoon forecast rainfall",
+      "category": "NATIONAL_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "badminton world tour",
+      "category": "SPORTS_NEWS",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "online course certificate",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "complete python bootcamp",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "interactive coding challenges",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "coursera course enrollment",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "udemy discount coupons",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "edx university courses",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "learning path roadmap",
+      "category": "ONLINE_LEARNING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "netflix original shows",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "continue watching recommendations",
+      "category": "MOVIE_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "artist official discography",
+      "category": "MUSIC_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "spotify playlist recommendations",
+      "category": "MUSIC_STREAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "online multiplayer gameplay",
+      "category": "GAMING",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 3
+    },
+    {
+      "keyword": "compare products",
+      "category": "ONLINE_RETAIL",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 2
+    },
+    {
+      "keyword": "zepto delivery",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 2
+    },
+    {
+      "keyword": "blinkit order",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 2
+    },
+    {
+      "keyword": "swiggy instamart",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 2
+    },
+    {
+      "keyword": "bigbasket daily",
+      "category": "GROCERY",
+      "weight": 3.5,
+      "threat_level": "SAFE",
+      "token_length": 2
+    }
+  ]
+}

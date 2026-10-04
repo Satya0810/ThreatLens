@@ -1,0 +1,534 @@
+keyword,category,weight,threat_level,token_length
+credit card reward points expire today,PHISHING,5.0,DANGEROUS,6
+click here to avoid account freeze,PHISHING,5.0,DANGEROUS,6
+enter cvv and expiry to verify,PHISHING,5.0,DANGEROUS,6
+trojan spy detected do not restart,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,6
+double your money in 7 days,INVESTMENT_SCAMS,5.0,DANGEROUS,6
+pay processing fee to release prize,LOTTERY_SCAMS,5.0,DANGEROUS,6
+account suspended within 24 hours,PHISHING,5.0,DANGEROUS,5
+income tax refund pending claim,PHISHING,5.0,DANGEROUS,5
+login to unfreeze your account,PHISHING,5.0,DANGEROUS,5
+enter otp to verify payment,PHISHING,5.0,DANGEROUS,5
+google pay reward claim now,PHISHING,5.0,DANGEROUS,5
+post office parcel delivery failed,PHISHING,5.0,DANGEROUS,5
+india post address confirmation update,PHISHING,5.0,DANGEROUS,5
+challan penalty pending pay now,PHISHING,5.0,DANGEROUS,5
+epfo claim reject verify uan,PHISHING,5.0,DANGEROUS,5
+immediate action required bank account,PHISHING,5.0,DANGEROUS,5
+critical system alert spyware detected,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,5
+windows activation key expired call,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,5
+crypto cloud mining passive income,INVESTMENT_SCAMS,5.0,DANGEROUS,5
+part time work from home,JOB_SCAMS,5.0,DANGEROUS,5
+earn 5000 daily from mobile,JOB_SCAMS,5.0,DANGEROUS,5
+simple data entry typing job,JOB_SCAMS,5.0,DANGEROUS,5
+no experience required high salary,JOB_SCAMS,5.0,DANGEROUS,5
+instant sign up bonus withdrawal,JOB_SCAMS,5.0,DANGEROUS,5
+kaun banega crorepati lucky draw,LOTTERY_SCAMS,5.0,DANGEROUS,5
+claim your 25 lakh lottery,LOTTERY_SCAMS,5.0,DANGEROUS,5
+disable windows defender to run,MALWARE,5.0,DANGEROUS,5
+crypto cpu mining in background,CRYPTOJACKING,5.0,DANGEROUS,5
+sbi yono kyc link,PHISHING,5.0,DANGEROUS,4
+pan card update required,PHISHING,5.0,DANGEROUS,4
+electricity power disconnected tonight,PHISHING,5.0,DANGEROUS,4
+unpaid electricity bill update,PHISHING,5.0,DANGEROUS,4
+sim card block warning,PHISHING,5.0,DANGEROUS,4
+biometric aadhaar lock update,PHISHING,5.0,DANGEROUS,4
+debit card expiring re-activate,PHISHING,5.0,DANGEROUS,4
+customs duty parcel pending,PHISHING,5.0,DANGEROUS,4
+lottery prize money claim,PHISHING,5.0,DANGEROUS,4
+confirm your upi pin,PHISHING,5.0,DANGEROUS,4
+security notice account compromised,PHISHING,5.0,DANGEROUS,4
+hdfc netbanking session expired,PHISHING,5.0,DANGEROUS,4
+icici bank urgent kyc,PHISHING,5.0,DANGEROUS,4
+axis bank account block,PHISHING,5.0,DANGEROUS,4
+pnb one netbanking verify,PHISHING,5.0,DANGEROUS,4
+kotak 811 verification link,PHISHING,5.0,DANGEROUS,4
+phonepe cashback pending claim,PHISHING,5.0,DANGEROUS,4
+bhim upi refund portal,PHISHING,5.0,DANGEROUS,4
+traffic police challan discount,PHISHING,5.0,DANGEROUS,4
+urgent bank security verification,PHISHING,5.0,DANGEROUS,4
+update registered mobile number,PHISHING,5.0,DANGEROUS,4
+deactivation of banking services,PHISHING,5.0,DANGEROUS,4
+unauthorized transaction detected verify,PHISHING,5.0,DANGEROUS,4
+confirm debit card details,PHISHING,5.0,DANGEROUS,4
+call microsoft support immediately,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+windows defender security warning,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+computer infected with virus,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+toll free support helpline,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+apple security alert compromised,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+call customer service toll-free,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+browser locked by administrator,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+firewall breached call now,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+install anydesk to resolve,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+install quicksupport for assistance,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+grant remote desktop access,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+certified technician online help,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+financial information compromised call,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,4
+100% risk free trading,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+automated forex trading bot,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+high yield investment program,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+daily 10% profit guaranteed,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+telegram vip crypto signals,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+whatsapp stock tip group,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+binary options guaranteed profit,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+deposit 1000 earn 10000,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+task completion bonus withdraw,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+exclusive private placement platform,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+zero risk arbitrage bot,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+earn compounding daily interest,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+join rich investors club,INVESTMENT_SCAMS,5.0,DANGEROUS,4
+youtube video like job,JOB_SCAMS,5.0,DANGEROUS,4
+telegram task rating job,JOB_SCAMS,5.0,DANGEROUS,4
+amazon product review job,JOB_SCAMS,5.0,DANGEROUS,4
+google maps review earning,JOB_SCAMS,5.0,DANGEROUS,4
+prepaid task deposit needed,JOB_SCAMS,5.0,DANGEROUS,4
+daily payout instant withdrawal,JOB_SCAMS,5.0,DANGEROUS,4
+whatsapp freelance hiring manager,JOB_SCAMS,5.0,DANGEROUS,4
+recharge task wallet balance,JOB_SCAMS,5.0,DANGEROUS,4
+hotel rating task job,JOB_SCAMS,5.0,DANGEROUS,4
+kbc lottery winner list,LOTTERY_SCAMS,5.0,DANGEROUS,4
+whatsapp lucky draw winner,LOTTERY_SCAMS,5.0,DANGEROUS,4
+unclaimed prize money winner,LOTTERY_SCAMS,5.0,DANGEROUS,4
+lucky coupon prize distribution,LOTTERY_SCAMS,5.0,DANGEROUS,4
+congratulations selected as winner,LOTTERY_SCAMS,5.0,DANGEROUS,4
+foreign lottery winning ticket,LOTTERY_SCAMS,5.0,DANGEROUS,4
+gift parcel release fee,LOTTERY_SCAMS,5.0,DANGEROUS,4
+rbi prize transfer approval,LOTTERY_SCAMS,5.0,DANGEROUS,4
+keygen crack serial patch,MALWARE,5.0,DANGEROUS,4
+remote access trojan rat,MALWARE,5.0,DANGEROUS,4
+stealer payload discord token,MALWARE,5.0,DANGEROUS,4
+modded apk unlimited money,MALWARE,5.0,DANGEROUS,4
+free wallhack cheat aimbot,MALWARE,5.0,DANGEROUS,4
+download free robux generator,MALWARE,5.0,DANGEROUS,4
+free fortnite vbucks generator,MALWARE,5.0,DANGEROUS,4
+bypass cloudflare bot script,MALWARE,5.0,DANGEROUS,4
+run as administrator setup.exe,MALWARE,5.0,DANGEROUS,4
+powershell bypass execution policy,MALWARE,5.0,DANGEROUS,4
+urgent kyc verification,PHISHING,5.0,DANGEROUS,3
+kyc update mandatory,PHISHING,5.0,DANGEROUS,3
+verify your netbanking,PHISHING,5.0,DANGEROUS,3
+sim verification required,PHISHING,5.0,DANGEROUS,3
+re-verify banking credentials,PHISHING,5.0,DANGEROUS,3
+paytm kyc expired,PHISHING,5.0,DANGEROUS,3
+restore restricted access,PHISHING,5.0,DANGEROUS,3
+validate payment pin,PHISHING,5.0,DANGEROUS,3
+error code 0x800,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,3
+download teamviewer support,TECH_SUPPORT_SCAMS,5.0,DANGEROUS,3
+guaranteed daily returns,INVESTMENT_SCAMS,5.0,DANGEROUS,3
+multilevel crypto earning,INVESTMENT_SCAMS,5.0,DANGEROUS,3
+pre-ipo guaranteed allocation,INVESTMENT_SCAMS,5.0,DANGEROUS,3
+part-time online agent,JOB_SCAMS,5.0,DANGEROUS,3
+official winner confirmation,LOTTERY_SCAMS,5.0,DANGEROUS,3
+download cracked exe,MALWARE,5.0,DANGEROUS,3
+bypass antivirus protection,MALWARE,5.0,DANGEROUS,3
+njrat trojan payload,MALWARE,5.0,DANGEROUS,3
+redline stealer build,MALWARE,5.0,DANGEROUS,3
+cryptojacker silent miner,MALWARE,5.0,DANGEROUS,3
+ransomware decrypt tool,MALWARE,5.0,DANGEROUS,3
+payload injector dll,MALWARE,5.0,DANGEROUS,3
+coinhive miner script,CRYPTOJACKING,5.0,DANGEROUS,3
+monero browser miner,CRYPTOJACKING,5.0,DANGEROUS,3
+silent web cryptominer,CRYPTOJACKING,5.0,DANGEROUS,3
+wasm cryptominer worker,CRYPTOJACKING,5.0,DANGEROUS,3
+harvest xmr browser,CRYPTOJACKING,5.0,DANGEROUS,3
+central board of indirect taxes and customs,GOVERNMENT_PORTALS,4.5,SAFE,7
+ministry of road transport and highways,GOVERNMENT_PORTALS,4.5,SAFE,6
+national portal of india citizen services,GOVERNMENT_PORTALS,4.5,SAFE,6
+right to information online rti request,GOVERNMENT_PORTALS,4.5,SAFE,6
+ration card status food supply portal,GOVERNMENT_PORTALS,4.5,SAFE,6
+unique identification authority of india,GOVERNMENT_PORTALS,4.5,SAFE,5
+link aadhaar with pan card,GOVERNMENT_PORTALS,4.5,SAFE,5
+income tax department e-filing portal,GOVERNMENT_PORTALS,4.5,SAFE,5
+file income tax return itr,GOVERNMENT_PORTALS,4.5,SAFE,5
+view form 26as tax credit,GOVERNMENT_PORTALS,4.5,SAFE,5
+online provident fund claim withdrawal,GOVERNMENT_PORTALS,4.5,SAFE,5
+voter service portal epic card,GOVERNMENT_PORTALS,4.5,SAFE,5
+gst portal login gstr 3b,GOVERNMENT_PORTALS,4.5,SAFE,5
+goods and services tax return,GOVERNMENT_PORTALS,4.5,SAFE,5
+gazette of india official notification,GOVERNMENT_PORTALS,4.5,SAFE,5
+pm kisan samman nidhi status,GOVERNMENT_PORTALS,4.5,SAFE,5
+aadhaar enrolment status check,GOVERNMENT_PORTALS,4.5,SAFE,4
+order aadhaar pvc card,GOVERNMENT_PORTALS,4.5,SAFE,4
+update address in aadhaar,GOVERNMENT_PORTALS,4.5,SAFE,4
+permanent account number pan,GOVERNMENT_PORTALS,4.5,SAFE,4
+nsdl e-gov pan portal,GOVERNMENT_PORTALS,4.5,SAFE,4
+annual information statement ais,GOVERNMENT_PORTALS,4.5,SAFE,4
+employees provident fund organisation,GOVERNMENT_PORTALS,4.5,SAFE,4
+epfo uan member portal,GOVERNMENT_PORTALS,4.5,SAFE,4
+epf passbook balance check,GOVERNMENT_PORTALS,4.5,SAFE,4
+passport seva kendra appointment,GOVERNMENT_PORTALS,4.5,SAFE,4
+track passport application status,GOVERNMENT_PORTALS,4.5,SAFE,4
+police clearance certificate pcc,GOVERNMENT_PORTALS,4.5,SAFE,4
+national voters services nsvp,GOVERNMENT_PORTALS,4.5,SAFE,4
+electoral roll search name,GOVERNMENT_PORTALS,4.5,SAFE,4
+parivahan sewa driving licence,GOVERNMENT_PORTALS,4.5,SAFE,4
+vahan vehicle registration details,GOVERNMENT_PORTALS,4.5,SAFE,4
+e-challan payment online status,GOVERNMENT_PORTALS,4.5,SAFE,4
+digilocker digital india initiative,GOVERNMENT_PORTALS,4.5,SAFE,4
+verified government documents wallet,GOVERNMENT_PORTALS,4.5,SAFE,4
+ayushman bharat golden card,GOVERNMENT_PORTALS,4.5,SAFE,4
+national scholarship portal nsp,GOVERNMENT_PORTALS,4.5,SAFE,4
+download e-aadhaar letter,GOVERNMENT_PORTALS,4.5,SAFE,3
+utiitsl pan application,GOVERNMENT_PORTALS,4.5,SAFE,3
+fitness certificate vehicle,GOVERNMENT_PORTALS,4.5,SAFE,3
+umang citizen application,GOVERNMENT_PORTALS,4.5,SAFE,3
+round trip one way multi city,FLIGHT_BOOKING,4.0,SAFE,6
+irctc e-catering food delivery on track,PUBLIC_TRANSPORT,4.0,SAFE,6
+full time part time remote jobs,PROFESSIONAL_NETWORKING,4.0,SAFE,6
+adobe premiere pro free crack,SOFTWARE_PIRACY,4.0,CAUTION,5
+watch online free full movie,MOVIE_PIRACY,4.0,CAUTION,5
+free movie stream no signup,MOVIE_PIRACY,4.0,CAUTION,5
+amazon web services aws console,CLOUD_SERVICES,4.0,SAFE,5
+tuition fees scholarship financial aid,SCHOOLS_UNIVERSITIES,4.0,SAFE,5
+upsc civil services preliminary exam,EXAM_PREPARATION,4.0,SAFE,5
+jee main answer key rank,EXAM_PREPARATION,4.0,SAFE,5
+neet ug admit card scorecard,EXAM_PREPARATION,4.0,SAFE,5
+ssc cgl notification exam date,EXAM_PREPARATION,4.0,SAFE,5
+ibps bank po clerical exam,EXAM_PREPARATION,4.0,SAFE,5
+cat entrance mock test series,EXAM_PREPARATION,4.0,SAFE,5
+web check in boarding pass,FLIGHT_BOOKING,4.0,SAFE,5
+air india indigo spicejet vistara,FLIGHT_BOOKING,4.0,SAFE,5
+check in check out dates,HOTEL_BOOKING,4.0,SAFE,5
+train running status live tracker,PUBLIC_TRANSPORT,4.0,SAFE,5
+state road transport bus booking,PUBLIC_TRANSPORT,4.0,SAFE,5
+health checkup package full body,HOSPITALS_CLINICS,4.0,SAFE,5
+radiology mri ct scan appointment,HOSPITALS_CLINICS,4.0,SAFE,5
+end to end encrypted chat,MESSAGING,4.0,SAFE,5
+send audio message voice note,MESSAGING,4.0,SAFE,5
+whatsapp web scan qr code,MESSAGING,4.0,SAFE,5
+online casino real money,ONLINE_CASINOS,4.0,CAUTION,4
+free spins promo code,ONLINE_CASINOS,4.0,CAUTION,4
+cricket betting exchange id,ONLINE_CASINOS,4.0,CAUTION,4
+teen patti real cash,ONLINE_CASINOS,4.0,CAUTION,4
+andar bahar live game,ONLINE_CASINOS,4.0,CAUTION,4
+dragon tiger cash game,ONLINE_CASINOS,4.0,CAUTION,4
+aviator crash betting game,ONLINE_CASINOS,4.0,CAUTION,4
+live cam girls sex,PORNOGRAPHY,4.0,CAUTION,4
+torrent download magnet link,SOFTWARE_PIRACY,4.0,CAUTION,4
+full version crack download,SOFTWARE_PIRACY,4.0,CAUTION,4
+download nulled wordpress theme,SOFTWARE_PIRACY,4.0,CAUTION,4
+windows 11 activator kms,SOFTWARE_PIRACY,4.0,CAUTION,4
+fl studio cracked regkey,SOFTWARE_PIRACY,4.0,CAUTION,4
+autocad crack serial number,SOFTWARE_PIRACY,4.0,CAUTION,4
+download movie 1080p torrent,MOVIE_PIRACY,4.0,CAUTION,4
+filmywap new movie download,MOVIE_PIRACY,4.0,CAUTION,4
+pagalworld mp3 songs free,MOVIE_PIRACY,4.0,CAUTION,4
+streaming hdrip bluray free,MOVIE_PIRACY,4.0,CAUTION,4
+pirated web series download,MOVIE_PIRACY,4.0,CAUTION,4
+savings account interest rate,BANKING,4.0,SAFE,4
+fixed deposit fd calculator,BANKING,4.0,SAFE,4
+personal loan interest rates,BANKING,4.0,SAFE,4
+home loan eligibility calculator,BANKING,4.0,SAFE,4
+branch locator ifsc code,BANKING,4.0,SAFE,4
+micr code rtgs neft,BANKING,4.0,SAFE,4
+bank account statement download,BANKING,4.0,SAFE,4
+debit card pin generation,BANKING,4.0,SAFE,4
+credit card apply online,BANKING,4.0,SAFE,4
+demat trading account link,BANKING,4.0,SAFE,4
+education loan interest subsidy,BANKING,4.0,SAFE,4
+sovereign gold bond sgb,BANKING,4.0,SAFE,4
+public provident fund ppf,BANKING,4.0,SAFE,4
+senior citizen savings scheme,BANKING,4.0,SAFE,4
+nre nro account banking,BANKING,4.0,SAFE,4
+forex card exchange rates,BANKING,4.0,SAFE,4
+overdraft facility against fd,BANKING,4.0,SAFE,4
+lockers availability bank branch,BANKING,4.0,SAFE,4
+upi qr code scanner,PAYMENT_PLATFORMS,4.0,SAFE,4
+virtual payment address vpa,PAYMENT_PLATFORMS,4.0,SAFE,4
+scan and pay merchant,PAYMENT_PLATFORMS,4.0,SAFE,4
+instant money transfer imps,PAYMENT_PLATFORMS,4.0,SAFE,4
+payment gateway api integration,PAYMENT_PLATFORMS,4.0,SAFE,4
+pos card swipe machine,PAYMENT_PLATFORMS,4.0,SAFE,4
+metro card smart recharge,PAYMENT_PLATFORMS,4.0,SAFE,4
+utility bill payment electricity,PAYMENT_PLATFORMS,4.0,SAFE,4
+recharge prepaid mobile dth,PAYMENT_PLATFORMS,4.0,SAFE,4
+credit card bill payment,PAYMENT_PLATFORMS,4.0,SAFE,4
+git pull request merge,DEVELOPER_TOOLS,4.0,SAFE,4
+sdk software development kit,DEVELOPER_TOOLS,4.0,SAFE,4
+npm package manager registry,DEVELOPER_TOOLS,4.0,SAFE,4
+pypi python package install,DEVELOPER_TOOLS,4.0,SAFE,4
+ci cd pipeline workflow,DEVELOPER_TOOLS,4.0,SAFE,4
+source code browse issues,DEVELOPER_TOOLS,4.0,SAFE,4
+open source apache license,DEVELOPER_TOOLS,4.0,SAFE,4
+unit testing integration test,DEVELOPER_TOOLS,4.0,SAFE,4
+large language model llm,AI_ML_PLATFORMS,4.0,SAFE,4
+deep neural network training,AI_ML_PLATFORMS,4.0,SAFE,4
+hugging face model hub,AI_ML_PLATFORMS,4.0,SAFE,4
+natural language processing nlp,AI_ML_PLATFORMS,4.0,SAFE,4
+retrieval augmented generation rag,AI_ML_PLATFORMS,4.0,SAFE,4
+fine tuning model checkpoint,AI_ML_PLATFORMS,4.0,SAFE,4
+open ai api key,AI_ML_PLATFORMS,4.0,SAFE,4
+google cloud platform gcp,CLOUD_SERVICES,4.0,SAFE,4
+virtual machine ec2 instance,CLOUD_SERVICES,4.0,SAFE,4
+s3 bucket storage object,CLOUD_SERVICES,4.0,SAFE,4
+cdn content delivery network,CLOUD_SERVICES,4.0,SAFE,4
+cloud database postgres rds,CLOUD_SERVICES,4.0,SAFE,4
+elastic load balancer alb,CLOUD_SERVICES,4.0,SAFE,4
+campus placement drive records,SCHOOLS_UNIVERSITIES,4.0,SAFE,4
+accreditation naac nirf ranking,SCHOOLS_UNIVERSITIES,4.0,SAFE,4
+sarkari result admit card,EXAM_PREPARATION,4.0,SAFE,4
+gate entrance exam syllabus,EXAM_PREPARATION,4.0,SAFE,4
+previous year question papers,EXAM_PREPARATION,4.0,SAFE,4
+cutoff marks merit list,EXAM_PREPARATION,4.0,SAFE,4
+answer key challenge window,EXAM_PREPARATION,4.0,SAFE,4
+exam hall ticket download,EXAM_PREPARATION,4.0,SAFE,4
+book flight tickets online,FLIGHT_BOOKING,4.0,SAFE,4
+flight schedule departure arrival,FLIGHT_BOOKING,4.0,SAFE,4
+baggage allowance cabin check-in,FLIGHT_BOOKING,4.0,SAFE,4
+frequent flyer miles rewards,FLIGHT_BOOKING,4.0,SAFE,4
+airline fare calendar lowest,FLIGHT_BOOKING,4.0,SAFE,4
+direct non stop flights,FLIGHT_BOOKING,4.0,SAFE,4
+deluxe luxury suite room,HOTEL_BOOKING,4.0,SAFE,4
+guest ratings and reviews,HOTEL_BOOKING,4.0,SAFE,4
+swimming pool hotel amenities,HOTEL_BOOKING,4.0,SAFE,4
+homestay villas holiday rental,HOTEL_BOOKING,4.0,SAFE,4
+hotel location map distance,HOTEL_BOOKING,4.0,SAFE,4
+irctc train ticket reservation,PUBLIC_TRANSPORT,4.0,SAFE,4
+tatkal ticket booking timings,PUBLIC_TRANSPORT,4.0,SAFE,4
+berth coach seat position,PUBLIC_TRANSPORT,4.0,SAFE,4
+vande bharat express timetable,PUBLIC_TRANSPORT,4.0,SAFE,4
+metro smart card recharge,PUBLIC_TRANSPORT,4.0,SAFE,4
+ksrtc msrtc bus timetable,PUBLIC_TRANSPORT,4.0,SAFE,4
+train fare chart enquiry,PUBLIC_TRANSPORT,4.0,SAFE,4
+book doctor appointment online,HOSPITALS_CLINICS,4.0,SAFE,4
+hospital opd timings consultation,HOSPITALS_CLINICS,4.0,SAFE,4
+emergency trauma center 24x7,HOSPITALS_CLINICS,4.0,SAFE,4
+laboratory pathology test booking,HOSPITALS_CLINICS,4.0,SAFE,4
+icu bed availability helpline,HOSPITALS_CLINICS,4.0,SAFE,4
+cashless insurance tpa desk,HOSPITALS_CLINICS,4.0,SAFE,4
+order prescription medicine online,PHARMACY,4.0,SAFE,4
+upload doctor prescription rx,PHARMACY,4.0,SAFE,4
+diabetic care bp monitor,PHARMACY,4.0,SAFE,4
+video call group conference,MESSAGING,4.0,SAFE,4
+share documents files images,MESSAGING,4.0,SAFE,4
+telegram channel public group,MESSAGING,4.0,SAFE,4
+signal messenger private chat,MESSAGING,4.0,SAFE,4
+job openings careers apply,PROFESSIONAL_NETWORKING,4.0,SAFE,4
+upload resume cv portfolio,PROFESSIONAL_NETWORKING,4.0,SAFE,4
+hiring talent recruiter connect,PROFESSIONAL_NETWORKING,4.0,SAFE,4
+salary compensation range glassdoor,PROFESSIONAL_NETWORKING,4.0,SAFE,4
+company reviews workplace culture,PROFESSIONAL_NETWORKING,4.0,SAFE,4
+linkedin profile professional network,PROFESSIONAL_NETWORKING,4.0,SAFE,4
+naukri job alerts portal,PROFESSIONAL_NETWORKING,4.0,SAFE,4
+human resources contact hr,PROFESSIONAL_NETWORKING,4.0,SAFE,4
+live roulette tables,ONLINE_CASINOS,4.0,CAUTION,3
+slot machine jackpots,ONLINE_CASINOS,4.0,CAUTION,3
+deposit bonus 100%,ONLINE_CASINOS,4.0,CAUTION,3
+blackjack live dealer,ONLINE_CASINOS,4.0,CAUTION,3
+roulette spin wheel,ONLINE_CASINOS,4.0,CAUTION,3
+sportsbook betting odds,ONLINE_CASINOS,4.0,CAUTION,3
+parlay bet slip,ONLINE_CASINOS,4.0,CAUTION,3
+crypto gambling faucet,ONLINE_CASINOS,4.0,CAUTION,3
+poker cash tables,ONLINE_CASINOS,4.0,CAUTION,3
+megaways jackpot slot,ONLINE_CASINOS,4.0,CAUTION,3
+adult video streaming,PORNOGRAPHY,4.0,CAUTION,3
+xxx movies free,PORNOGRAPHY,4.0,CAUTION,3
+erotic video clips,PORNOGRAPHY,4.0,CAUTION,3
+explicit webcam shows,PORNOGRAPHY,4.0,CAUTION,3
+escort service contact,PORNOGRAPHY,4.0,CAUTION,3
+adult sex dating,PORNOGRAPHY,4.0,CAUTION,3
+nude photo gallery,PORNOGRAPHY,4.0,CAUTION,3
+license key generator,SOFTWARE_PIRACY,4.0,CAUTION,3
+bypass activation keygen,SOFTWARE_PIRACY,4.0,CAUTION,3
+patched crack exe,SOFTWARE_PIRACY,4.0,CAUTION,3
+direct torrent mirror,SOFTWARE_PIRACY,4.0,CAUTION,3
+repack fitgirl download,SOFTWARE_PIRACY,4.0,CAUTION,3
+camrip hindi dubbed,MOVIE_PIRACY,4.0,CAUTION,3
+tamilrockers movie mirror,MOVIE_PIRACY,4.0,CAUTION,3
+recurring deposit rd,BANKING,4.0,SAFE,3
+net banking login,BANKING,4.0,SAFE,3
+mobile banking application,BANKING,4.0,SAFE,3
+cheque book request,BANKING,4.0,SAFE,3
+car loan financing,BANKING,4.0,SAFE,3
+nominee addition bank,BANKING,4.0,SAFE,3
+bhim upi transactions,PAYMENT_PLATFORMS,4.0,SAFE,3
+unified payments interface,PAYMENT_PLATFORMS,4.0,SAFE,3
+soundbox payment alert,PAYMENT_PLATFORMS,4.0,SAFE,3
+fastag recharge wallet,PAYMENT_PLATFORMS,4.0,SAFE,3
+merchant checkout integration,PAYMENT_PLATFORMS,4.0,SAFE,3
+recurring mandate e-mandate,PAYMENT_PLATFORMS,4.0,SAFE,3
+payment settlement dashboard,PAYMENT_PLATFORMS,4.0,SAFE,3
+refund processing gateway,PAYMENT_PLATFORMS,4.0,SAFE,3
+github repository code,DEVELOPER_TOOLS,4.0,SAFE,3
+commit history diff,DEVELOPER_TOOLS,4.0,SAFE,3
+api documentation reference,DEVELOPER_TOOLS,4.0,SAFE,3
+restful api endpoint,DEVELOPER_TOOLS,4.0,SAFE,3
+graphql query schema,DEVELOPER_TOOLS,4.0,SAFE,3
+dockerfile container build,DEVELOPER_TOOLS,4.0,SAFE,3
+kubernetes cluster orchestration,DEVELOPER_TOOLS,4.0,SAFE,3
+stackoverflow question answer,DEVELOPER_TOOLS,4.0,SAFE,3
+developer console dashboard,DEVELOPER_TOOLS,4.0,SAFE,3
+webhooks event trigger,DEVELOPER_TOOLS,4.0,SAFE,3
+artificial intelligence platform,AI_ML_PLATFORMS,4.0,SAFE,3
+transformer model architecture,AI_ML_PLATFORMS,4.0,SAFE,3
+generative ai prompts,AI_ML_PLATFORMS,4.0,SAFE,3
+computer vision classification,AI_ML_PLATFORMS,4.0,SAFE,3
+vector embeddings search,AI_ML_PLATFORMS,4.0,SAFE,3
+reinforcement learning rlhf,AI_ML_PLATFORMS,4.0,SAFE,3
+anthropic claude inference,AI_ML_PLATFORMS,4.0,SAFE,3
+diffusion model generation,AI_ML_PLATFORMS,4.0,SAFE,3
+chatgpt prompt assistant,AI_ML_PLATFORMS,4.0,SAFE,3
+microsoft azure portal,CLOUD_SERVICES,4.0,SAFE,3
+serverless lambda functions,CLOUD_SERVICES,4.0,SAFE,3
+cloudflare dns protection,CLOUD_SERVICES,4.0,SAFE,3
+vercel serverless deployment,CLOUD_SERVICES,4.0,SAFE,3
+kubernetes engine gke,CLOUD_SERVICES,4.0,SAFE,3
+university undergraduate admissions,SCHOOLS_UNIVERSITIES,4.0,SAFE,3
+postgraduate degree curriculum,SCHOOLS_UNIVERSITIES,4.0,SAFE,3
+academic calendar semester,SCHOOLS_UNIVERSITIES,4.0,SAFE,3
+faculty departments research,SCHOOLS_UNIVERSITIES,4.0,SAFE,3
+alumni association network,SCHOOLS_UNIVERSITIES,4.0,SAFE,3
+convocation ceremony degree,SCHOOLS_UNIVERSITIES,4.0,SAFE,3
+prospectus download application,SCHOOLS_UNIVERSITIES,4.0,SAFE,3
+hostel accommodation campus,SCHOOLS_UNIVERSITIES,4.0,SAFE,3
+vice chancellor address,SCHOOLS_UNIVERSITIES,4.0,SAFE,3
+pnr status enquiry,FLIGHT_BOOKING,4.0,SAFE,3
+domestic international flights,FLIGHT_BOOKING,4.0,SAFE,3
+terminal departure gates,FLIGHT_BOOKING,4.0,SAFE,3
+hotel room reservation,HOTEL_BOOKING,4.0,SAFE,3
+complimentary breakfast wifi,HOTEL_BOOKING,4.0,SAFE,3
+resort vacation staycation,HOTEL_BOOKING,4.0,SAFE,3
+cancellation policy refundable,HOTEL_BOOKING,4.0,SAFE,3
+oyo rooms booking,HOTEL_BOOKING,4.0,SAFE,3
+pnr confirmation probability,PUBLIC_TRANSPORT,4.0,SAFE,3
+specialist doctor cardiology,HOSPITALS_CLINICS,4.0,SAFE,3
+neurology orthopedic oncology,HOSPITALS_CLINICS,4.0,SAFE,3
+patient admission guidelines,HOSPITALS_CLINICS,4.0,SAFE,3
+nabh accredited hospital,HOSPITALS_CLINICS,4.0,SAFE,3
+generic medicine substitute,PHARMACY,4.0,SAFE,3
+home delivery medicines,PHARMACY,4.0,SAFE,3
+wellness supplements vitamins,PHARMACY,4.0,SAFE,3
+1mg pharmacy order,PHARMACY,4.0,SAFE,3
+apollo pharmacy online,PHARMACY,4.0,SAFE,3
+netmeds medicine delivery,PHARMACY,4.0,SAFE,3
+pharmeasy discount coupon,PHARMACY,4.0,SAFE,3
+instant messaging notification,MESSAGING,4.0,SAFE,3
+chat backup restore,MESSAGING,4.0,SAFE,3
+interview questions preparation,PROFESSIONAL_NETWORKING,4.0,SAFE,3
+indeed employment search,PROFESSIONAL_NETWORKING,4.0,SAFE,3
+internship stipend certificate,PROFESSIONAL_NETWORKING,4.0,SAFE,3
+baccarat tournament,ONLINE_CASINOS,4.0,CAUTION,2
+hardcore pornography,PORNOGRAPHY,4.0,CAUTION,2
+live cricket score ball by ball,SPORTS_NEWS,3.5,SAFE,6
+watch in 4k ultra hd dolby,MOVIE_STREAMING,3.5,SAFE,6
+free delivery on orders over,ONLINE_RETAIL,3.5,SAFE,5
+in stock ready to ship,ONLINE_RETAIL,3.5,SAFE,5
+out of stock notify me,ONLINE_RETAIL,3.5,SAFE,5
+emi on credit cards available,ONLINE_RETAIL,3.5,SAFE,5
+pti press trust of india,NATIONAL_NEWS,3.5,SAFE,5
+economic survey rbi monetary policy,NATIONAL_NEWS,3.5,SAFE,5
+data science machine learning course,ONLINE_LEARNING,3.5,SAFE,5
+latest albums top 50 charts,MUSIC_STREAMING,3.5,SAFE,5
+epic games free weekly game,GAMING,3.5,SAFE,5
+fps battle royale rank up,GAMING,3.5,SAFE,5
+role playing game rpg quest,GAMING,3.5,SAFE,5
+track delivery partner live location,FOOD_DELIVERY,3.5,SAFE,5
+ratings delivery time 30 mins,FOOD_DELIVERY,3.5,SAFE,5
+cash on delivery available,ONLINE_RETAIL,3.5,SAFE,4
+return and exchange policy,ONLINE_RETAIL,3.5,SAFE,4
+customer ratings and reviews,ONLINE_RETAIL,3.5,SAFE,4
+discount coupon promo code,ONLINE_RETAIL,3.5,SAFE,4
+wishlist save for later,ONLINE_RETAIL,3.5,SAFE,4
+lightning deals flash sale,ONLINE_RETAIL,3.5,SAFE,4
+seller details warranty information,ONLINE_RETAIL,3.5,SAFE,4
+secure payment checkout ssl,ONLINE_RETAIL,3.5,SAFE,4
+easy 7 days return,ONLINE_RETAIL,3.5,SAFE,4
+instant 10 minute delivery,GROCERY,3.5,SAFE,4
+fresh fruits and vegetables,GROCERY,3.5,SAFE,4
+dairy bread and eggs,GROCERY,3.5,SAFE,4
+organic farm fresh produce,GROCERY,3.5,SAFE,4
+cooking essentials oil atta,GROCERY,3.5,SAFE,4
+live news coverage updates,NATIONAL_NEWS,3.5,SAFE,4
+prime minister speech address,NATIONAL_NEWS,3.5,SAFE,4
+parliament budget session update,NATIONAL_NEWS,3.5,SAFE,4
+supreme court ruling judgment,NATIONAL_NEWS,3.5,SAFE,4
+election results live tally,NATIONAL_NEWS,3.5,SAFE,4
+state assembly election coverage,NATIONAL_NEWS,3.5,SAFE,4
+ani news wire report,NATIONAL_NEWS,3.5,SAFE,4
+weather department imd alert,NATIONAL_NEWS,3.5,SAFE,4
+ipl match live streaming,SPORTS_NEWS,3.5,SAFE,4
+t20 world cup scorecard,SPORTS_NEWS,3.5,SAFE,4
+premier league football table,SPORTS_NEWS,3.5,SAFE,4
+champions league match fixture,SPORTS_NEWS,3.5,SAFE,4
+cricket batting bowling figures,SPORTS_NEWS,3.5,SAFE,4
+olympic games medal tally,SPORTS_NEWS,3.5,SAFE,4
+grand slam tennis tournament,SPORTS_NEWS,3.5,SAFE,4
+formula 1 race standings,SPORTS_NEWS,3.5,SAFE,4
+pro kabaddi league live,SPORTS_NEWS,3.5,SAFE,4
+player transfer news rumors,SPORTS_NEWS,3.5,SAFE,4
+free video lectures tutorial,ONLINE_LEARNING,3.5,SAFE,4
+nptel swayam course registration,ONLINE_LEARNING,3.5,SAFE,4
+full stack web development,ONLINE_LEARNING,3.5,SAFE,4
+practice quiz mock tests,ONLINE_LEARNING,3.5,SAFE,4
+watch movies online streaming,MOVIE_STREAMING,3.5,SAFE,4
+original web series episodes,MOVIE_STREAMING,3.5,SAFE,4
+official movie trailer teaser,MOVIE_STREAMING,3.5,SAFE,4
+english subtitles audio tracks,MOVIE_STREAMING,3.5,SAFE,4
+disney hotstar live streaming,MOVIE_STREAMING,3.5,SAFE,4
+amazon prime video series,MOVIE_STREAMING,3.5,SAFE,4
+cast and crew synopsis,MOVIE_STREAMING,3.5,SAFE,4
+season finale all episodes,MOVIE_STREAMING,3.5,SAFE,4
+stream songs playlist online,MUSIC_STREAMING,3.5,SAFE,4
+lyrics with song playback,MUSIC_STREAMING,3.5,SAFE,4
+podcast episodes audio show,MUSIC_STREAMING,3.5,SAFE,4
+apple music lossless audio,MUSIC_STREAMING,3.5,SAFE,4
+gaana jiosaavn stream songs,MUSIC_STREAMING,3.5,SAFE,4
+radio stations live stream,MUSIC_STREAMING,3.5,SAFE,4
+pc console video game,GAMING,3.5,SAFE,4
+steam workshop mods community,GAMING,3.5,SAFE,4
+esports championship live tournament,GAMING,3.5,SAFE,4
+walkthrough guide tips tricks,GAMING,3.5,SAFE,4
+game patch release notes,GAMING,3.5,SAFE,4
+discord gaming server community,GAMING,3.5,SAFE,4
+chess online play lichess,GAMING,3.5,SAFE,4
+play with grandmaster bot,GAMING,3.5,SAFE,4
+share post timeline feed,SOCIAL_MEDIA,3.5,SAFE,4
+follow profile followers count,SOCIAL_MEDIA,3.5,SAFE,4
+like comment repost retweet,SOCIAL_MEDIA,3.5,SAFE,4
+story reel video views,SOCIAL_MEDIA,3.5,SAFE,4
+trending hashtags explore page,SOCIAL_MEDIA,3.5,SAFE,4
+direct message chat friend,SOCIAL_MEDIA,3.5,SAFE,4
+tag friends in photo,SOCIAL_MEDIA,3.5,SAFE,4
+social community group page,SOCIAL_MEDIA,3.5,SAFE,4
+verified creator profile badge,SOCIAL_MEDIA,3.5,SAFE,4
+order food online delivery,FOOD_DELIVERY,3.5,SAFE,4
+restaurant menu dishes price,FOOD_DELIVERY,3.5,SAFE,4
+cuisine north indian chinese,FOOD_DELIVERY,3.5,SAFE,4
+biryani pizza burger desserts,FOOD_DELIVERY,3.5,SAFE,4
+swiggy discount coupon code,FOOD_DELIVERY,3.5,SAFE,4
+zomato gold dining discount,FOOD_DELIVERY,3.5,SAFE,4
+pure veg restaurant filter,FOOD_DELIVERY,3.5,SAFE,4
+add to cart,ONLINE_RETAIL,3.5,SAFE,3
+buy now checkout,ONLINE_RETAIL,3.5,SAFE,3
+shopping bag items,ONLINE_RETAIL,3.5,SAFE,3
+order tracking status,ONLINE_RETAIL,3.5,SAFE,3
+product specifications features,ONLINE_RETAIL,3.5,SAFE,3
+amazon prime delivery,ONLINE_RETAIL,3.5,SAFE,3
+flipkart assured quality,ONLINE_RETAIL,3.5,SAFE,3
+price drop alert,ONLINE_RETAIL,3.5,SAFE,3
+verified purchase review,ONLINE_RETAIL,3.5,SAFE,3
+grocery shopping delivery,GROCERY,3.5,SAFE,3
+dmart ready online,GROCERY,3.5,SAFE,3
+breaking news headlines,NATIONAL_NEWS,3.5,SAFE,3
+editorial opinion column,NATIONAL_NEWS,3.5,SAFE,3
+cabinet committee decisions,NATIONAL_NEWS,3.5,SAFE,3
+investigative journalism report,NATIONAL_NEWS,3.5,SAFE,3
+monsoon forecast rainfall,NATIONAL_NEWS,3.5,SAFE,3
+badminton world tour,SPORTS_NEWS,3.5,SAFE,3
+online course certificate,ONLINE_LEARNING,3.5,SAFE,3
+complete python bootcamp,ONLINE_LEARNING,3.5,SAFE,3
+interactive coding challenges,ONLINE_LEARNING,3.5,SAFE,3
+coursera course enrollment,ONLINE_LEARNING,3.5,SAFE,3
+udemy discount coupons,ONLINE_LEARNING,3.5,SAFE,3
+edx university courses,ONLINE_LEARNING,3.5,SAFE,3
+learning path roadmap,ONLINE_LEARNING,3.5,SAFE,3
+netflix original shows,MOVIE_STREAMING,3.5,SAFE,3
+continue watching recommendations,MOVIE_STREAMING,3.5,SAFE,3
+artist official discography,MUSIC_STREAMING,3.5,SAFE,3
+spotify playlist recommendations,MUSIC_STREAMING,3.5,SAFE,3
+online multiplayer gameplay,GAMING,3.5,SAFE,3
+compare products,ONLINE_RETAIL,3.5,SAFE,2
+zepto delivery,GROCERY,3.5,SAFE,2
+blinkit order,GROCERY,3.5,SAFE,2
+swiggy instamart,GROCERY,3.5,SAFE,2
+bigbasket daily,GROCERY,3.5,SAFE,2

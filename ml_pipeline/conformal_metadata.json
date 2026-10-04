@@ -1,0 +1,29 @@
+{
+  "model_architecture": "XGBoost + Split-Conformal Quantile Calibrator",
+  "conformal_threshold_q_hat": 0.009934660692651955,
+  "alpha": 0.002,
+  "test_roc_auc": 1.0,
+  "empirical_fpr": 0.00278,
+  "fraud_recall_at_q_hat": 1.0,
+  "total_training_samples": 12000,
+  "feature_order": [
+    "amount",
+    "has_stranger_call",
+    "has_screen_share",
+    "has_accessibility_abuse",
+    "has_pretext_sms",
+    "pretext_time_delta_mins",
+    "vpa_entropy",
+    "is_known_handle",
+    "is_first_time_payee",
+    "is_reverse_upi",
+    "mcc_risk_level",
+    "time_of_day_risk"
+  ],
+  "confusion_matrix": {
+    "true_negatives": 2151,
+    "false_positives": 6,
+    "false_negatives": 0,
+    "true_positives": 243
+  }
+}

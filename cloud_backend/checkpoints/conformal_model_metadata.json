@@ -1,0 +1,21 @@
+{
+  "test_roc_auc": 1.0,
+  "conformal_threshold_q_hat": 0.003957134205847979,
+  "alpha": 0.002,
+  "empirical_fpr": 0.00185,
+  "fraud_recall": 1.0,
+  "feature_order": [
+    "amount",
+    "has_stranger_call",
+    "has_screen_share",
+    "has_accessibility_abuse",
+    "has_pretext_sms",
+    "pretext_time_delta_mins",
+    "vpa_entropy",
+    "is_known_handle",
+    "is_first_time_payee",
+    "is_reverse_upi",
+    "mcc_risk_level",
+    "time_of_day_risk"
+  ]
+}

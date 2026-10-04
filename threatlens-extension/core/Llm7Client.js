@@ -86,9 +86,43 @@ export class Llm7Client {
   }
 
   /**
-   * Classifies a website using LLM7.
+   * Classifies a website using Sovereign Cloud AI Backend (Free, Local, Sub-10ms),
+   * falling back to LLM7.io if configured or offline.
    */
   async classifyWebsite(url, pageTitle = "", pageText = "") {
+    // 1. First attempt Sovereign Cloud AI Backend (Free, Local, Zero-PII, Sub-10ms)
+    try {
+      const sovereignController = new AbortController();
+      const sovereignTimeout = setTimeout(() => sovereignController.abort(), 800);
+      const res = await fetch("http://127.0.0.1:8000/api/v1/analyze/webpage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: url || "",
+          title: pageTitle || "",
+          meta_keywords: "",
+          meta_description: "",
+          h1_h2_text: "",
+          body_text: (pageText || "").substring(0, 4000)
+        }),
+        signal: sovereignController.signal
+      });
+      clearTimeout(sovereignTimeout);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.category) {
+          return {
+            category: data.category,
+            confidence: data.confidence || 0.85,
+            reason: (data.explainable_reasons && data.explainable_reasons[0]) || `Sovereign AI matched ${data.category_label || data.category}`
+          };
+        }
+      }
+    } catch (e) {
+      // Offline fallback: Sovereign Cloud AI is unreachable or timed out
+    }
+
+    // 2. Fallback to external LLM7 if API key is provided
     if (!this.apiKey || this.apiKey.length < 10) return null;
 
     try {

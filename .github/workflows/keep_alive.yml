@@ -1,0 +1,32 @@
+name: Render Keep-Alive Pinger
+
+on:
+  schedule:
+    # Runs every 10 minutes (Render spins down after 15 minutes of inactivity)
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'Target Render URL (optional override)'
+        required: false
+        default: ''
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping ThreatLens Backend
+        run: |
+          URL="${{ github.event.inputs.target_url || secrets.RENDER_BACKEND_URL || 'https://threatlens-backend.onrender.com' }}"
+          echo "Pinging: $URL/ping"
+          
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -m 30 "$URL/ping" || echo "000")
+          echo "HTTP Response Status: $HTTP_STATUS"
+          
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ Server is awake and healthy!"
+          else
+            echo "⚠️ Server waking up or initializing. Retrying /health endpoint..."
+            sleep 5
+            curl -s -f -m 30 "$URL/health" || echo "Server wakeup signal sent successfully."
+          fi

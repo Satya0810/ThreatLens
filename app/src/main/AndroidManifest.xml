@@ -87,6 +87,14 @@
                 <data android:scheme="https" />
             </intent-filter>
 
+            <!-- Intercept UPI payment intents system-wide -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="upi" />
+            </intent-filter>
+
             <!-- Share target: appear in Share menu when someone shares a link -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
