@@ -1879,11 +1879,12 @@ class Llm7Client {
   }
 
   async classifyWebsite(url, pageTitle = "", pageText = "") {
-    // 1. First attempt Sovereign Cloud AI Backend (Free, Local, Zero-PII, Sub-10ms)
+    // 1. First attempt Sovereign Cloud AI Backend (Live on Render / Local fallback)
     try {
       const sovereignController = new AbortController();
-      const sovereignTimeout = setTimeout(() => sovereignController.abort(), 800);
-      const res = await fetch("http://127.0.0.1:8000/api/v1/analyze/webpage", {
+      const sovereignTimeout = setTimeout(() => sovereignController.abort(), 1500);
+      const backendEndpoint = "https://threatlens-backend-0a1o.onrender.com/api/v1/analyze/webpage";
+      const res = await fetch(backendEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

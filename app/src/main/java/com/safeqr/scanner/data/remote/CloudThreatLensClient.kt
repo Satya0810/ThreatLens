@@ -26,8 +26,8 @@ object CloudThreatLensClient {
 
     private const val TAG = "CloudThreatLensClient"
 
-    // 10.0.2.2 is Android Emulator's default gateway to the host machine's localhost:8000
-    private const val DEFAULT_BASE_URL = "http://10.0.2.2:8000/"
+    // Live Sovereign Cloud AI Backend on Render
+    private const val DEFAULT_BASE_URL = "https://threatlens-backend-0a1o.onrender.com/"
 
     data class CloudThreatRequest(
         @SerializedName("sanitized_payee_address") val sanitizedPayeeAddress: String,

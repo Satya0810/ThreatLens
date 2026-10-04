@@ -47,6 +47,16 @@ mule_graph_engine = MuleGraphEngine()
 conformal_fusion_engine = ConformalFusionEngine()
 web_categorizer_engine = WebCategorizerEngine()
 
+@app.get("/")
+def root():
+    return {
+        "message": "ThreatLens Sovereign Cloud AI Gateway is LIVE",
+        "documentation": "/docs",
+        "health": "/health",
+        "version": "2.0.0",
+        "status": "ONLINE"
+    }
+
 @app.get("/ping")
 def ping():
     return {"pong": True}
